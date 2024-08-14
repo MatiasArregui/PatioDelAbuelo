@@ -1,2 +1,2 @@
-# PatioDelAbuelo
-Proyecto de tercer año de la tecnicatura 
+# Proyecto Patio del Abuelo
+
