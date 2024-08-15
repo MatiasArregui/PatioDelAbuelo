@@ -13,27 +13,27 @@
 <body>
     <nav class="container-fluid">
         <ul class="row navegador">
-            <li class="col"><a href="">Bebida</a></li>
-            <li class="col"><a href="">Plato</a></li>
-            <li class="col"><a href="">Postre</a></li>
-            <li class="col"><a href="">Cliente</a></li>
-            <li class="col"><a href="">Mesa</a></li>
+            <li class="col"><a href="{% url "listaBebidas"%}">Bebidas</a></li>
+            <li class="col"><a href="{% url "listaPlatos"%}">Platos</a></li>
+            <li class="col"><a href="{% url "listaPostres"%}">Postres</a></li>
+            <li class="col"><a href="{% url "listaMesas"%}">Mesas</a></li>
+            <li class="col"><a href="{% url "listaClientes"%}">Clientes</a></li>
             <li class="col"><a href="">Orden</a></li>
             <li class="col"><a href="">Factura</a></li>
         </ul>
     </nav>
     <main>
         {% block content %}
+        <div class="container">
+            <div class="row">
+                <div class="col">Patio del Abuelo</div>
+                <div class="col">Patio del Abuelo</div>
+                <div class="col">Patio del Abuelo</div>
+                <div class="col">Patio del Abuelo</div>
+            </div>
+        </div>
         {% endblock %}
     </main>
-    <div class="container">
-        <div class="row">
-            <div class="col">Patio del Abuelo</div>
-            <div class="col">Patio del Abuelo</div>
-            <div class="col">Patio del Abuelo</div>
-            <div class="col">Patio del Abuelo</div>
-        </div>
-    </div>
     <footer class="container-fluid footer">
         <div>Patio del Abuelo</div>
         <div>&copy; Todos los derechos reservados</div>
