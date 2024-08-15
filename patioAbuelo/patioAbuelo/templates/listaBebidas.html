@@ -8,15 +8,18 @@
             <th scope="col">Nombre</th>
             <th scope="col">Precio</th>
             <th scope="col">Cantidad</th>
+            <th><button class="btn border bg-primary"><a href="/bebidas/bebidaNueva" class="text-white">Nueva Bebida</a></button></th>
           </tr>
         </thead>
         <tbody>
             {% for b in bebidas%}
               <tr>
-                <td>{{b.id}}</td>
+                <td><a href="/bebidas/bebidaModif/{{ b.id }}">{{b.id}}</a></td>
                 <td>{{b.nombre}}</td>
                 <td>{{b.precio}}</td>
                 <td>{{b.cantidad}}</td>
+                <td><button class="btn border bg-primary"><a href="/bebidas/bebidaModif/{{ b.id }}" class="text-white">Modificar</a></button></td>
+                <td><button class="btn border bg-danger"><a href="/bebidas/bebidaBorrar/{{ b.id }}" class="text-white">Eliminar</a></button></td>
               </tr>
             {% endfor %}
         </tbody>
