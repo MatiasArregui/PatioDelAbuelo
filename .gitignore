@@ -5,3 +5,4 @@ Lib
 Scripts
 Include
 entorno
+db.sqlite3
