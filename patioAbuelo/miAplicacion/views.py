@@ -6,11 +6,6 @@ from django.urls import reverse
 def principal(request):
     return render(request, template_name="base.html")
 
-def listaBebidas(request):
-    bebidas = Bebida.objects.all()
-    context = {"bebidas":bebidas}
-    return render(request, template_name="listaBebidas.html", context=context)
-
 def listaPlatos(request):
     platos = Plato.objects.all()
     context = {"platos":platos}
@@ -31,7 +26,15 @@ def listaClientes(request):
     context = {"clientes": clientes}
     return render(request, template_name="listaClientes.html", context=context)
 
+# BEBIDA VIEWS ----------------------------------->
 
+# Listado Bebida ------->
+def listaBebidas(request):
+    bebidas = Bebida.objects.all()
+    context = {"bebidas":bebidas}
+    return render(request, template_name="listaBebidas.html", context=context)
+
+# Modificar Bebida --------->
 def bebidaModificar(request, pk):
     bebida = Bebida.objects.get(id=pk)
     if request.method == 'POST':
@@ -46,7 +49,7 @@ def bebidaModificar(request, pk):
         return HttpResponseRedirect(reverse('listaBebidas'))
     return render(request, "formularioBebidas.html", {'bebida': bebida})
 
-
+# Nueva Bebida ------------------>
 def bebidaNuevo(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
@@ -57,7 +60,7 @@ def bebidaNuevo(request):
         return HttpResponseRedirect(reverse('listaBebidas'))
     return render(request, "formularioBebidas.html")
 
-
+# Borrar Bebida ----------------------->
 def bebidaBorrar(request, pk):
     bebida = Bebida.objects.get(id=pk)
     if request.method == 'POST':

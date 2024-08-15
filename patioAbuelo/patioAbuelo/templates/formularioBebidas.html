@@ -1,17 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <h3 class="display-4 my-3">Bebida</h3>
 
-    <form method="post">
-        {% csrf_token %}
-        <label for="nombre" class="form-label">Nombre:</label>
-        <input type="text" class="form-control" id="nombre" name="nombre" value="{{ bebida.nombre }}" required><br>
-        <label for="precio" class="form-label">Precio:</label>
-        <input type="number" class="form-control" id="precio" name="precio" value="{{ bebida.precio }}" required><br>
-        <label for="cantidad" class="form-label">Cantidad:</label>
-        <input type="number" class="form-control" id="cantidad" name="cantidad" value="{{ bebida.cantidad }}" required><br>
-        <button type="submit" class="btn btn-primary mb-3">Guardar</button>
-    </form>
+
+    <div class="container">
+        <h3 class="display-4 my-3">Bebida</h3>
+        <form method="post" class="row">
+            {% csrf_token %}
+            <div class="col-4">
+                <label for="nombre" class="form-label">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ bebida.nombre }}" required><br>
+            </div>
+            <div class="col-4">
+                <label for="precio" class="form-label">Precio:</label>
+                <input type="number" class="form-control" id="precio" name="precio" value="{{ bebida.precio }}" required><br>
+            </div>
+            <div class="col-4">
+                <label for="cantidad" class="form-label">Cantidad:</label>
+                <input type="number" class="form-control" id="cantidad" name="cantidad" value="{{ bebida.cantidad }}" required><br>
+            </div>
+            <div class="col"><button type="submit" class="btn btn-primary">Guardar</button></div>
+        </form>
+    </div>
 
 {% endblock %}
