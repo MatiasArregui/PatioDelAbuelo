@@ -19,7 +19,10 @@
                 <label for="cantidad" class="form-label">Cantidad:</label>
                 <input type="number" class="form-control" id="cantidad" name="cantidad" value="{{ bebida.cantidad }}" required><br>
             </div>
-            <div class="col"><button type="submit" class="btn btn-primary">Guardar</button></div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button class="btn btn-primary"><a href={% url "listaBebidas" %} class="text-decoration-none text-white">Cancelar</a></button>
+            </div>
         </form>
     </div>
 
