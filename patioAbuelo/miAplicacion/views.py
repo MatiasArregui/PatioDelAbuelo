@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from .models import Bebida, Plato, Postre, Cliente, Mesa, Orden, Factura
 from django.urls import reverse
 
@@ -67,3 +67,49 @@ def bebidaBorrar(request, pk):
         bebida.delete()
         return HttpResponseRedirect(reverse('listaBebidas'))
     return render(request, 'bebidaConfBorrar.html', {'bebida': bebida})
+
+
+
+
+# Def Postre ---------------------------
+def listaPostre(request):
+    postre = Postre.objects.all()
+    context = {"postre": postre}
+    return render(request, template_name="listaPostre.html", context=context)
+# def Modificar postre ------------->
+def postreModificar(request, pk):
+    postre = Postre.objects.get(id=pk)
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        precio = request.POST.get('precio')
+        cantidad = request.POST.get('cantidad')
+
+        postre.nombre = nombre
+        postre.precio = precio
+        postre.cantidad = cantidad
+        postre.save()
+        return HttpResponseRedirect(reverse('listaPostre'))
+    return render(request, "formularioPostre.html", {'postre': postre})
+
+# def Nueva postre ------------------>
+def postreNuevo(request):
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        precio = request.POST.get('precio')
+        cantidad = request.POST.get('cantidad')
+
+        Postre.objects.create(nombre=nombre, precio=precio, cantidad=cantidad)
+        return HttpResponseRedirect(reverse('listaPostre'))
+    return render(request, "formularioPostre.html")
+
+# def Borrar postre ----------------------->
+
+
+def postreBorrar(request, pk):
+    postre = get_object_or_404(Postre, id=pk)
+    if request.method == 'POST':
+        postre.delete()
+        return HttpResponseRedirect(reverse('listaPostre'))
+    return render(request, 'postreConfBorrar.html', {'postre': postre})
+
+
