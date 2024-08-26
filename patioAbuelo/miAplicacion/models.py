@@ -46,7 +46,7 @@ class Cliente(models.Model):
 
 # MODELO FACTURA ----------------------------------------------->
 class Factura(models.Model):
-    fecha = models.DateField(auto_now=True)
+    fecha = models.DateTimeField(auto_now_add=True)
     Total = models.DecimalField(max_digits=15, decimal_places=2)
     Id_cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     id_orden = models.ManyToManyField("Orden", through="FacturaOrden")
@@ -58,12 +58,13 @@ class Factura(models.Model):
 class Orden(models.Model):
     total = models.DecimalField(max_digits=15, decimal_places=2)
     observacion = models.TextField(null=True, blank=True)
+    fecha = models.DateTimeField(auto_now_add=True)
     id_mesa = models.ForeignKey(Mesa, on_delete=models.CASCADE)
     id_plato = models.ManyToManyField(Plato, through="PlatoOrden")
     id_postre = models.ManyToManyField(Postre, through="PostreOrden")
     id_bebida = models.ManyToManyField(Bebida, through="BebidaOrden")
  
-    
+
     def __str__(self) -> str:
         return str(self.pk) + " " + self.id_mesa.nombre + " " + str(self.total) 
     
