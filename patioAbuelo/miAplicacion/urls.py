@@ -18,4 +18,6 @@ urlpatterns = [
     path("mesas/", views.listaMesas, name="listaMesas"),
     path("clientes/", views.listaClientes, name="listaClientes"),
     
+    path("ordenes/", views.listaOrdenes, name="listaOrdenes"),
+    
 ]

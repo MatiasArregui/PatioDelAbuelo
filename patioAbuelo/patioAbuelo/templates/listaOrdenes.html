@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <table class="table m-5">
+        <thead class="bg-light">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">ID_mesa</th>
+            <th scope="col">ID_plato</th>
+            <th scope="col">ID_postre</th>
+            <th scope="col">ID_bebida</th>
+            <th scope="col">Observacion</th>
+            <th scope="col">Total</th>         
+          </tr>
+        </thead>
+        <tbody>
+            {% for o in ordenes %}
+              <tr>
+                <td>{{o.id}}</td>
+                <td>{{o.id_mesa.nombre}}</td>
+                <td>{{o.id_plato}}</td>
+                <td>{{o.fecha}}</td>
+                <td>{{o.id_postre}}</td>
+                <td>{{o.id_bebida}}</td>
+                <td>{{o.observacion}}</td>
+                <td>{{o.total}}</td>
+              </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

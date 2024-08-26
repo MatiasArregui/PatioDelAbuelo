@@ -26,6 +26,11 @@ def listaClientes(request):
     context = {"clientes": clientes}
     return render(request, template_name="listaClientes.html", context=context)
 
+def listaOrdenes(request):
+    ordenes = Orden.objects.all()
+    context = {"ordenes": ordenes}
+    return render(request, template_name="listaOrdenes.html", context=context)
+
 # BEBIDA VIEWS ----------------------------------->
 
 # Listado Bebida ------->
