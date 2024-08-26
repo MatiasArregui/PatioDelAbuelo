@@ -6,11 +6,10 @@
           <tr>
             <th scope="col">ID</th>
             <th scope="col">ID_mesa</th>
-            <th scope="col">ID_plato</th>
-            <th scope="col">ID_postre</th>
-            <th scope="col">ID_bebida</th>
+            <th scope="col">Fecha</th>
             <th scope="col">Observacion</th>
-            <th scope="col">Total</th>         
+            <th scope="col">Total</th>    
+            <th><button class="btn border bg-primary"><a href={% url "ordenNueva" %} class="text-white text-decoration-none">Nueva Orden</a></button></th>     
           </tr>
         </thead>
         <tbody>
@@ -18,12 +17,13 @@
               <tr>
                 <td>{{o.id}}</td>
                 <td>{{o.id_mesa.nombre}}</td>
-                <td>{{o.id_plato}}</td>
                 <td>{{o.fecha}}</td>
-                <td>{{o.id_postre}}</td>
-                <td>{{o.id_bebida}}</td>
                 <td>{{o.observacion}}</td>
                 <td>{{o.total}}</td>
+                <td>
+                  <button class="btn btn-primary"><a href="/ordenes/ordenModif/{{ o.id }}" class="text-white text-decoration-none">Modificar</a></button>
+                  <button class="btn btn-danger"><a href="/ordenes/ordenBorrar/{{ o.id }}" class="text-white text-decoration-none">Eliminar</a></button>
+                </td>
               </tr>
             {% endfor %}
         </tbody>

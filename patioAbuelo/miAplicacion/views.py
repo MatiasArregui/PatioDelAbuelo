@@ -26,12 +26,8 @@ def listaClientes(request):
     context = {"clientes": clientes}
     return render(request, template_name="listaClientes.html", context=context)
 
-def listaOrdenes(request):
-    ordenes = Orden.objects.all()
-    context = {"ordenes": ordenes}
-    return render(request, template_name="listaOrdenes.html", context=context)
 
-# BEBIDA VIEWS ----------------------------------->
+# BEBIDA VIEWS ----------------------------------------------------------------------------------------->
 
 # Listado Bebida ------->
 def listaBebidas(request):
@@ -72,3 +68,43 @@ def bebidaBorrar(request, pk):
         bebida.delete()
         return HttpResponseRedirect(reverse('listaBebidas'))
     return render(request, 'bebidaConfBorrar.html', {'bebida': bebida})
+
+
+# ORDEN VIEWS ---------------------------------------------------------------------------------------------->
+
+# Listado Orden ------->
+def listaOrdenes(request):
+    ordenes = Orden.objects.all()
+    context = {"ordenes": ordenes}
+    return render(request, template_name="listaOrdenes.html", context=context)
+
+# Modificar Orden --------->
+def ordenModificar(request, pk):
+    orden = Orden.objects.get(id=pk)
+    if request.method == 'POST':
+        total = request.POST.get('total')
+        observacion = request.POST.get('observacion')
+
+        orden.total = total
+        orden.observacion = observacion
+        orden.save()
+        return HttpResponseRedirect(reverse('listaOrdenes'))
+    return render(request, "formularioOrdenes.html", {'orden': orden})
+
+# Nueva Orden ------------------>
+def ordenNuevo(request):
+    if request.method == 'POST':
+        total = request.POST.get('total')
+        observacion = request.POST.get('observacion')
+
+        Orden.objects.create(total=total, observacion=observacion,)
+        return HttpResponseRedirect(reverse('listaOrdenes'))
+    return render(request, "formularioOrdenes.html")
+
+# Borrar Orden ----------------------->
+def ordenBorrar(request, pk):
+    orden = Orden.objects.get(id=pk)
+    if request.method == 'POST':
+        orden.delete()
+        return HttpResponseRedirect(reverse('listaOrdenes'))
+    return render(request, 'ordenConfBorrar.html', {'orden': orden})

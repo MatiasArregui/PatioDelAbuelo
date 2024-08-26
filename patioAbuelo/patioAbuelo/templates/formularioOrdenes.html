@@ -4,22 +4,25 @@
 
 
     <div class="container">
-        <h3 class="display-4 my-3">Bebida</h3>
+        <h3 class="display-4 my-3">Orden</h3>
         <form method="post" class="row">
             {% csrf_token %}
             <div class="col-4">
-                <label for="nombre" class="form-label">Nombre:</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ bebida.nombre }}" required><br>
+                <label for="fecha" class="form-label">Fecha:</label>
+                <input type="text" placeholder="{{ orden.fecha}}" class="form-control" id="fecha" name="fecha" value="{{ orden.fecha }}" disabled><br>
             </div>
             <div class="col-4">
-                <label for="precio" class="form-label">Precio:</label>
-                <input type="number" class="form-control" id="precio" name="precio" value="{{ bebida.precio }}" required><br>
+                <label for="total" class="form-label">Total:</label>
+                <input type="number" class="form-control" id="total" name="total" value="{{ orden.total }}" required><br>
             </div>
             <div class="col-4">
-                <label for="cantidad" class="form-label">Cantidad:</label>
-                <input type="number" class="form-control" id="cantidad" name="cantidad" value="{{ bebida.cantidad }}" required><br>
+                <label for="observacion" class="form-label">Observacion:</label>
+                <input type="text" class="form-control" id="observacion" name="observacion" value="{{ orden.observacion }}" required><br>
             </div>
-            <div class="col"><button type="submit" class="btn btn-primary">Guardar</button></div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button class="btn btn-primary"><a href={% url "listaOrdenes" %} class="text-decoration-none text-white">Cancelar</a></button>
+            </div>
         </form>
     </div>
 

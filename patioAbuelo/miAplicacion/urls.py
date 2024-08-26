@@ -4,11 +4,18 @@ from . import views
 
 urlpatterns = [
     path("", views.principal, name="paginaPrincipal"),
+    
+    #Bebidas -------------------------------------------------------------------------------->
     path("bebidas/", views.listaBebidas, name="listaBebidas"),
     path('bebidas/bebidaNueva/', views.bebidaNuevo, name='bebidaNueva'),
     path('bebidas/bebidaModif/<int:pk>/', views.bebidaModificar, name='bebidaModif'),
     path('bebidas/bebidaBorrar/<int:pk>/', views.bebidaBorrar, name='bebidaBorrar'),
     
+    #Ordenes -------------------------------------------------------------------------------->
+    path("ordenes/", views.listaOrdenes, name="listaOrdenes"),
+    path("ordenes/ordenNueva/", views.ordenNuevo, name="ordenNueva"),
+    path("ordenes/ordenModif/<int:pk>/", views.ordenModificar, name="ordenModificar"),
+    path("ordenes/ordenBorrar/<int:pk>/", views.ordenBorrar, name="ordenBorrar"),
     
     
     
@@ -18,6 +25,6 @@ urlpatterns = [
     path("mesas/", views.listaMesas, name="listaMesas"),
     path("clientes/", views.listaClientes, name="listaClientes"),
     
-    path("ordenes/", views.listaOrdenes, name="listaOrdenes"),
+
     
 ]
