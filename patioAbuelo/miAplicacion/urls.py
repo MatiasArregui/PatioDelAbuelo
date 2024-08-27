@@ -23,7 +23,13 @@ urlpatterns = [
     path("platos/", views.listaPlatos, name="listaPlatos"),
     path("postres/", views.listaPostres, name="listaPostres"),
     path("mesas/", views.listaMesas, name="listaMesas"),
+    
+    
+#clientes -------------------------------------------------------------------------------->
     path("clientes/", views.listaClientes, name="listaClientes"),
+    path("clientes/clienteNueva/", views.clientesNuevo, name="clienteNueva"),
+    path("clientes/clienteModif/<int:pk>/", views.clientesModificar, name="clienteModificar"),
+    path("clientes/clienteBorrar/<int:pk>/", views.clientesBorrar, name="clienteBorrar"),
     
 
     

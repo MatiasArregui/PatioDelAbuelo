@@ -21,10 +21,7 @@ def listaMesas(request):
     context = {"mesa": mesas}
     return render(request, template_name="listaMesas.html", context=context)
 
-def listaClientes(request):
-    clientes = Cliente.objects.all()
-    context = {"clientes": clientes}
-    return render(request, template_name="listaClientes.html", context=context)
+
 
 
 # BEBIDA VIEWS ----------------------------------------------------------------------------------------->
@@ -108,3 +105,46 @@ def ordenBorrar(request, pk):
         orden.delete()
         return HttpResponseRedirect(reverse('listaOrdenes'))
     return render(request, 'ordenConfBorrar.html', {'orden': orden})
+
+#clientes
+# ORDEN VIEWS ---------------------------------------------------------------------------------------------->
+
+# Listado Orden -------
+def listaClientes(request):
+    clientes = Cliente.objects.all()
+    context = {"clientes": clientes}
+    return render(request, template_name="listaClientes.html", context=context)
+
+# Modificar Orden --------->
+def clientesModificar(request, pk):
+    cliente = Cliente.objects.get(id=pk)
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        telefono = request.POST.get('telefono')
+        direccion = request.POST.get('direccion')
+
+        cliente.nombre = nombre
+        cliente.telefono = telefono
+        cliente.direccion = direccion
+        cliente.save()
+        return HttpResponseRedirect(reverse('listaClientes'))
+    return render(request, "formularioClientes.html", {'cliente': cliente})
+
+# Nueva Orden ------------------>
+def clientesNuevo(request):
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        telefono = request.POST.get('telefono')
+        direccion = request.POST.get('direccion')
+
+        Cliente.objects.create(nombre=nombre, telefono=telefono, direccion=direccion)
+        return HttpResponseRedirect(reverse('listaClientes'))
+    return render(request, "formularioClientes.html")
+
+# Borrar Orden ----------------------->
+def clientesBorrar(request, pk):
+    cliente = Cliente.objects.get(id=pk)
+    if request.method == 'POST':
+        cliente.delete()
+        return HttpResponseRedirect(reverse('listaClientes'))
+    return render(request, 'clienteConfBorrar.html', {'cliente': cliente})

@@ -8,6 +8,7 @@
             <th scope="col">Nombre</th>
             <th scope="col">Telefono</th>
             <th scope="col">Direccion</th>
+            <th><button class="btn border bg-primary"><a href="/clientes/clienteNueva" class="text-white text-decoration-none">Nueva clienta</a></button></th>
           </tr>
         </thead>
         <tbody>
@@ -17,6 +18,10 @@
                 <td>{{c.nombre}}</td>
                 <td>{{c.telefono}}</td>
                 <td>{{c.direccion}}</td>
+                <td>
+                  <button class="btn btn-primary"><a href="/clientes/clienteModif/{{ c.id }}" class="text-white text-decoration-none">Modificar</a></button>
+                  <button class="btn btn-danger"><a href="/clientes/clienteBorrar/{{ c.id }}" class="text-white text-decoration-none">Eliminar</a></button>
+                </td>
               </tr>
             {% endfor %}
         </tbody>
