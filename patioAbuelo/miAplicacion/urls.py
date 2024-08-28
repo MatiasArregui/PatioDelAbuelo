@@ -17,19 +17,29 @@ urlpatterns = [
     path("ordenes/ordenModif/<int:pk>/", views.ordenModificar, name="ordenModificar"),
     path("ordenes/ordenBorrar/<int:pk>/", views.ordenBorrar, name="ordenBorrar"),
     
-    
-    
-    
-    path("platos/", views.listaPlatos, name="listaPlatos"),
-    path("postres/", views.listaPostres, name="listaPostres"),
-    path("mesas/", views.listaMesas, name="listaMesas"),
-    
-    
-#clientes -------------------------------------------------------------------------------->
+    #clientes -------------------------------------------------------------------------------->
     path("clientes/", views.listaClientes, name="listaClientes"),
     path("clientes/clienteNueva/", views.clientesNuevo, name="clienteNueva"),
     path("clientes/clienteModif/<int:pk>/", views.clientesModificar, name="clienteModificar"),
     path("clientes/clienteBorrar/<int:pk>/", views.clientesBorrar, name="clienteBorrar"),
+    
+    #Postres ---------------------------------------------------------------------------------->
+    path("postre/", views.listaPostre, name="listaPostre"),
+    path('postre/postreNuevo/', views.postreNuevo, name='postreNuevo'),
+    path('postre/postreModif/<int:pk>/', views.postreModificar, name='postreModif'),
+    path('postre/postreBorrar/<int:pk>/', views.postreBorrar, name='postreBorrar'),
+
+    #Mesas ------------------------------------------------------------------------------------->
+    path("mesas/", views.listaMesas, name="listaMesas"),
+    path('mesas/mesaNueva/', views.mesaNueva, name='mesaNueva'),
+    path('mesas/mesaModif/<int:pk>/', views.mesaModificar, name='mesaModif'),
+    path('mesas/mesaBorrar/<int:pk>/', views.mesaBorrar, name='mesaBorrar'),
+    
+    
+    
+    path("platos/", views.listaPlatos, name="listaPlatos"),
+
+    
     
 
     

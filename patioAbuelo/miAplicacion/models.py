@@ -30,6 +30,7 @@ class Postre(models.Model):
 # MODELO DE MESA -----------------------------------------> 
 class Mesa(models.Model):
     nombre = models.CharField(max_length=120)
+    cantidad = models.IntegerField(default=0)
     estado = models.BooleanField(default=False, null=True, blank=True)
     
     def __str__(self) -> str:
