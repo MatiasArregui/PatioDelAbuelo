@@ -7,6 +7,7 @@
             <th scope="col">ID</th>
             <th scope="col">Nombre</th>
             <th scope="col">Precio</th>
+            <th><button class="btn border bg-primary"><a href={% url "platoNuevo" %} class="text-white text-decoration-none">Nuevo Plato</a></button></th>    
           </tr>
         </thead>
         <tbody>
@@ -15,6 +16,10 @@
                 <td>{{p.id}}</td>
                 <td>{{p.nombre}}</td>
                 <td>{{p.precio}}</td>
+                <td>
+                  <button class="btn btn-primary"><a href="/platos/platoModif/{{ p.id }}" class="text-white text-decoration-none">Modificar</a></button>
+                  <button class="btn btn-danger"><a href="/platos/platoBorrar/{{ p.id }}" class="text-white text-decoration-none">Eliminar</a></button>
+                </td>
               </tr>
             {% endfor %}
         </tbody>

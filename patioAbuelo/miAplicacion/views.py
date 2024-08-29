@@ -6,10 +6,6 @@ from django.urls import reverse
 def principal(request):
     return render(request, template_name="base.html")
 
-def listaPlatos(request):
-    platos = Plato.objects.all()
-    context = {"platos":platos}
-    return render(request, template_name="listaPLatos.html", context=context)
 
 # BEBIDA VIEWS ----------------------------------------------------------------------------------------->
 # Listado Bebida ------->
@@ -209,3 +205,40 @@ def mesaBorrar(request, pk):
         mesa.delete()
         return HttpResponseRedirect(reverse('listaMesas'))
     return render(request, 'mesaConfBorrar.html', {'mesa': mesa})
+
+# PLATO VIEWS ------------------------------------------------------------------------------>
+# Postre --------------------------->
+def listaPlato(request):
+    platos = Plato.objects.all()
+    context = {"platos": platos}
+    return render(request, template_name="listaPlatos.html", context=context)
+# Modificar plato ------------->
+def platoModificar(request, pk):
+    plato = Plato.objects.get(id=pk)
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        precio = request.POST.get('precio')
+
+        plato.nombre = nombre
+        plato.precio = precio
+        plato.save()
+        return HttpResponseRedirect(reverse('listaPlatos'))
+    return render(request, "formularioPlatos.html", {'plato': plato})
+
+# Nuevo plato ------------------>
+def platoNuevo(request):
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        precio = request.POST.get('precio')
+
+        Plato.objects.create(nombre=nombre, precio=precio)
+        return HttpResponseRedirect(reverse('listaPlatos'))
+    return render(request, "formularioPlatos.html")
+
+# Borrar plato ----------------------->
+def platoBorrar(request, pk):
+    plato = Plato.objects.get(id=pk)
+    if request.method == 'POST':
+        plato.delete()
+        return HttpResponseRedirect(reverse('listaPlatos'))
+    return render(request, 'platoConfBorrar.html', {'plato': plato})

@@ -35,12 +35,11 @@ urlpatterns = [
     path('mesas/mesaModif/<int:pk>/', views.mesaModificar, name='mesaModif'),
     path('mesas/mesaBorrar/<int:pk>/', views.mesaBorrar, name='mesaBorrar'),
     
+    #Platos ---------------------------------------------------------------------------------->
+    path("platos/", views.listaPlato, name="listaPlatos"),
+    path('platos/platoNuevo/', views.platoNuevo, name='platoNuevo'),
+    path('platos/platoModif/<int:pk>/', views.platoModificar, name='platoModif'),
+    path('platos/platoBorrar/<int:pk>/', views.platoBorrar, name='platoBorrar'),
     
-    
-    path("platos/", views.listaPlatos, name="listaPlatos"),
-
-    
-    
-
     
 ]
