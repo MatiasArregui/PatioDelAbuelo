@@ -135,8 +135,8 @@ def clientesBorrar(request, pk):
 # POSTRE VIEWS ------------------------------------------------------------------------------>
 # Postre --------------------------->
 def listaPostre(request):
-    postre = Postre.objects.all()
-    context = {"postre": postre}
+    postres = Postre.objects.all()
+    context = {"postres": postres}
     return render(request, template_name="listaPostres.html", context=context)
 # Modificar postre ------------->
 def postreModificar(request, pk):
@@ -150,8 +150,8 @@ def postreModificar(request, pk):
         postre.precio = precio
         postre.cantidad = cantidad
         postre.save()
-        return HttpResponseRedirect(reverse('listaPostre'))
-    return render(request, "formularioPostre.html", {'postre': postre})
+        return HttpResponseRedirect(reverse('listaPostres'))
+    return render(request, "formularioPostres.html", {'postre': postre})
 
 # Nueva postre ------------------>
 def postreNuevo(request):
@@ -161,15 +161,15 @@ def postreNuevo(request):
         cantidad = request.POST.get('cantidad')
 
         Postre.objects.create(nombre=nombre, precio=precio, cantidad=cantidad)
-        return HttpResponseRedirect(reverse('listaPostre'))
-    return render(request, "formularioPostre.html")
+        return HttpResponseRedirect(reverse('listaPostres'))
+    return render(request, "formularioPostres.html")
 
 # Borrar postre ----------------------->
 def postreBorrar(request, pk):
     postre = Postre.objects.get(id=pk)
     if request.method == 'POST':
         postre.delete()
-        return HttpResponseRedirect(reverse('listaPostre'))
+        return HttpResponseRedirect(reverse('listaPostres'))
     return render(request, 'postreConfBorrar.html', {'postre': postre})
 
 # MESAS VIEWS ----------------------------------->

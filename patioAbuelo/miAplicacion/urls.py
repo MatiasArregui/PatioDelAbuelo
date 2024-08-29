@@ -24,10 +24,10 @@ urlpatterns = [
     path("clientes/clienteBorrar/<int:pk>/", views.clientesBorrar, name="clienteBorrar"),
     
     #Postres ---------------------------------------------------------------------------------->
-    path("postre/", views.listaPostre, name="listaPostre"),
-    path('postre/postreNuevo/', views.postreNuevo, name='postreNuevo'),
-    path('postre/postreModif/<int:pk>/', views.postreModificar, name='postreModif'),
-    path('postre/postreBorrar/<int:pk>/', views.postreBorrar, name='postreBorrar'),
+    path("postres/", views.listaPostre, name="listaPostres"),
+    path('postres/postreNuevo/', views.postreNuevo, name='postreNuevo'),
+    path('postres/postreModif/<int:pk>/', views.postreModificar, name='postreModif'),
+    path('postres/postreBorrar/<int:pk>/', views.postreBorrar, name='postreBorrar'),
 
     #Mesas ------------------------------------------------------------------------------------->
     path("mesas/", views.listaMesas, name="listaMesas"),
