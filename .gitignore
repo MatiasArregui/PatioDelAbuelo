@@ -1,14 +1,19 @@
 #Cache de compilacion
 .vscode
 __pycache__
-.vscode
+
 #Entorno virtual
 pyvenv.cfg
 Lib
 Scripts
 Include
 entorno
+
 #Base de datos
 db.sqlite3
+
 #.idea
 .idea
+
+#No subir migrations
+migrations
