@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import Plato, PlatoOrden, Orden, Mesa, Factura, Cliente, FacturaOrden, Bebida, Postre, BebidaOrden, PostreOrden
+from .models import Plato, PlatoOrden, Orden, Mesa, Factura, Cliente, FacturaOrden, Bebida, Postre, BebidaOrden, PostreOrden, Mozo
 # Register your models here.
 admin.site.register(Mesa)
 
 # DETALLES DE BEBIDA -------------------------------------->
 class BebidaDetalle(admin.ModelAdmin):
-    list_display = ("id", "nombre", "precio", "cantidad")
+    list_display = ("id", "nombre", "precio", "cantidad", "categorias")
     
 admin.site.register(Bebida, BebidaDetalle)
 
@@ -15,9 +15,15 @@ class PostreDetalle(admin.ModelAdmin):
     
 admin.site.register(Postre, PostreDetalle)
 
+# DETALLES DE MOZO -------------------------------------->
+class MozoDetalle(admin.ModelAdmin):
+    list_display = ("id", "nombre", "telefono")
+    
+admin.site.register(Mozo, MozoDetalle)
+
 # DETALLES DE PLATO -------------------------------------->
 class PlatoDetalle(admin.ModelAdmin):
-    list_display = ("id", "nombre", "precio")
+    list_display = ("id", "nombre", "precio", "categorias")
     
 admin.site.register(Plato, PlatoDetalle)
 

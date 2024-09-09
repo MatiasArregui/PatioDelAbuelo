@@ -3,16 +3,32 @@ from django.db import models
 # Create your models here.
 # MODELO DE PLATO ------------------------------------>
 class Plato(models.Model):
+    categories = [
+        ('opcion1', 'Entradas'),
+        ('opcion2', 'Guarnicion'),
+        ('opcion3', 'Plato principal'),
+    ]
+
     nombre = models.CharField(max_length=120)
     precio = models.DecimalField(max_digits=15, decimal_places=2)
+    categorias = models.CharField(max_length=120,
+                                  choices=categories)
     
     def __str__(self) -> str:
         return self.nombre + " " + str(self.precio)
     
 # MODELO DE BEBIDAS ------------------------------------>
 class Bebida(models.Model):
+    categories = [
+        ('opcion1', 'Gaseosas'),
+        ('opcion2', 'Vinos'),
+        ('opcion3', 'Cervezas'),
+        ('opcion4', 'Aguas')
+    ]
     nombre = models.CharField(max_length=120)
     precio = models.DecimalField(max_digits=15, decimal_places=2)
+    categorias = models.CharField(max_length=120,
+                                  choices=categories)
     cantidad = models.IntegerField()
     
     def __str__(self) -> str:
@@ -30,7 +46,6 @@ class Postre(models.Model):
 # MODELO DE MESA -----------------------------------------> 
 class Mesa(models.Model):
     nombre = models.CharField(max_length=120)
-    cantidad = models.IntegerField(default=0)
     estado = models.BooleanField(default=False, null=True, blank=True)
     
     def __str__(self) -> str:
@@ -41,6 +56,14 @@ class Cliente(models.Model):
     nombre = models.CharField(max_length=120)
     telefono = models.CharField(max_length=30, null=True, blank=True)
     direccion = models.CharField(max_length=120, null=True, blank=True)
+    
+    def __str__(self) -> str:
+        return self.nombre
+    
+# MODELO DE MOZO ----------------------------------------->
+class Mozo(models.Model):
+    nombre = models.CharField(max_length=120)
+    telefono = models.CharField(max_length=30, null=True, blank=True)
     
     def __str__(self) -> str:
         return self.nombre
@@ -64,6 +87,7 @@ class Orden(models.Model):
     id_plato = models.ManyToManyField(Plato, through="PlatoOrden")
     id_postre = models.ManyToManyField(Postre, through="PostreOrden")
     id_bebida = models.ManyToManyField(Bebida, through="BebidaOrden")
+    id_mozo = models.ForeignKey(Mozo, on_delete=models.CASCADE)
  
 
     def __str__(self) -> str:
