@@ -17,7 +17,7 @@ def loginIngreso(request):
 def listaBebidas(request):
     bebidas = Bebida.objects.all()
     context = {"bebidas":bebidas}
-    return render(request, template_name="listaBebidas.html", context=context)
+    return render(request, template_name="./listas/listaBebidas.html", context=context)
 
 # Modificar Bebida --------->
 def bebidaModificar(request, pk):
@@ -32,7 +32,7 @@ def bebidaModificar(request, pk):
         bebida.cantidad = cantidad
         bebida.save()
         return HttpResponseRedirect(reverse('listaBebidas'))
-    return render(request, "formularioBebidas.html", {'bebida': bebida})
+    return render(request, "./formularios/formularioBebidas.html", {'bebida': bebida})
 
 # Nueva Bebida ------------------>
 def bebidaNuevo(request):
@@ -43,7 +43,7 @@ def bebidaNuevo(request):
 
         Bebida.objects.create(nombre=nombre, precio=precio, cantidad=cantidad)
         return HttpResponseRedirect(reverse('listaBebidas'))
-    return render(request, "formularioBebidas.html")
+    return render(request, "./formularios/formularioBebidas.html")
 
 # Borrar Bebida ----------------------->
 def bebidaBorrar(request, pk):
@@ -51,7 +51,7 @@ def bebidaBorrar(request, pk):
     if request.method == 'POST':
         bebida.delete()
         return HttpResponseRedirect(reverse('listaBebidas'))
-    return render(request, 'bebidaConfBorrar.html', {'bebida': bebida})
+    return render(request, './confirmacioBorrado/bebidaConfBorrar.html', {'bebida': bebida})
 
 
 # ORDEN VIEWS ---------------------------------------------------------------------------------------------->
@@ -59,7 +59,7 @@ def bebidaBorrar(request, pk):
 def listaOrdenes(request):
     ordenes = Orden.objects.all()
     context = {"ordenes": ordenes}
-    return render(request, template_name="listaOrdenes.html", context=context)
+    return render(request, template_name="./listas/listaOrdenes.html", context=context)
 
 # Modificar Orden --------->
 def ordenModificar(request, pk):
@@ -72,7 +72,7 @@ def ordenModificar(request, pk):
         orden.observacion = observacion
         orden.save()
         return HttpResponseRedirect(reverse('listaOrdenes'))
-    return render(request, "formularioOrdenes.html", {'orden': orden})
+    return render(request, "./formularios/formularioOrdenes.html", {'orden': orden})
 
 # Nueva Orden ------------------>
 def ordenNuevo(request):
@@ -82,7 +82,7 @@ def ordenNuevo(request):
 
         Orden.objects.create(total=total, observacion=observacion,)
         return HttpResponseRedirect(reverse('listaOrdenes'))
-    return render(request, "formularioOrdenes.html")
+    return render(request, "./formularios/formularioOrdenes.html")
 
 # Borrar Orden ----------------------->
 def ordenBorrar(request, pk):
@@ -90,14 +90,14 @@ def ordenBorrar(request, pk):
     if request.method == 'POST':
         orden.delete()
         return HttpResponseRedirect(reverse('listaOrdenes'))
-    return render(request, 'ordenConfBorrar.html', {'orden': orden})
+    return render(request, './confirmacionBorrado/ordenConfBorrar.html', {'orden': orden})
 
 # CIENTES VIEWS ---------------------------------------------------------------------------------------------->
 # Listado Cliente -------
 def listaClientes(request):
     clientes = Cliente.objects.all()
     context = {"clientes": clientes}
-    return render(request, template_name="listaClientes.html", context=context)
+    return render(request, template_name="./listas/listaClientes.html", context=context)
 
 # Modificar Cliente --------->
 def clientesModificar(request, pk):
@@ -112,7 +112,7 @@ def clientesModificar(request, pk):
         cliente.direccion = direccion
         cliente.save()
         return HttpResponseRedirect(reverse('listaClientes'))
-    return render(request, "formularioClientes.html", {'cliente': cliente})
+    return render(request, "./formularios/formularioClientes.html", {'cliente': cliente})
 
 # Nuevo Cliente ------------------>
 def clientesNuevo(request):
@@ -123,7 +123,7 @@ def clientesNuevo(request):
 
         Cliente.objects.create(nombre=nombre, telefono=telefono, direccion=direccion)
         return HttpResponseRedirect(reverse('listaClientes'))
-    return render(request, "formularioClientes.html")
+    return render(request, "./formularios/formularioClientes.html")
 
 # Borrar Cliente ----------------------->
 def clientesBorrar(request, pk):
@@ -131,14 +131,14 @@ def clientesBorrar(request, pk):
     if request.method == 'POST':
         cliente.delete()
         return HttpResponseRedirect(reverse('listaClientes'))
-    return render(request, 'clienteConfBorrar.html', {'cliente': cliente})
+    return render(request, './confirmacionBorrado/clienteConfBorrar.html', {'cliente': cliente})
 
 # POSTRE VIEWS ------------------------------------------------------------------------------>
 # Postre --------------------------->
 def listaPostre(request):
     postres = Postre.objects.all()
     context = {"postres": postres}
-    return render(request, template_name="listaPostres.html", context=context)
+    return render(request, template_name="./listas/listaPostres.html", context=context)
 # Modificar postre ------------->
 def postreModificar(request, pk):
     postre = Postre.objects.get(id=pk)
@@ -152,7 +152,7 @@ def postreModificar(request, pk):
         postre.cantidad = cantidad
         postre.save()
         return HttpResponseRedirect(reverse('listaPostres'))
-    return render(request, "formularioPostres.html", {'postre': postre})
+    return render(request, "./formularios/formularioPostres.html", {'postre': postre})
 
 # Nueva postre ------------------>
 def postreNuevo(request):
@@ -163,7 +163,7 @@ def postreNuevo(request):
 
         Postre.objects.create(nombre=nombre, precio=precio, cantidad=cantidad)
         return HttpResponseRedirect(reverse('listaPostres'))
-    return render(request, "formularioPostres.html")
+    return render(request, "./formularios/formularioPostres.html")
 
 # Borrar postre ----------------------->
 def postreBorrar(request, pk):
@@ -171,14 +171,14 @@ def postreBorrar(request, pk):
     if request.method == 'POST':
         postre.delete()
         return HttpResponseRedirect(reverse('listaPostres'))
-    return render(request, 'postreConfBorrar.html', {'postre': postre})
+    return render(request, './confirmacionBorrado/postreConfBorrar.html', {'postre': postre})
 
 # MESAS VIEWS ----------------------------------->
 # Listado Mesa ------->
 def listaMesas(request):
     mesas = Mesa.objects.all()
     context = {"mesas":mesas}
-    return render(request, template_name="listaMesas.html", context=context)
+    return render(request, template_name="./listas/listaMesas.html", context=context)
 
 # Modificar Mesa --------->
 def mesaModificar(request, pk):
@@ -192,7 +192,7 @@ def mesaModificar(request, pk):
         mesa.cantidad = cantidad
         mesa.save()
         return HttpResponseRedirect(reverse('listaMesas'))
-    return render(request, "formularioMesas.html", context=context)
+    return render(request, "./formularios/formularioMesas.html", context=context)
 # Nueva Mesa --------->
 def mesaNueva(request):
     if request.method == 'POST':
@@ -201,7 +201,7 @@ def mesaNueva(request):
 
         Mesa.objects.create(nombre=nombre, cantidad=cantidad)
         return HttpResponseRedirect(reverse('listaMesas'))
-    return render(request, "formularioMesas.html")
+    return render(request, "./formularios/formularioMesas.html")
 
 # Borrar Mesa ----------------------->
 def mesaBorrar(request, pk):
@@ -209,14 +209,14 @@ def mesaBorrar(request, pk):
     if request.method == 'POST':
         mesa.delete()
         return HttpResponseRedirect(reverse('listaMesas'))
-    return render(request, 'mesaConfBorrar.html', {'mesa': mesa})
+    return render(request, './confirmacionBorrado/mesaConfBorrar.html', {'mesa': mesa})
 
 # PLATO VIEWS ------------------------------------------------------------------------------>
 # Postre --------------------------->
 def listaPlato(request):
     platos = Plato.objects.all()
     context = {"platos": platos}
-    return render(request, template_name="listaPlatos.html", context=context)
+    return render(request, template_name="./listas/listaPlatos.html", context=context)
 # Modificar plato ------------->
 def platoModificar(request, pk):
     plato = Plato.objects.get(id=pk)
@@ -228,7 +228,7 @@ def platoModificar(request, pk):
         plato.precio = precio
         plato.save()
         return HttpResponseRedirect(reverse('listaPlatos'))
-    return render(request, "formularioPlatos.html", {'plato': plato})
+    return render(request, "./formularios/formularioPlatos.html", {'plato': plato})
 
 # Nuevo plato ------------------>
 def platoNuevo(request):
@@ -238,7 +238,7 @@ def platoNuevo(request):
 
         Plato.objects.create(nombre=nombre, precio=precio)
         return HttpResponseRedirect(reverse('listaPlatos'))
-    return render(request, "formularioPlatos.html")
+    return render(request, "./formularios/formularioPlatos.html")
 
 # Borrar plato ----------------------->
 def platoBorrar(request, pk):
@@ -246,14 +246,14 @@ def platoBorrar(request, pk):
     if request.method == 'POST':
         plato.delete()
         return HttpResponseRedirect(reverse('listaPlatos'))
-    return render(request, 'platoConfBorrar.html', {'plato': plato})
+    return render(request, './confirmacionBorrado/platoConfBorrar.html', {'plato': plato})
 
 
 # MOZO VIEWS ----------------------------------------------------------------------------------------->
 def listaMozos(request):
     mozos = Mozo.objects.all()
     context = {"mozos":mozos}
-    return render(request, template_name="listaMozos.html", context=context)
+    return render(request, template_name="./listas/listaMozos.html", context=context)
 
 def MozoModif(request, pk):
     mozo = Mozo.objects.get(id=pk)
@@ -264,7 +264,7 @@ def MozoModif(request, pk):
             return HttpResponseRedirect(reverse('listaMozos'))
     else:
         form = MozoForm(instance=mozo)
-    return render(request, 'formularioMozos.html', {'form': form, 'mozo': mozo})
+    return render(request, './formularios/formularioMozos.html', {'form': form, 'mozo': mozo})
 
 
 def MozoNuevo(request):
@@ -275,7 +275,7 @@ def MozoNuevo(request):
             return HttpResponseRedirect(reverse('listaMozos'))
     else:
         form = MozoForm()
-    return render(request, 'formularioMozos.html', {'form': form})
+    return render(request, './formularios/formularioMozos.html', {'form': form})
 
 
 def MozoBorrar(request, pk):
@@ -283,4 +283,40 @@ def MozoBorrar(request, pk):
     if request.method == 'POST':
         mozo.delete()
         return HttpResponseRedirect(reverse('listaMozos'))
-    return render(request, 'mozoConfBorrar.html', {'mozo': mozo})
+    return render(request, './confirmacionBorrado/mozoConfBorrar.html', {'mozo': mozo})
+
+
+# FACTURAS VIEWS ---------------------------------------------------------------------------------------------->
+# Factura Orden ------->
+def listaFacturas(request):
+    facturas = Factura.objects.all()
+    context = {"facturas": facturas}
+    return render(request, template_name="./listas/listaFacturas.html", context=context)
+
+# Modificar Factura --------->
+def facturaModificar(request, pk):
+    factura = Factura.objects.get(id=pk)
+    if request.method == 'POST':
+        total = request.POST.get('total')
+
+        factura.total = total
+        factura.save()
+        return HttpResponseRedirect(reverse('listaFacturas'))
+    return render(request, "./formularios/formularioFacturas.html", {'factura': factura})
+
+# Nueva Factura ------------------>
+def facturaNuevo(request):
+    if request.method == 'POST':
+        total = request.POST.get('total')
+
+        Factura.objects.create(total=total, )
+        return HttpResponseRedirect(reverse('listaFacturas'))
+    return render(request, "./formularios/formularioFacturas.html")
+
+# Borrar Factura ----------------------->
+def facturaBorrar(request, pk):
+    factura = Factura.objects.get(id=pk)
+    if request.method == 'POST':
+        factura.delete()
+        return HttpResponseRedirect(reverse('listaFacturas'))
+    return render(request, './confirmacionBorrado/facturaConfBorrar.html', {'factura': factura})

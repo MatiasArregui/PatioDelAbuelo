@@ -21,6 +21,12 @@ urlpatterns = [
     path("ordenes/ordenModif/<int:pk>/", views.ordenModificar, name="ordenModificar"),
     path("ordenes/ordenBorrar/<int:pk>/", views.ordenBorrar, name="ordenBorrar"),
     
+    #Facturas -------------------------------------------------------------------------------->
+    path("facturas/", views.listaFacturas, name="listaFacturas"),
+    path("facturas/facturaNueva/", views.facturaNuevo, name="facturaNueva"),
+    path("facturas/facturaModif/<int:pk>/", views.facturaModificar, name="facturaModificar"),
+    path("facturas/facturaBorrar/<int:pk>/", views.facturaBorrar, name="facturaBorrar"),
+    
     #clientes -------------------------------------------------------------------------------->
     path("clientes/", views.listaClientes, name="listaClientes"),
     path("clientes/clienteNueva/", views.clientesNuevo, name="clienteNueva"),

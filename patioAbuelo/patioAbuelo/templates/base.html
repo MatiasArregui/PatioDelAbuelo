@@ -11,17 +11,18 @@
     <link rel="stylesheet" href="{% static 'estilos.css' %}">
 </head>
 <body>
-    <nav class="container-fluid">
-        <ul class="row navegador">
-            <li class="col"><a href="{% url "listaBebidas"%}">Bebidas</a></li>
-            <li class="col"><a href="{% url "listaPlatos"%}">Platos</a></li>
-            <li class="col"><a href="{% url "listaPostres"%}">Postres</a></li>
-            <li class="col"><a href="{% url "listaMesas"%}">Mesas</a></li>
-            <li class="col"><a href="{% url "listaClientes"%}">Clientes</a></li>
-            <li class="col"><a href="{% url "listaMozos"%}">Mozo</a></li>
-            <li class="col"><a href="{% url "listaOrdenes"%}">Orden</a></li>
-            <li class="col"><a href="">Factura</a></li>
-        </ul>
+    <nav class="navegador">
+        <h2>Patio del Abuelo</h2>
+        <div>
+            <a href="{% url "listaBebidas"%}">Bebidas</a>
+            <a href="{% url "listaPlatos"%}">Platos</a>
+            <a href="{% url "listaPostres"%}">Postres</a>
+            <a href="{% url "listaMesas"%}">Mesas</a>
+            <a href="{% url "listaClientes"%}">Clientes</a>
+            <a href="{% url "listaMozos"%}">Mozo</a>
+            <a href="{% url "listaOrdenes"%}">Orden</a>
+            <a href="{% url "listaFacturas" %}">Factura</a>
+        </div>
     </nav>
     <main>
         {% block content %}
