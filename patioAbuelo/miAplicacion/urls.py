@@ -41,5 +41,11 @@ urlpatterns = [
     path('platos/platoModif/<int:pk>/', views.platoModificar, name='platoModif'),
     path('platos/platoBorrar/<int:pk>/', views.platoBorrar, name='platoBorrar'),
     
+    #Mozos ---------------------------------------------------------------------------------->
+    path("mozos/", views.listaMozos, name="listaMozos"),
+    path('mozos/mozoNuevo/', views.MozoNuevo, name='mozoNuevo'),
+    path('mozos/mozoModif/<int:pk>/', views.MozoModif, name='mozoModif'),
+    path('mozos/mozoBorrar/<int:pk>/', views.MozoBorrar, name='mozoBorrar'),
+    
     
 ]

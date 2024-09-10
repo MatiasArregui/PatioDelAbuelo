@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect
-from .models import Bebida, Plato, Postre, Cliente, Mesa, Orden, Factura
+from .models import Bebida, Plato, Postre, Cliente, Mesa, Orden, Factura, Mozo
+from .forms import MozoForm
 from django.urls import reverse
 
 # Create your views here.
@@ -242,3 +243,40 @@ def platoBorrar(request, pk):
         plato.delete()
         return HttpResponseRedirect(reverse('listaPlatos'))
     return render(request, 'platoConfBorrar.html', {'plato': plato})
+
+
+# MOZO VIEWS ----------------------------------------------------------------------------------------->
+def listaMozos(request):
+    mozos = Mozo.objects.all()
+    context = {"mozos":mozos}
+    return render(request, template_name="listaMozos.html", context=context)
+
+def MozoModif(request, pk):
+    mozo = Mozo.objects.get(id=pk)
+    if request.method == 'POST':
+        form = MozoForm(request.POST, instance=mozo)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('listaMozos'))
+    else:
+        form = MozoForm(instance=mozo)
+    return render(request, 'formularioMozos.html', {'form': form, 'mozo': mozo})
+
+
+def MozoNuevo(request):
+    if request.method == 'POST':
+        form = MozoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('listaMozos'))
+    else:
+        form = MozoForm()
+    return render(request, 'formularioMozos.html', {'form': form})
+
+
+def MozoBorrar(request, pk):
+    mozo = Mozo.objects.get(matricula=pk)
+    if request.method == 'POST':
+        mozo.delete()
+        return HttpResponseRedirect(reverse('listaMozos'))
+    return render(request, 'mozoConfBorrar.html', {'mozo': mozo})
