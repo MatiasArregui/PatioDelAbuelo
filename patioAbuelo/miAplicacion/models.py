@@ -4,9 +4,9 @@ from django.db import models
 # MODELO DE PLATO ------------------------------------>
 class Plato(models.Model):
     categories = [
-        ('opcion1', 'Entradas'),
-        ('opcion2', 'Guarnicion'),
-        ('opcion3', 'Plato principal'),
+        ('Entradas', 'Entradas'),
+        ('Guarnicion', 'Guarnicion'),
+        ('Plato principal', 'Plato principal'),
     ]
 
     nombre = models.CharField(max_length=120)
@@ -20,10 +20,10 @@ class Plato(models.Model):
 # MODELO DE BEBIDAS ------------------------------------>
 class Bebida(models.Model):
     categories = [
-        ('opcion1', 'Gaseosas'),
-        ('opcion2', 'Vinos'),
-        ('opcion3', 'Cervezas'),
-        ('opcion4', 'Aguas')
+        ('Gaseosas', 'Gaseosas'),
+        ('Vinos', 'Vinos'),
+        ('Cervezas', 'Cervezas'),
+        ('Aguas', 'Aguas')
     ]
     nombre = models.CharField(max_length=120)
     precio = models.DecimalField(max_digits=15, decimal_places=2)
