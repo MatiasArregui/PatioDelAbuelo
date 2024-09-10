@@ -3,9 +3,13 @@ from .models import Bebida, Plato, Postre, Cliente, Mesa, Orden, Factura, Mozo
 from .forms import MozoForm
 from django.urls import reverse
 
-# Create your views here.
+# Pagina principal ----------------------------------------------------------------------------------->
 def principal(request):
     return render(request, template_name="base.html")
+
+# Login de ingreso ------------------------------------------------------------------------------------->
+def loginIngreso(request):
+    return render(request, template_name="login.html")
 
 
 # BEBIDA VIEWS ----------------------------------------------------------------------------------------->
