@@ -1,14 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container">
-    <table class="table m-5">
+    <table class="table table-light m-5 shadow-sm">
         <thead class="bg-light">
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Fecha</th>
             <th scope="col">Cliente</th>
             <th scope="col">Total</th>    
-            <th><button class="btn border bg-primary"><a href={% url "facturaNueva" %} class="text-white text-decoration-none">Nueva Factura</a></button></th>     
+            <th class="d-flex justify-content-end">
+              <button class="btn btn-sm border bg-primary"><a href={% url "facturaNueva" %} class="text-white text-decoration-none">Nueva Factura</a></button>
+            </th>     
           </tr>
         </thead>
         <tbody>
@@ -18,9 +20,9 @@
                 <td>{{f.fecha}}</td>
                 <td>{{f.id_cliente.nombre}}</td>
                 <td>{{f.total}}</td>
-                <td>
-                  <button class="btn btn-primary"><a href="/facturas/facturaModif/{{ f.id }}" class="text-white text-decoration-none">Modificar</a></button>
-                  <button class="btn btn-danger"><a href="/facturas/facturaBorrar/{{ f.id }}" class="text-white text-decoration-none">Eliminar</a></button>
+                <td class="d-flex justify-content-end gap-1">
+                  <button class="btn btn-sm btn-primary"><a href="/facturas/facturaModif/{{ f.id }}" class="text-white text-decoration-none">Modificar</a></button>
+                  <button class="btn btn-sm btn-danger"><a href="/facturas/facturaBorrar/{{ f.id }}" class="text-white text-decoration-none">Eliminar</a></button>
                 </td>
               </tr>
             {% endfor %}

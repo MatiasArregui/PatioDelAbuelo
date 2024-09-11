@@ -13,7 +13,7 @@
 </head>
 <body>
     <div class="formulario">
-        <h1>Iniciar sesion</h1>
+        <h1>Patio del Abuelo</h1>
         <form method="post">
             <div class="username">
                 <input type="text" required>
@@ -23,11 +23,7 @@
                 <input type="password" required>
                 <label>Contraseña</label>
             </div>
-            <div class="recordar">¿Olvidaste tu contraseña?</div>
-            <a href="{% url "paginaPrincipal"%}" class="boton">Ingresar</a>
-            <div class="registrarse">
-                Usuario nuevo <a href="#">Crear Usuario</a>
-            </div>
+            <button  class="boton"><a href="{% url "paginaPrincipal"%}">Ingresar</a></button>
         </form>
     
     </div>

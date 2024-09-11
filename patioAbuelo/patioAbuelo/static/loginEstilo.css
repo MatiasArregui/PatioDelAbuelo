@@ -12,11 +12,13 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 400px;
+    height: 400px;
     background: #FDF0D5;
     border-radius: 10px;
 }
 
 .formulario h1{
+    margin: 10px;
     text-align: center;
     padding: 0 0 20px 0;
     border-bottom: 1px solid #EEB9A8;
@@ -46,12 +48,12 @@ form .username{
 .username label{
     position: absolute;
     top: 50%;
-    left: 5px;
+    left: 70%;
     color: #adadad;
     transform: translateY(-50%);
     font-size: 16px;
     pointer-events: none;
-    transition: .5s;
+    transition: .9s;
 }
 
 .username span::before {
@@ -68,6 +70,7 @@ form .username{
 .username input:focus ~ label,
 .username input:focus ~ label   {
     top: -5px;
+    left: -1px;
     color: #C92E36;
 }
 
@@ -76,15 +79,6 @@ form .username{
     width: 100%;
 }
 
-.recordar{
-    margin: -5px 0 20px 5px;
-    color: #C92E36;
-    cursor: pointer;
-}
-
-.recordar:hover {
-    text-decoration: underline;
-}
 
 .boton{
     width: 100%;
@@ -96,13 +90,19 @@ form .username{
     color: white;
     cursor: pointer;
     outline: none;
+    margin-top: 20px;
 }
 
 .boton:hover{
     border-color: #C92E36;
     transition: .5s;
 }
-.registrarse{
+.boton a{
+    text-decoration: none;
+    color: white;
+}
+
+/* .registrarse{
 margin: 30px 0;
 text-align: center;
 font-size: 16px;
@@ -116,4 +116,4 @@ color: black;
 
 .registrarse a:hover {
     text-decoration: underline;
-}
+} */
