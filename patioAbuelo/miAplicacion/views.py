@@ -207,11 +207,12 @@ def clientesBorrar(request, pk):
     return render(request, './confirmacionBorrado/clienteConfBorrar.html', {'cliente': cliente})
 
 # MOZO VIEWS ----------------------------------------------------------------------------------------->
+#Listado Mozos ------------------------------------->
 def listaMozos(request):
     mozos = Mozo.objects.all()
     context = {"mozos":mozos}
     return render(request, template_name="./listas/listaMozos.html", context=context)
-
+#Mozo modificar ---------------------------------->
 def MozoModif(request, pk):
     mozo = Mozo.objects.get(id=pk)
     if request.method == 'POST':
@@ -222,8 +223,7 @@ def MozoModif(request, pk):
     else:
         form = MozoForm(instance=mozo)
     return render(request, './formularios/formularioMozos.html', {'form': form, 'mozo': mozo})
-
-
+# Mozo nuevo -------------------------------------------->
 def MozoNuevo(request):
     if request.method == 'POST':
         form = MozoForm(request.POST)
@@ -233,8 +233,7 @@ def MozoNuevo(request):
     else:
         form = MozoForm()
     return render(request, './formularios/formularioMozos.html', {'form': form})
-
-
+#Mozo borrar ----------------------------------------------->
 def MozoBorrar(request, pk):
     mozo = Mozo.objects.get(id=pk)
     if request.method == 'POST':
