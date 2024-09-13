@@ -15,14 +15,18 @@
     <div class="formulario">
         <h1>Patio del Abuelo</h1>
         <form method="post">
-            <div class="username">
-                <input type="text" required>
-                <label>Usuario</label>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="usuario" placeholder="Usuario">
+                <label for="usuario">Usuario</label>
             </div>
-            <div class="username">
-                <input type="password" required>
-                <label>Contraseña</label>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="contraseña" placeholder="Contraseña">
+                <label for="contraseña">contraseña</label>
             </div>
+            <div class="form-check form-switch mt-3">
+                <input class="form-check-input bg-danger" type="checkbox" id="recordar" checked>
+                <label class="form-check-label" for="recordar">Recordar usuario</label>
+              </div>
             <button  class="boton"><a href="{% url "paginaPrincipal"%}">Ingresar</a></button>
         </form>
     
