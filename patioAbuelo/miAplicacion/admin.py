@@ -64,7 +64,7 @@ class FacturaAdmin(admin.ModelAdmin):
     inlines = [
         OrdenInline,
     ]
-    list_display = ("id", "fecha", "Total")
+    list_display = ("id", "fecha", "total")
 
 admin.site.register(Factura, FacturaAdmin)
 

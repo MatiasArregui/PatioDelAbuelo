@@ -29,9 +29,9 @@ urlpatterns = [
     
     #clientes -------------------------------------------------------------------------------->
     path("clientes/", views.listaClientes, name="listaClientes"),
-    path("clientes/clienteNueva/", views.clientesNuevo, name="clienteNueva"),
-    path("clientes/clienteModif/<int:pk>/", views.clientesModificar, name="clienteModificar"),
-    path("clientes/clienteBorrar/<int:pk>/", views.clientesBorrar, name="clienteBorrar"),
+    path("clientes/clienteNuevo/", views.ClienteNuevo, name="clienteNuevo"),
+    path("clientes/clienteModif/<int:pk>/", views.ClienteModif, name="clienteModificar"),
+    path("clientes/clienteBorrar/<int:pk>/", views.ClienteBorrar, name="clienteBorrar"),
     
     #Postres ---------------------------------------------------------------------------------->
     path("postres/", views.listaPostre, name="listaPostres"),

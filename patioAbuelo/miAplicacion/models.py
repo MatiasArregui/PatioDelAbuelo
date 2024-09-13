@@ -71,7 +71,7 @@ class Mozo(models.Model):
 # MODELO FACTURA ----------------------------------------------->
 class Factura(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
-    Total = models.DecimalField(max_digits=15, decimal_places=2)
+    total = models.DecimalField(max_digits=15, decimal_places=2)
     Id_cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     id_orden = models.ManyToManyField("Orden", through="FacturaOrden")
     

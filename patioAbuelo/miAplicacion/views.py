@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect
 from .models import Bebida, Plato, Postre, Cliente, Mesa, Orden, Factura, Mozo
-from .forms import MozoForm
+from .forms import MozoForm, ClienteForm
 from django.urls import reverse
 
 # Pagina principal ----------------------------------------------------------------------------------->
@@ -169,37 +169,34 @@ def mesaBorrar(request, pk):
 # Listado Cliente -------
 def listaClientes(request):
     clientes = Cliente.objects.all()
-    context = {"clientes": clientes}
+    context = {"clientes":clientes}
     return render(request, template_name="./listas/listaClientes.html", context=context)
 
 # Modificar Cliente --------->
-def clientesModificar(request, pk):
+def ClienteModif(request, pk):
     cliente = Cliente.objects.get(id=pk)
     if request.method == 'POST':
-        nombre = request.POST.get('nombre')
-        telefono = request.POST.get('telefono')
-        direccion = request.POST.get('direccion')
-
-        cliente.nombre = nombre
-        cliente.telefono = telefono
-        cliente.direccion = direccion
-        cliente.save()
-        return HttpResponseRedirect(reverse('listaClientes'))
-    return render(request, "./formularios/formularioClientes.html", {'cliente': cliente})
-
+        form = ClienteForm(request.POST, instance=cliente)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('listaClientes'))
+    else:
+        form = ClienteForm(instance=cliente)
+    return render(request, './formularios/formularioClientes.html', {'form': form, 'mozo': cliente})
+#
 # Nuevo Cliente ------------------>
-def clientesNuevo(request):
+def ClienteNuevo(request):
     if request.method == 'POST':
-        nombre = request.POST.get('nombre')
-        telefono = request.POST.get('telefono')
-        direccion = request.POST.get('direccion')
-
-        Cliente.objects.create(nombre=nombre, telefono=telefono, direccion=direccion)
-        return HttpResponseRedirect(reverse('listaClientes'))
-    return render(request, "./formularios/formularioClientes.html")
+        form = ClienteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('listaClientes'))
+    else:
+        form = ClienteForm()
+    return render(request, './formularios/formularioClientes.html', {'form': form})
 
 # Borrar Cliente ----------------------->
-def clientesBorrar(request, pk):
+def ClienteBorrar(request, pk):
     cliente = Cliente.objects.get(id=pk)
     if request.method == 'POST':
         cliente.delete()
