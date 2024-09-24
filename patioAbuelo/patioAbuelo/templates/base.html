@@ -14,9 +14,7 @@
     <nav class="navegador">
         <h2>Patio del Abuelo</h2>
         <div>
-            <a href="{% url "listaBebidas"%}">Bebidas</a>
-            <a href="{% url "listaPlatos"%}">Platos</a>
-            <a href="{% url "listaPostres"%}">Postres</a>
+            <a href="{% url "listaCarta"%}">Carta</a>
             <a href="{% url "listaMesas"%}">Mesas</a>
             <a href="{% url "listaClientes"%}">Clientes</a>
             <a href="{% url "listaMozos"%}">Mozo</a>
@@ -28,7 +26,7 @@
         {% block content %}
         {% endblock %}
     </main>
-    <footer class="container-fluid footer fixed-bottom m-0">
+    <footer class="container-fluid footer mt-5">
         <div>Patio del Abuelo</div>
         <div>&copy; Todos los derechos reservados</div>
     </footer>

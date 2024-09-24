@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container">
-  <table class="table table-light m-5 shadow-sm">
+  <table class="table m-5 shadow-sm">
       <thead class="bg-light">
         <tr>
           <th scope="col">ID</th>
@@ -14,7 +14,7 @@
       </thead>
       <tbody>
           {% for b in mesas%}
-            {%if b.estado == True %}
+            {%if b.estado == False %}
             <tr class="table-success">
               <td>{{b.id}}</td>
               <td>{{b.nombre}}</td>

@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect
-from .models import Bebida, Plato, Postre, Cliente, Mesa, Orden, Factura, Mozo
-from .forms import MozoForm, ClienteForm
+from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo
+from .forms import MozoForm, ClienteForm, CartaForm
 from django.urls import reverse
 
 # Pagina principal ----------------------------------------------------------------------------------->
@@ -11,124 +11,43 @@ def principal(request):
 def loginIngreso(request):
     return render(request, template_name="login.html")
 
-
-# BEBIDA VIEWS ----------------------------------------------------------------------------------------->
-# Listado Bebida ------->
-def listaBebidas(request):
-    bebidas = Bebida.objects.all()
-    context = {"bebidas":bebidas}
-    return render(request, template_name="./listas/listaBebidas.html", context=context)
-
-# Modificar Bebida --------->
-def bebidaModificar(request, pk):
-    bebida = Bebida.objects.get(id=pk)
-    if request.method == 'POST':
-        nombre = request.POST.get('nombre')
-        precio = request.POST.get('precio')
-        cantidad = request.POST.get('cantidad')
-
-        bebida.nombre = nombre
-        bebida.precio = precio
-        bebida.cantidad = cantidad
-        bebida.save()
-        return HttpResponseRedirect(reverse('listaBebidas'))
-    return render(request, "./formularios/formularioBebidas.html", {'bebida': bebida})
-
-# Nueva Bebida ------------------>
-def bebidaNuevo(request):
-    if request.method == 'POST':
-        nombre = request.POST.get('nombre')
-        precio = request.POST.get('precio')
-        cantidad = request.POST.get('cantidad')
-
-        Bebida.objects.create(nombre=nombre, precio=precio, cantidad=cantidad)
-        return HttpResponseRedirect(reverse('listaBebidas'))
-    return render(request, "./formularios/formularioBebidas.html")
-
-# Borrar Bebida ----------------------->
-def bebidaBorrar(request, pk):
-    bebida = Bebida.objects.get(id=pk)
-    if request.method == 'POST':
-        bebida.delete()
-        return HttpResponseRedirect(reverse('listaBebidas'))
-    return render(request, './confirmacioBorrado/bebidaConfBorrar.html', {'bebida': bebida})
-
 # PLATO VIEWS ------------------------------------------------------------------------------>
 # Listado plato --------------------------->
-def listaPlato(request):
-    platos = Plato.objects.all()
-    context = {"platos": platos}
-    return render(request, template_name="./listas/listaPlatos.html", context=context)
-# Modificar plato ------------->
-def platoModificar(request, pk):
-    plato = Plato.objects.get(id=pk)
-    if request.method == 'POST':
-        nombre = request.POST.get('nombre')
-        precio = request.POST.get('precio')
+def listaCarta(request):
+    carta = Carta.objects.all()
+    context = {"carta": carta}
+    return render(request, template_name="./listas/listaCarta.html", context=context)
 
-        plato.nombre = nombre
-        plato.precio = precio
-        plato.save()
-        return HttpResponseRedirect(reverse('listaPlatos'))
-    return render(request, "./formularios/formularioPlatos.html", {'plato': plato})
+# Modificar plato ------------->
+def cartaModificar(request, pk):
+    carta = Carta.objects.get(id=pk)
+    if request.method == 'POST':
+        form = CartaForm(request.POST, instance=carta)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('listaCarta'))
+    else:
+        form = CartaForm(instance=carta)
+    return render(request, './formularios/formularioCarta.html', {'form': form, 'carta': carta})
 
 # Nuevo plato ------------------>
-def platoNuevo(request):
+def cartaNuevo(request):
     if request.method == 'POST':
-        nombre = request.POST.get('nombre')
-        precio = request.POST.get('precio')
-
-        Plato.objects.create(nombre=nombre, precio=precio)
-        return HttpResponseRedirect(reverse('listaPlatos'))
-    return render(request, "./formularios/formularioPlatos.html")
+        form = CartaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('listaCarta'))
+    else:
+        form = CartaForm()
+    return render(request, './formularios/formularioCarta.html', {'form': form})
 
 # Borrar plato ----------------------->
-def platoBorrar(request, pk):
-    plato = Plato.objects.get(id=pk)
+def cartaBorrar(request, pk):
+    carta = Carta.objects.get(id=pk)
     if request.method == 'POST':
-        plato.delete()
-        return HttpResponseRedirect(reverse('listaPlatos'))
-    return render(request, './confirmacionBorrado/platoConfBorrar.html', {'plato': plato})
-
-# POSTRE VIEWS ------------------------------------------------------------------------------>
-# Postre --------------------------->
-def listaPostre(request):
-    postres = Postre.objects.all()
-    context = {"postres": postres}
-    return render(request, template_name="./listas/listaPostres.html", context=context)
-# Modificar postre ------------->
-def postreModificar(request, pk):
-    postre = Postre.objects.get(id=pk)
-    if request.method == 'POST':
-        nombre = request.POST.get('nombre')
-        precio = request.POST.get('precio')
-        cantidad = request.POST.get('cantidad')
-
-        postre.nombre = nombre
-        postre.precio = precio
-        postre.cantidad = cantidad
-        postre.save()
-        return HttpResponseRedirect(reverse('listaPostres'))
-    return render(request, "./formularios/formularioPostres.html", {'postre': postre})
-
-# Nueva postre ------------------>
-def postreNuevo(request):
-    if request.method == 'POST':
-        nombre = request.POST.get('nombre')
-        precio = request.POST.get('precio')
-        cantidad = request.POST.get('cantidad')
-
-        Postre.objects.create(nombre=nombre, precio=precio, cantidad=cantidad)
-        return HttpResponseRedirect(reverse('listaPostres'))
-    return render(request, "./formularios/formularioPostres.html")
-
-# Borrar postre ----------------------->
-def postreBorrar(request, pk):
-    postre = Postre.objects.get(id=pk)
-    if request.method == 'POST':
-        postre.delete()
-        return HttpResponseRedirect(reverse('listaPostres'))
-    return render(request, './confirmacionBorrado/postreConfBorrar.html', {'postre': postre})
+        carta.delete()
+        return HttpResponseRedirect(reverse('listaCarta'))
+    return render(request, './confirmacionBorrado/cartaConfBorrar.html', {'carta': carta})
 
 # MESAS VIEWS ----------------------------------->
 # Listado Mesa ------->

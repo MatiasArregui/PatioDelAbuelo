@@ -1,19 +1,19 @@
 from django.contrib import admin
-from .models import Plato, PlatoOrden, Orden, Mesa, Factura, Cliente, FacturaOrden, Bebida, Postre, BebidaOrden, PostreOrden, Mozo
+from .models import Carta, CartaOrden, Factura, FacturaOrden, Mozo, Mesa, Cliente, Categoria, SubCategoria, Orden
 # Register your models here.
 admin.site.register(Mesa)
 
-# DETALLES DE BEBIDA -------------------------------------->
-class BebidaDetalle(admin.ModelAdmin):
-    list_display = ("id", "nombre", "precio", "cantidad", "categorias")
+# DETALLES DE cATEGORIAS -------------------------------------->
+class CategoriaDetalle(admin.ModelAdmin):
+    list_display = ("id", "nombre")
     
-admin.site.register(Bebida, BebidaDetalle)
+admin.site.register(Categoria, CategoriaDetalle)
 
-# DETALLES DE POSTRE -------------------------------------->
-class PostreDetalle(admin.ModelAdmin):
-    list_display = ("id", "nombre", "precio", "cantidad")
+# DETALLES DE SUBCATEGORIAS -------------------------------------->
+class SubcategoriasDetalle(admin.ModelAdmin):
+    list_display = ("id", "nombre")
     
-admin.site.register(Postre, PostreDetalle)
+admin.site.register(SubCategoria, SubcategoriasDetalle)
 
 # DETALLES DE MOZO -------------------------------------->
 class MozoDetalle(admin.ModelAdmin):
@@ -21,11 +21,11 @@ class MozoDetalle(admin.ModelAdmin):
     
 admin.site.register(Mozo, MozoDetalle)
 
-# DETALLES DE PLATO -------------------------------------->
-class PlatoDetalle(admin.ModelAdmin):
-    list_display = ("id", "nombre", "precio", "categorias")
+# DETALLES DE CARTA -------------------------------------->
+class CartaDetalle(admin.ModelAdmin):
+    list_display = ("id", "nombre", "precio", "controlStock", "stock", "categoria", "subCategoria")
     
-admin.site.register(Plato, PlatoDetalle)
+admin.site.register(Carta, CartaDetalle)
 
 # DETALLES DE CLIENTE -------------------------------------->
 class ClienteDetalle(admin.ModelAdmin):
@@ -38,21 +38,13 @@ admin.site.register(Cliente, ClienteDetalle)
 
 # INLINE DETALLE DE ORDEN ---------------------------->
 class OrdenDetalleInline(admin.TabularInline):
-    model = PlatoOrden
-
-class PostreDetalleInline(admin.TabularInline):
-    model = PostreOrden
-    
-class BebidaDetalleInline(admin.TabularInline):
-    model = BebidaOrden
+    model = CartaOrden
 
 class OrdenAdmin(admin.ModelAdmin):
     inlines = [
         OrdenDetalleInline,
-        BebidaDetalleInline,
-        PostreDetalleInline
     ]
-    list_display = ("id", "id_mesa")
+    list_display = ("id", "id_mesa", "fecha")
     
 admin.site.register(Orden, OrdenAdmin)
 
