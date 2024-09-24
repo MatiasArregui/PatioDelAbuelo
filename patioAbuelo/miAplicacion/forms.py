@@ -33,7 +33,7 @@ class CartaForm(forms.ModelForm):
             "categoria": forms.Select(attrs={"class": "form-control", "onchange":"recargarPagina()"}),
             "subCategoria":forms.Select(attrs={"class": "form-control"}),
         }
-        
+        #Hacer filtrado por js
     def __init__(self, *args, **kwargs):
         super(CartaForm, self).__init__(*args, **kwargs)
         # Acceder al valor de un campo anterior
