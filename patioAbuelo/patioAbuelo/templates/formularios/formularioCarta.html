@@ -36,8 +36,8 @@
         // Agregar nuevas opciones
         options.forEach(option => {
             const newOption = document.createElement('option');
-            newOption.value = option;
-            newOption.text = option;
+            newOption.value = option["value"];
+            newOption.text = option["text"];
             select2.appendChild(newOption);
         });
     }
