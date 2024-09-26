@@ -13,5 +13,33 @@
     </form>
 </div>
 <br/>
+<script>
+    function updateSelect2() {
+        const select1 = document.getElementById('id_categoria');
+        const select2 = document.getElementById('id_subCategoria');
+        const selectedValue = select1.value;
 
+        // Limpiar opciones anteriores
+        select2.innerHTML = '';
+        var miLista = {{ opcionesPlato|safe }};
+        let options = [];
+        console.log(selectedValue);
+        console.log(miLista);
+        if (selectedValue == 1) {
+            options = {{ opcionesPlato|safe }};
+        } if (selectedValue == 2) {
+            options = {{ opcionesBebida|safe }};
+        }else if (selectedValue == 3) {
+            options = {{ opcionesPostre|safe }};
+        };
+
+        // Agregar nuevas opciones
+        options.forEach(option => {
+            const newOption = document.createElement('option');
+            newOption.value = option;
+            newOption.text = option;
+            select2.appendChild(newOption);
+        });
+    }
+</script>
 {% endblock %}

@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect
-from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo
+from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria
 from .forms import MozoForm, ClienteForm, CartaForm
 from django.urls import reverse
 
@@ -32,6 +32,15 @@ def cartaModificar(request, pk):
 
 # Nuevo plato ------------------>
 def cartaNuevo(request):
+    opcionesPlato = [x.nombre for x in SubCategoria.objects.filter(id_categoria=1)]
+    opcionesBebida = [x.nombre for x in SubCategoria.objects.filter(id_categoria=2)]
+    opcionesPostre = [x.nombre for x in SubCategoria.objects.filter(id_categoria=3)]
+    valoresPlato = [x.pk for x in SubCategoria.objects.filter(id_categoria=1)]
+    valoresBebida = [x.pk for x in SubCategoria.objects.filter(id_categoria=2)]
+    valoresPostre = [x.pk for x in SubCategoria.objects.filter(id_categoria=3)]
+    print(opcionesPlato)
+    print(opcionesBebida)
+    print(opcionesPostre)
     if request.method == 'POST':
         form = CartaForm(request.POST)
         if form.is_valid():
@@ -39,7 +48,8 @@ def cartaNuevo(request):
             return HttpResponseRedirect(reverse('listaCarta'))
     else:
         form = CartaForm()
-    return render(request, './formularios/formularioCarta.html', {'form': form})
+    return render(request, './formularios/formularioCarta.html', {'form': form, "opcionesPlato":opcionesPlato, "opcionesPostre":opcionesPostre, "opcionesBebida":opcionesBebida,
+                                                                  "valoresPlato":valoresPlato, "valoresPostre":valoresPostre, "valoresBebida":valoresBebida})
 
 # Borrar plato ----------------------->
 def cartaBorrar(request, pk):
