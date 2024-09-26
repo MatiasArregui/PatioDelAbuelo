@@ -15,13 +15,15 @@
 <br/>
 <script>
     function updateSelect2() {
+        // Obtenemos el objeto DOM del primer select
         const select1 = document.getElementById('id_categoria');
+        // Obtenemos el objeto DOM del segundo select
         const select2 = document.getElementById('id_subCategoria');
+        // Convertimos el objeto obtenido en un valor que usaremos para los condicionales porteriores
         const selectedValue = select1.value;
 
-        // Limpiar opciones anteriores
+        // Limpiar segundo select (select2)
         select2.innerHTML = '';
-        var miLista = {{ opcionesPlato|safe }};
         let options = [];
         console.log(selectedValue);
         console.log(miLista);

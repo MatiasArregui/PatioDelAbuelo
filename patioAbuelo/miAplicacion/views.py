@@ -21,6 +21,9 @@ def listaCarta(request):
 # Modificar plato ------------->
 def cartaModificar(request, pk):
     carta = Carta.objects.get(id=pk)
+    opcionesPlato = [{"value":x.pk, "text":x.nombre} for x in SubCategoria.objects.filter(id_categoria=1)]
+    opcionesBebida = [{"value":x.pk, "text":x.nombre}for x in SubCategoria.objects.filter(id_categoria=2)]
+    opcionesPostre = [{"value":x.pk, "text":x.nombre} for x in SubCategoria.objects.filter(id_categoria=3)]
     if request.method == 'POST':
         form = CartaForm(request.POST, instance=carta)
         if form.is_valid():
@@ -28,7 +31,7 @@ def cartaModificar(request, pk):
             return HttpResponseRedirect(reverse('listaCarta'))
     else:
         form = CartaForm(instance=carta)
-    return render(request, './formularios/formularioCarta.html', {'form': form, 'carta': carta})
+    return render(request, './formularios/formularioCarta.html', {'form': form, 'carta': carta, "opcionesPlato":opcionesPlato, "opcionesPostre":opcionesPostre, "opcionesBebida":opcionesBebida})
 
 # Nuevo plato ------------------>
 def cartaNuevo(request):
@@ -38,9 +41,9 @@ def cartaNuevo(request):
     # valoresPlato = [x.pk for x in SubCategoria.objects.filter(id_categoria=1)]
     # valoresBebida = [x.pk for x in SubCategoria.objects.filter(id_categoria=2)]
     # valoresPostre = [x.pk for x in SubCategoria.objects.filter(id_categoria=3)]
-    print(opcionesPlato)
-    print(opcionesBebida)
-    print(opcionesPostre)
+    # print(opcionesPlato)
+    # print(opcionesBebida)
+    # print(opcionesPostre)
     if request.method == 'POST':
         form = CartaForm(request.POST)
         if form.is_valid():
