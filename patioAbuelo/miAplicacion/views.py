@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect
-from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria
+from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria, Categoria
 from .forms import MozoForm, ClienteForm, CartaForm
 from django.urls import reverse
 
@@ -21,9 +21,10 @@ def listaCarta(request):
 # Modificar plato ------------->
 def cartaModificar(request, pk):
     carta = Carta.objects.get(id=pk)
-    opcionesPlato = [{"value":x.pk, "text":x.nombre} for x in SubCategoria.objects.filter(id_categoria=1)]
-    opcionesBebida = [{"value":x.pk, "text":x.nombre}for x in SubCategoria.objects.filter(id_categoria=2)]
-    opcionesPostre = [{"value":x.pk, "text":x.nombre} for x in SubCategoria.objects.filter(id_categoria=3)]
+    categorias = [{"value":x.pk, "text":x.nombre} for x in Categoria.objects.all()]
+    opcion1 = [{"value":x.pk, "text":x.nombre, "id_categoria":x.id_categoria.pk} for x in SubCategoria.objects.filter(id_categoria=1)]
+    opcion2 = [{"value":x.pk, "text":x.nombre, "id_categoria":x.id_categoria.pk}for x in SubCategoria.objects.filter(id_categoria=2)]
+    opcion3 = [{"value":x.pk, "text":x.nombre, "id_categoria":x.id_categoria.pk} for x in SubCategoria.objects.filter(id_categoria=3)]
     if request.method == 'POST':
         form = CartaForm(request.POST, instance=carta)
         if form.is_valid():
@@ -31,13 +32,14 @@ def cartaModificar(request, pk):
             return HttpResponseRedirect(reverse('listaCarta'))
     else:
         form = CartaForm(instance=carta)
-    return render(request, './formularios/formularioCarta.html', {'form': form, 'carta': carta, "opcionesPlato":opcionesPlato, "opcionesPostre":opcionesPostre, "opcionesBebida":opcionesBebida})
+    return render(request, './formularios/formularioCarta.html', {'form': form, 'carta': carta, "opcion1":opcion1, "opcion2":opcion2, "opcion3":opcion3, "categorias":categorias})
 
 # Nuevo plato ------------------>
 def cartaNuevo(request):
-    opcionesPlato = [{"value":x.pk, "text":x.nombre} for x in SubCategoria.objects.filter(id_categoria=1)]
-    opcionesBebida = [{"value":x.pk, "text":x.nombre}for x in SubCategoria.objects.filter(id_categoria=2)]
-    opcionesPostre = [{"value":x.pk, "text":x.nombre} for x in SubCategoria.objects.filter(id_categoria=3)]
+    categorias = [{"value":x.pk, "text":x.nombre} for x in Categoria.objects.all()]
+    opcion1 = [{"value":x.pk, "text":x.nombre, "id_categoria":x.id_categoria.pk} for x in SubCategoria.objects.filter(id_categoria=1)]
+    opcion2 = [{"value":x.pk, "text":x.nombre, "id_categoria":x.id_categoria.pk}for x in SubCategoria.objects.filter(id_categoria=2)]
+    opcion3 = [{"value":x.pk, "text":x.nombre, "id_categoria":x.id_categoria.pk} for x in SubCategoria.objects.filter(id_categoria=3)]
     # valoresPlato = [x.pk for x in SubCategoria.objects.filter(id_categoria=1)]
     # valoresBebida = [x.pk for x in SubCategoria.objects.filter(id_categoria=2)]
     # valoresPostre = [x.pk for x in SubCategoria.objects.filter(id_categoria=3)]
@@ -51,7 +53,7 @@ def cartaNuevo(request):
             return HttpResponseRedirect(reverse('listaCarta'))
     else:
         form = CartaForm()
-    return render(request, './formularios/formularioCarta.html', {'form': form, "opcionesPlato":opcionesPlato, "opcionesPostre":opcionesPostre, "opcionesBebida":opcionesBebida})
+    return render(request, './formularios/formularioCarta.html', {'form': form, "opcion1":opcion1, "opcion2":opcion2, "opcion3":opcion3, "categorias":categorias})
 
 # Borrar plato ----------------------->
 def cartaBorrar(request, pk):

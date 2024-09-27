@@ -14,6 +14,27 @@
 </div>
 <br/>
 <script>
+    //Obtenemos el elemento input de precio donde vamos a agregar el evento click
+    const input = document.getElementById('id_precio');
+
+    // Agrega el evento de clic
+    input.addEventListener('click', function() {
+        // Obtenemos el objeto DOM del primer select
+        const select1 = document.getElementById('id_categoria')
+        // Limpiar segundo select (select2)
+        select1.innerHTML = '';
+        let options = {{ categorias|safe }};
+        console.log(options)
+
+        // Agregar nuevas opciones
+        options.forEach(option => {
+            const newOption = document.createElement('option');
+            newOption.value = option["value"];
+            newOption.text = option["text"];
+            select1.appendChild(newOption);
+        });
+    });
+
     function updateSelect2() {
         // Obtenemos el objeto DOM del primer select
         const select1 = document.getElementById('id_categoria');
@@ -25,18 +46,23 @@
         // Limpiar segundo select (select2)
         select2.innerHTML = '';
         let options = [];
+        // Inicializamos las subcategorias de manera separada
+        let opcionUno = {{opcion1|safe}};
+        let opcionDos = {{opcion2|safe}};
+        let opcionTres = {{opcion3|safe}};
         console.log(selectedValue);
-        if (selectedValue == 1) {
-            options = {{ opcionesPlato|safe }};
+        console.log(opcionUno);
+        if (selectedValue == opcionUno[0]["id_categoria"]) {
+            options = {{ opcion1|safe }};
         };
-        if (selectedValue == 2) {
-            options = {{ opcionesBebida|safe }};
+        if (selectedValue == opcionDos[0]["id_categoria"]) {
+            options = {{ opcion2|safe }};
         };
-        if (selectedValue == 3) {
-            options = {{ opcionesPostre|safe }};
+        if (selectedValue == opcionTres[0]["id_categoria"]) {
+            options = {{ opcion3|safe }};
         };
 
-        // Agregar nuevas opciones
+        // Agregar las nuevas opciones segun la categoria seleccionada
         options.forEach(option => {
             const newOption = document.createElement('option');
             newOption.value = option["value"];
