@@ -25,6 +25,7 @@ def cartaModificar(request, pk):
     opcion1 = [{"value":x.pk, "text":x.nombre, "id_categoria":x.id_categoria.pk} for x in SubCategoria.objects.filter(id_categoria=1)]
     opcion2 = [{"value":x.pk, "text":x.nombre, "id_categoria":x.id_categoria.pk}for x in SubCategoria.objects.filter(id_categoria=2)]
     opcion3 = [{"value":x.pk, "text":x.nombre, "id_categoria":x.id_categoria.pk} for x in SubCategoria.objects.filter(id_categoria=3)]
+    
     if request.method == 'POST':
         form = CartaForm(request.POST, instance=carta)
         if form.is_valid():
@@ -40,12 +41,7 @@ def cartaNuevo(request):
     opcion1 = [{"value":x.pk, "text":x.nombre, "id_categoria":x.id_categoria.pk} for x in SubCategoria.objects.filter(id_categoria=1)]
     opcion2 = [{"value":x.pk, "text":x.nombre, "id_categoria":x.id_categoria.pk}for x in SubCategoria.objects.filter(id_categoria=2)]
     opcion3 = [{"value":x.pk, "text":x.nombre, "id_categoria":x.id_categoria.pk} for x in SubCategoria.objects.filter(id_categoria=3)]
-    # valoresPlato = [x.pk for x in SubCategoria.objects.filter(id_categoria=1)]
-    # valoresBebida = [x.pk for x in SubCategoria.objects.filter(id_categoria=2)]
-    # valoresPostre = [x.pk for x in SubCategoria.objects.filter(id_categoria=3)]
-    # print(opcionesPlato)
-    # print(opcionesBebida)
-    # print(opcionesPostre)
+
     if request.method == 'POST':
         form = CartaForm(request.POST)
         if form.is_valid():
@@ -58,6 +54,7 @@ def cartaNuevo(request):
 # Borrar plato ----------------------->
 def cartaBorrar(request, pk):
     carta = Carta.objects.get(id=pk)
+    
     if request.method == 'POST':
         carta.delete()
         return HttpResponseRedirect(reverse('listaCarta'))

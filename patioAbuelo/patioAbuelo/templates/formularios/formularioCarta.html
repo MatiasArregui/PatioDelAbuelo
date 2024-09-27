@@ -14,17 +14,18 @@
 </div>
 <br/>
 <script>
+    // ACTUALIZAR LOS VALORES DEL PRIMER SELECT AL HACER CLICK EN EL INPUT DE PRECIO
     //Obtenemos el elemento input de precio donde vamos a agregar el evento click
     const input = document.getElementById('id_precio');
 
-    // Agrega el evento de clic
+    // Agrega el evento de click
     input.addEventListener('click', function() {
         // Obtenemos el objeto DOM del primer select
         const select1 = document.getElementById('id_categoria')
         // Limpiar segundo select (select2)
         select1.innerHTML = '';
+        // Inicializamos la lista que contendra las opciones que conformaran el select
         let options = {{ categorias|safe }};
-        console.log(options)
 
         // Agregar nuevas opciones
         options.forEach(option => {
@@ -35,6 +36,7 @@
         });
     });
 
+    // ACTUALIZAR LOS VALORES DEL SEGUNDO SELECT AL HACER CLICK EN EL PRIMER SELECT (CATEGORIAS)
     function updateSelect2() {
         // Obtenemos el objeto DOM del primer select
         const select1 = document.getElementById('id_categoria');
@@ -50,8 +52,8 @@
         let opcionUno = {{opcion1|safe}};
         let opcionDos = {{opcion2|safe}};
         let opcionTres = {{opcion3|safe}};
-        console.log(selectedValue);
-        console.log(opcionUno);
+
+        // Filtramos la categoria seleccionada y determinamos los componentes del select segun esta 
         if (selectedValue == opcionUno[0]["id_categoria"]) {
             options = {{ opcion1|safe }};
         };
@@ -64,9 +66,13 @@
 
         // Agregar las nuevas opciones segun la categoria seleccionada
         options.forEach(option => {
+            // Crea la opcion que compondra el select
             const newOption = document.createElement('option');
+            // Proporciona el valor al option
             newOption.value = option["value"];
+            // Proporciona el texto al option
             newOption.text = option["text"];
+            // Agrega el option al select
             select2.appendChild(newOption);
         });
     }
