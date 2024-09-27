@@ -26,12 +26,13 @@
         select2.innerHTML = '';
         let options = [];
         console.log(selectedValue);
-        console.log(miLista);
         if (selectedValue == 1) {
             options = {{ opcionesPlato|safe }};
-        } if (selectedValue == 2) {
+        };
+        if (selectedValue == 2) {
             options = {{ opcionesBebida|safe }};
-        }else if (selectedValue == 3) {
+        };
+        if (selectedValue == 3) {
             options = {{ opcionesPostre|safe }};
         };
 
