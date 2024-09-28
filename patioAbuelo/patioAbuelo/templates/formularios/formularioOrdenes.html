@@ -7,18 +7,11 @@
         <h3 class="display-4 my-3">Orden</h3>
         <form method="post" class="row">
             {% csrf_token %}
-            <div class="col-4">
-                <label for="fecha" class="form-label">Fecha:</label>
-                <input type="text" placeholder="{{ orden.fecha}}" class="form-control" id="fecha" name="fecha" value="{{ orden.fecha }}" disabled><br>
-            </div>
-            <div class="col-4">
-                <label for="total" class="form-label">Total:</label>
-                <input type="number" class="form-control" id="total" name="total" value="{{ orden.total }}" required><br>
-            </div>
-            <div class="col-4">
-                <label for="observacion" class="form-label">Observacion:</label>
-                <input type="text" class="form-control" id="observacion" name="observacion" value="{{ orden.observacion }}" required><br>
-            </div>
+            {{ orden_form.as_p }}
+            {{ formset.management_form }}
+            {% for form in formset %}
+                {{ form.as_p }}
+            {% endfor %}
             <div class="col">
                 <button type="submit" class="btn btn-primary">Guardar</button>
                 <button class="btn btn-primary"><a href={% url "listaOrdenes" %} class="text-decoration-none text-white">Cancelar</a></button>

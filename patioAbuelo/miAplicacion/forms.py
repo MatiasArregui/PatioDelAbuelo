@@ -1,6 +1,6 @@
 from django import forms
-from .models import Mozo, Cliente, Carta, Categoria, SubCategoria
-
+from .models import Mozo, Cliente, Carta, Categoria, SubCategoria, CartaOrden, Orden
+from django.forms import inlineformset_factory
 class MozoForm(forms.ModelForm):
     class Meta:
         model = Mozo
@@ -42,3 +42,15 @@ class CartaForm(forms.ModelForm):
     #         # print(categoria_id)
     #         # Filtrar el queryset del campo 'precio' basado en el valor de 'categoria'
     #         self.fields['subCategoria'].queryset = SubCategoria.objects.filter(id_categoria=categoria_id)
+    
+class CartaOrdenForm(forms.ModelForm):
+    class Meta:
+        model = CartaOrden
+        fields = "__all__"
+
+class OrdenForm(forms.ModelForm):
+    class Meta:
+        model = Orden
+        fields = "__all__"
+
+CartaOrdenFormSet = inlineformset_factory(Orden, CartaOrden, form=CartaOrdenForm, extra=3)

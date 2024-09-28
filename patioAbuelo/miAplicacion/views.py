@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect
 from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria, Categoria
-from .forms import MozoForm, ClienteForm, CartaForm
+from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSet
 from django.urls import reverse
 
 # Pagina principal ----------------------------------------------------------------------------------->
@@ -179,24 +179,40 @@ def listaOrdenes(request):
 def ordenModificar(request, pk):
     orden = Orden.objects.get(id=pk)
     if request.method == 'POST':
-        total = request.POST.get('total')
-        observacion = request.POST.get('observacion')
+        orden_form = OrdenForm(request.POST, instance=orden)
+        formset = CartaOrdenFormSet(request.POST, instance=orden)
+        if orden_form.is_valid() and formset.is_valid():
+            orden = orden_form.save()
+            formset.instance = orden
+            formset.save()
+            return HttpResponseRedirect(reverse('listaOrdenes'))
+    else:
+        orden_form = OrdenForm(instance=orden)
+        formset = CartaOrdenFormSet(instance=orden)
 
-        orden.total = total
-        orden.observacion = observacion
-        orden.save()
-        return HttpResponseRedirect(reverse('listaOrdenes'))
-    return render(request, "./formularios/formularioOrdenes.html", {'orden': orden})
+    return render(request, "./formularios/formularioOrdenes.html", {
+        'orden_form': orden_form,
+        'formset': formset,
+    })
 
 # Nueva Orden ------------------>
 def ordenNuevo(request):
     if request.method == 'POST':
-        total = request.POST.get('total')
-        observacion = request.POST.get('observacion')
+        orden_form = OrdenForm(request.POST)
+        formset = CartaOrdenFormSet(request.POST)
+        if orden_form.is_valid() and formset.is_valid():
+            orden = orden_form.save()
+            formset.instance = orden
+            formset.save()
+            return HttpResponseRedirect(reverse('listaOrdenes'))
+    else:
+        orden_form = OrdenForm()
+        formset = CartaOrdenFormSet()
 
-        Orden.objects.create(total=total, observacion=observacion,)
-        return HttpResponseRedirect(reverse('listaOrdenes'))
-    return render(request, "./formularios/formularioOrdenes.html")
+    return render(request, "./formularios/formularioOrdenes.html", {
+        'orden_form': orden_form,
+        'formset': formset,
+    })
 
 # Borrar Orden ----------------------->
 def ordenBorrar(request, pk):
