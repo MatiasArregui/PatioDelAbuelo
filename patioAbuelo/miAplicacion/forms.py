@@ -51,6 +51,12 @@ class CartaOrdenForm(forms.ModelForm):
 class OrdenForm(forms.ModelForm):
     class Meta:
         model = Orden
-        fields = "__all__"
+        fields = ("total", "observacion", "id_mesa", "id_mozo")
+        widgets = {
+            "total": forms.NumberInput(attrs={"class": "form-control"}),
+            "observacion": forms.Textarea(attrs={"class": "form-control"}),
+            "id_mesa" : forms.Select(attrs={'class':'form-control'}),
+            "id_mozo": forms.Select(attrs={"class": "form-control"}),
+        }
 
 CartaOrdenFormSet = inlineformset_factory(Orden, CartaOrden, form=CartaOrdenForm, extra=3)
