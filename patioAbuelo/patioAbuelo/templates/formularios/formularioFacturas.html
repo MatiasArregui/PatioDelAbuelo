@@ -7,21 +7,14 @@
         <h3 class="display-4 my-3">Orden</h3>
         <form method="post" class="row">
             {% csrf_token %}
-            <div class="col-4">
-                <label for="fecha" class="form-label">Fecha:</label>
-                <input type="text" placeholder="{{ orden.fecha}}" class="form-control" id="fecha" name="fecha" value="{{ factura.fecha }}" disabled><br>
-            </div>
-            <div class="col-4">
-                <label for="total" class="form-label">Total:</label>
-                <input type="number" class="form-control" id="total" name="total" value="{{ factura.total }}" required><br>
-            </div>
-            <div class="col-4">
-                <label for="idCliente" class="form-label">Cliente:</label>
-                <input type="text" class="form-control" id="observacion" name="idCliente" value="{{ factura.id_cliente.nombre }}" disabled><br>
-            </div>
+            {{ factura_form.as_p }}
+            {{ formset.management_form }}
+            {% for form in formset %}
+                {{ form.as_p }}
+            {% endfor %}
             <div class="col">
                 <button type="submit" class="btn btn-primary">Guardar</button>
-                <button class="btn btn-primary"><a href={% url "listaOrdenes" %} class="text-decoration-none text-white">Cancelar</a></button>
+                <button class="btn btn-primary"><a href={% url "listaFacturas" %} class="text-decoration-none text-white">Cancelar</a></button>
             </div>
         </form>
     </div>

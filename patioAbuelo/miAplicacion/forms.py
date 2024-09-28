@@ -1,5 +1,5 @@
 from django import forms
-from .models import Mozo, Cliente, Carta, Categoria, SubCategoria, CartaOrden, Orden
+from .models import Mozo, Cliente, Carta, Categoria, SubCategoria, CartaOrden, Orden, Factura, FacturaOrden
 from django.forms import inlineformset_factory
 class MozoForm(forms.ModelForm):
     class Meta:
@@ -60,3 +60,19 @@ class OrdenForm(forms.ModelForm):
         }
 
 CartaOrdenFormSet = inlineformset_factory(Orden, CartaOrden, form=CartaOrdenForm, extra=3)
+
+class FacturaOrdenForm(forms.ModelForm):
+    class Meta:
+        model = FacturaOrden
+        fields = "__all__"
+
+class FacturaForm(forms.ModelForm):
+    class Meta:
+        model = Factura
+        fields = ("total", "id_cliente")
+        widgets = {
+            "total": forms.NumberInput(attrs={"class": "form-control"}),
+            "id_cliente" : forms.Select(attrs={'class':'form-control'}),
+        }
+
+FacturaOrdenFormSet = inlineformset_factory(Factura, FacturaOrden, form=FacturaOrdenForm, extra=3)

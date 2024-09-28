@@ -58,11 +58,11 @@ class Mozo(models.Model):
 class Factura(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
     total = models.DecimalField(max_digits=15, decimal_places=2)
-    Id_cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    id_cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     id_orden = models.ManyToManyField("Orden", through="FacturaOrden")
     
     def __str__(self) -> str:
-        return str(self.pk) + " " + self.Id_cliente.nombre + " " + str(self.fecha)
+        return str(self.pk) + " " + self.id_cliente.nombre + " " + str(self.fecha)
 
 # MODELO DE ORDEN ----------------------------------------->
 class Orden(models.Model):

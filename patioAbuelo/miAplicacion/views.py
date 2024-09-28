@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect
 from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria, Categoria
-from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSet
+from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSet, FacturaForm, FacturaOrdenFormSet
 from django.urls import reverse
 
 # Pagina principal ----------------------------------------------------------------------------------->
@@ -233,21 +233,40 @@ def listaFacturas(request):
 def facturaModificar(request, pk):
     factura = Factura.objects.get(id=pk)
     if request.method == 'POST':
-        total = request.POST.get('total')
+        factura_form = FacturaForm(request.POST, instance=factura)
+        formset = FacturaOrdenFormSet(request.POST, instance=factura)
+        if factura_form.is_valid() and formset.is_valid():
+            factura = factura_form.save()
+            formset.instance = factura
+            formset.save()
+            return HttpResponseRedirect(reverse('listaFacturas'))
+    else:
+        factura_form = FacturaForm(instance=factura)
+        formset = FacturaOrdenFormSet(instance=factura)
 
-        factura.total = total
-        factura.save()
-        return HttpResponseRedirect(reverse('listaFacturas'))
-    return render(request, "./formularios/formularioFacturas.html", {'factura': factura})
+    return render(request, "./formularios/formularioFacturas.html", {
+        'factura_form': factura_form,
+        'formset': formset,
+    })
 
 # Nueva Factura ------------------>
 def facturaNuevo(request):
     if request.method == 'POST':
-        total = request.POST.get('total')
+        factura_form = FacturaForm(request.POST)
+        formset = FacturaOrdenFormSet(request.POST)
+        if factura_form.is_valid() and formset.is_valid():
+            factura = factura_form.save()
+            formset.instance = factura
+            formset.save()
+            return HttpResponseRedirect(reverse('listaFacturas'))
+    else:
+        factura_form = FacturaForm()
+        formset = FacturaOrdenFormSet()
 
-        Factura.objects.create(total=total, )
-        return HttpResponseRedirect(reverse('listaFacturas'))
-    return render(request, "./formularios/formularioFacturas.html")
+    return render(request, "./formularios/formularioFacturas.html", {
+        'factura_form': factura_form,
+        'formset': formset,
+    })
 
 # Borrar Factura ----------------------->
 def facturaBorrar(request, pk):
