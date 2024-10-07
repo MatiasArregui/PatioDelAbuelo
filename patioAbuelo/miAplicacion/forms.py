@@ -18,7 +18,6 @@ class ClienteForm(forms.ModelForm):
             "nombre": forms.TextInput(attrs={"class": "form-control"}),
             "telefono": forms.TextInput(attrs={"class": "form-control"}),
             "direccion": forms.TextInput(attrs={"class": "form-control"}),
-            
         }
 
 class CartaForm(forms.ModelForm):
@@ -30,8 +29,8 @@ class CartaForm(forms.ModelForm):
             "precio": forms.NumberInput(attrs={"class": "form-control"}),
             "controlstock" : forms.BooleanField(widget=forms.CheckboxInput(attrs={'class': 'form-check-input form-control'})),
             "stock": forms.NumberInput(attrs={"class": "form-control"}),
-            "categoria": forms.Select(attrs={"class": "form-control", "onchange":"updateSelect2()"}),
-            "subCategoria":forms.Select(attrs={"class": "form-control"}),
+            "categoria": forms.Select(attrs={"class": "form-control", "onchange":"updateSelect2()","disabled":"true"}),
+            "subCategoria":forms.Select(attrs={"class": "form-control", "disabled":"true"}),
         }
     #     #Hacer filtrado por js
     # def __init__(self, *args, **kwargs):
