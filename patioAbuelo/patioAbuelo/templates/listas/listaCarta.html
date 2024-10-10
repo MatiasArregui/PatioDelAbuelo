@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% block content %}
 <div class="container">
     <table class="table table-light m-5 shadow-sm">
@@ -12,7 +13,7 @@
             <th scope="col">Categoria</th>
             <th scope="col">Sub Categoria</th>
             <th class="d-flex justify-content-end">
-              <button class="btn btn-sm border bg-primary"><a href={% url "cartaNuevo" %} class="text-white text-decoration-none">Nuevo Plato</a></button>
+              <button class="btn btn-sm bg-primary customButton"><a href={% url "cartaNuevo" %} class="text-white text-decoration-none">+</a></button>
             </th>    
           </tr>
         </thead>

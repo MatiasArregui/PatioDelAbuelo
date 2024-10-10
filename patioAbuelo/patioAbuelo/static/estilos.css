@@ -43,3 +43,19 @@ body{
     padding: 20px;
     margin: 5px 1px 5px 1px;
 }
+.customButton{
+    display: flex;
+    position: fixed;
+    width: 55px;
+    height: 55px;
+    line-height: 55px;
+    bottom: 30px;
+    right: 30px;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
