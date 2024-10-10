@@ -5,7 +5,7 @@ from django.urls import reverse
 
 # Pagina principal ----------------------------------------------------------------------------------->
 def principal(request):
-    return render(request, template_name="base.html")
+    return render(request, template_name="paginaPrincipal.html")
 
 # Login de ingreso ------------------------------------------------------------------------------------->
 def loginIngreso(request):
