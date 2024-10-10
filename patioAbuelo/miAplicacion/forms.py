@@ -9,7 +9,9 @@ class MozoForm(forms.ModelForm):
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control'}),
         }
-        
+        labels = {"nombre":"Nombre",
+                  "telefono":"Teléfono"
+            }
 class ClienteForm(forms.ModelForm):
     class Meta:
         model = Cliente
