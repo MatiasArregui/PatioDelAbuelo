@@ -19,6 +19,11 @@ class ClienteForm(forms.ModelForm):
             "telefono": forms.TextInput(attrs={"class": "form-control"}),
             "direccion": forms.TextInput(attrs={"class": "form-control"}),
         }
+        labels= {
+            "nombre": "Nombre",
+            "telefono": "Teléfono",
+            "direccion": "Dirección",
+        }
 
 class CartaForm(forms.ModelForm):
     class Meta:
