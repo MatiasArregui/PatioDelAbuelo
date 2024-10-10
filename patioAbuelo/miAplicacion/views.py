@@ -178,6 +178,7 @@ def listaOrdenes(request):
 # Modificar Orden --------->
 def ordenModificar(request, pk):
     orden = Orden.objects.get(id=pk)
+    platos = Carta.objects.all()
     if request.method == 'POST':
         orden_form = OrdenForm(request.POST, instance=orden)
         formset = CartaOrdenFormSet(request.POST, instance=orden)
@@ -193,10 +194,12 @@ def ordenModificar(request, pk):
     return render(request, "./formularios/formularioOrdenes.html", {
         'orden_form': orden_form,
         'formset': formset,
+        "platos":platos,
     })
 
 # Nueva Orden ------------------>
 def ordenNuevo(request):
+    platos = Carta.objects.all()
     if request.method == 'POST':
         orden_form = OrdenForm(request.POST)
         formset = CartaOrdenFormSet(request.POST)
@@ -212,6 +215,7 @@ def ordenNuevo(request):
     return render(request, "./formularios/formularioOrdenes.html", {
         'orden_form': orden_form,
         'formset': formset,
+        "platos":platos,
     })
 
 # Borrar Orden ----------------------->

@@ -22,17 +22,27 @@
     </div>
     <script>
         // ACTUALIZAR LOS VALORES DEL PRIMER SELECT AL HACER CLICK EN EL INPUT DE PRECIO
+        // Obtenemos el input totaL
+        const input_total = document.getElementById("id_total");
         //Obtenemos el elemento input de precio donde vamos a agregar el evento click
         const contenedor_select = document.getElementById('select_container');
         // Obtenemos los select seleccionados en el contenedor padre
         const selects = contenedor_select.getElementsByTagName('select');
-        const inputs = contenedor_select.getElementsByTagName('input');
+        const inputs = contenedor_select.querySelectorAll('input[type="number"]');
+        
         for (let i = 0; i < selects.length; i++) {
             selects[i].setAttribute('class', "form-control");
+            inputs[i].addEventListener('click', function() {
+                let total =0;
+                for (let a = 0; a < selects.length; a++) {
+                    {% for plato in platos%}
+                    if (selects[a].value == {{plato.id | safe}}) {
+                        total += inputs[a].value * {{plato.precio | safe}};
+                    } 
+                    {%endfor%}
+                };
+                input_total.value = total;
+            });
         };
-    
-        // EVENTO CLICK EN EL INPUT PRECIO 
-
-    
     </script>
 {% endblock %}
