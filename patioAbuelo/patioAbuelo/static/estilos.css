@@ -41,7 +41,8 @@ body{
     background-color: #C1121F;
     color: aliceblue;
     padding: 20px;
-    margin: 5px 1px 5px 1px;
+    margin-top: 5px;
+    z-index: 1;
 }
 .customButton{
     display: flex;
@@ -49,7 +50,7 @@ body{
     width: 55px;
     height: 55px;
     line-height: 55px;
-    bottom: 30px;
+    bottom: 120px;
     right: 30px;
     border-radius: 50px;
     text-align: center;
