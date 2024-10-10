@@ -32,6 +32,14 @@ class CartaForm(forms.ModelForm):
             "categoria": forms.Select(attrs={"class": "form-control", "onchange":"updateSelect2()","disabled":"true"}),
             "subCategoria":forms.Select(attrs={"class": "form-control", "disabled":"true"}),
         }
+        labels = {
+            "nombre": "Nombre",
+            "precio": "Precio",
+            "controlStock": "Verificar stock",
+            "stock": "Stock",
+            "categoria": "Categoría",
+            "subCategoria": "Subcategoría",
+        }
     #     #Hacer filtrado por js
     # def __init__(self, *args, **kwargs):
     #     super(CartaForm, self).__init__(*args, **kwargs)
@@ -64,13 +72,24 @@ class OrdenForm(forms.ModelForm):
             "id_mesa" : forms.Select(attrs={'class':'form-control'}),
             "id_mozo": forms.Select(attrs={"class": "form-control"}),
         }
+        labels = {
+            "id_mesa": "Mesa",
+            "id_mozo": "Mozo",
+        }
 
 CartaOrdenFormSet = inlineformset_factory(Orden, CartaOrden, form=CartaOrdenForm, extra=3)
 
 class FacturaOrdenForm(forms.ModelForm):
     class Meta:
         model = FacturaOrden
-        fields = "__all__"
+        fields = ("id_orden",)
+        widgets = {
+            "id_orden": forms.Select(attrs={"class": "form-control"}),
+        }
+        labels ={
+            "id_orden": "Orden",
+        }
+        
 
 class FacturaForm(forms.ModelForm):
     class Meta:
@@ -79,6 +98,10 @@ class FacturaForm(forms.ModelForm):
         widgets = {
             "total": forms.NumberInput(attrs={"class": "form-control"}),
             "id_cliente" : forms.Select(attrs={'class':'form-control'}),
+        }
+        labels ={
+            "total": "Total",
+            "id_cliente": "Cliente"
         }
 
 FacturaOrdenFormSet = inlineformset_factory(Factura, FacturaOrden, form=FacturaOrdenForm, extra=3)
