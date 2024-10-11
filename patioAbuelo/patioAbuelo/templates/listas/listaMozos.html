@@ -7,8 +7,8 @@
             <th scope="col">ID</th>
             <th scope="col">Nombre</th>
             <th scope="col">Telefono</th>
-            <th class="d-flex justify-content-end">
-              <button class="btn btn-sm border bg-primary"><a href="/mozos/mozoNuevo" class="text-white text-decoration-none">Nuevo Mozo</a></button>
+            <th scope="col">
+            action
             </th>
           </tr>
         </thead>
@@ -26,5 +26,6 @@
             {% endfor %}
         </tbody>
     </table>
+    <a href={% url "mozoNuevo" %} class="customButton">+</a>
 </div>
 {% endblock %}

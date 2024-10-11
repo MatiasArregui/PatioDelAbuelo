@@ -9,8 +9,8 @@
             <th scope="col">Fecha</th>
             <th scope="col">Observacion</th>
             <th scope="col">Total</th>    
-            <th class="d-flex justify-content-end">
-              <button class="btn btn-sm border bg-primary"><a href={% url "ordenNueva" %} class="text-white text-decoration-none">Nueva Orden</a></button>
+            <th scope="col">
+            action
             </th>     
           </tr>
         </thead>
@@ -30,5 +30,6 @@
             {% endfor %}
         </tbody>
     </table>
+    <a href={% url "ordenNueva" %} class="customButton">+</a>
 </div>
 {% endblock %}
