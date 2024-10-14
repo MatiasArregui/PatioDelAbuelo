@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container">
+  <h1 class="text-center mt-3">Lista Mozos</h1>
     <table class="table table-light m-5 shadow-sm">
         <thead class="bg-light">
           <tr>
@@ -17,7 +18,12 @@
               <tr>
                 <td>{{m.id}}</td>
                 <td>{{m.nombre}}</td>
-                <td>{{m.telefono}}</td>
+                {% if m.telefono %}
+                  <td>{{m.telefono}}</td>
+                {% else %}
+                  <td>-----</td>
+                {% endif %}
+                
                 <td class="d-flex justify-content-end gap-1">
                   <button class="btn btn-sm btn-primary"><a href="/mozos/mozoModif/{{ m.id }}" class="text-white text-decoration-none">Modificar</a></button>
                   <button class="btn btn-sm btn-danger"><a href="/mozos/mozoBorrar/{{ m.id }}" class="text-white text-decoration-none">Eliminar</a></button>
