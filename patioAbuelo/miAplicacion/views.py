@@ -15,7 +15,8 @@ def loginIngreso(request):
 # Listado plato --------------------------->
 def listaCarta(request):
     carta = Carta.objects.all()
-    context = {"carta": carta}
+    categoria = Categoria.objects.get(nombre__icontains="plato")
+    context = {"carta": carta, "categoria":categoria}
     return render(request, template_name="./listas/listaCarta.html", context=context)
 
 # Modificar plato ------------->
