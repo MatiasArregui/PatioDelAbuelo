@@ -18,8 +18,8 @@
               <tr>
                 <td>{{c.id}}</td>
                 <td>{{c.nombre}}</td>
-                <td>{{c.telefono}}</td>
-                <td>{{c.direccion}}</td>
+                <td>{{ c.telefono|default_if_none:"-----" }}</td>
+                <td>{{c.direccion | default_if_none:"-----"}}</td>
                 <td class="d-flex justify-content-end gap-1">
                   <button class="btn btn-sm btn-primary"><a href="/clientes/clienteModif/{{ c.id }}" class="text-white text-decoration-none">Modificar</a></button>
                   <button class="btn btn-sm btn-danger"><a href="/clientes/clienteBorrar/{{ c.id }}" class="text-white text-decoration-none">Eliminar</a></button>
