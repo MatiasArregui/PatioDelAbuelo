@@ -72,12 +72,13 @@ class CartaOrdenForm(forms.ModelForm):
 class OrdenForm(forms.ModelForm):
     class Meta:
         model = Orden
-        fields = ("total", "observacion", "id_mesa", "id_mozo")
+        fields = ("total", "observacion", "id_mesa", "id_mozo", "entregado")
         widgets = {
             "total": forms.NumberInput(attrs={"class": "form-control"}),
             "observacion": forms.Textarea(attrs={"class": "form-control"}),
             "id_mesa" : forms.Select(attrs={'class':'form-control'}),
             "id_mozo": forms.Select(attrs={"class": "form-control"}),
+            "entregado": forms.CheckboxInput(attrs={'class': 'form-check-input form-control'}),
         }
         labels = {
             "id_mesa": "Mesa",
