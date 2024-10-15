@@ -236,6 +236,7 @@ def listaFacturas(request):
 
 # Modificar Factura --------->
 def facturaModificar(request, pk):
+    ordenes = Orden.objects.filter(entregado=True)
     factura = Factura.objects.get(id=pk)
     if request.method == 'POST':
         factura_form = FacturaForm(request.POST, instance=factura)
@@ -252,10 +253,13 @@ def facturaModificar(request, pk):
     return render(request, "./formularios/formularioFacturas.html", {
         'factura_form': factura_form,
         'formset': formset,
+        "ordenes":ordenes,
     })
 
 # Nueva Factura ------------------>
 def facturaNuevo(request):
+    ordenes = Orden.objects.filter(entregado=True)
+    print(ordenes[0].total)
     if request.method == 'POST':
         factura_form = FacturaForm(request.POST)
         formset = FacturaOrdenFormSet(request.POST)
@@ -271,6 +275,7 @@ def facturaNuevo(request):
     return render(request, "./formularios/formularioFacturas.html", {
         'factura_form': factura_form,
         'formset': formset,
+        "ordenes":ordenes,
     })
 
 # Borrar Factura ----------------------->

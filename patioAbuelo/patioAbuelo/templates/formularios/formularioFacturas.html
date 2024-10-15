@@ -28,8 +28,10 @@
     const contenedor_select = document.getElementById('select_container');
     const selects = contenedor_select.getElementsByTagName('select');
 
-    // Función para actualizar las opciones disponibles en cada select
-    function updateOptions() {
+    // Añadir evento onchange a cada select para actualizar las opciones cuando cambie un valor
+    for (let i = 0; i < selects.length; i++) {
+        selects[i].setAttribute('class', "form-control");
+        selects[i].addEventListener("click", function(){
         let selectedValues = [];
 
         // Obtener los valores seleccionados actualmente
@@ -49,16 +51,21 @@
                 }
             }
         }
+        let total = 0;
+        for (let a = 0; a < selects.length; a++) {
+            {% for orden in ordenes %}
+                if (selects[a].value == {{ orden.id | safe }}) {
+                    console.log({{ orden.id | safe }})
+                    total += {{ orden.total | safe }};
+                    console.log(total)
+                }
+            {% endfor %}
+        }
+        input_total.value = total;
+
+        })
     }
 
-    // Añadir evento onchange a cada select para actualizar las opciones cuando cambie un valor
-    for (let i = 0; i < selects.length; i++) {
-        selects[i].setAttribute('class', "form-control");
-        selects[i].addEventListener('change', updateOptions);
-    }
-
-    // Llamar la función al cargar la página para aplicar los cambios iniciales
-    updateOptions();
 </script>
 
 {% endblock %}
