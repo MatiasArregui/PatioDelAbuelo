@@ -72,6 +72,8 @@ class Orden(models.Model):
     id_mesa = models.ForeignKey(Mesa, on_delete=models.CASCADE)
     id_carta = models.ManyToManyField(Carta, through="CartaOrden")
     id_mozo = models.ForeignKey(Mozo, on_delete=models.CASCADE)
+    fechaModificacion = models.DateTimeField(auto_now=True)
+    entregado = models.BooleanField(default=False)
  
 
     def __str__(self) -> str:

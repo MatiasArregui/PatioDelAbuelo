@@ -44,7 +44,7 @@ class OrdenAdmin(admin.ModelAdmin):
     inlines = [
         OrdenDetalleInline,
     ]
-    list_display = ("id", "id_mesa", "fecha")
+    list_display = ("id", "id_mesa", "fecha", "fechaModificacion")
     
 admin.site.register(Orden, OrdenAdmin)
 
