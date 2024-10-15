@@ -84,7 +84,7 @@ class Orden(models.Model):
 class CartaOrden(models.Model):
     id_carta = models.ForeignKey(Carta, on_delete=models.CASCADE)
     id_orden = models.ForeignKey(Orden, on_delete=models.CASCADE)
-    cantidad = models.IntegerField(default=1)
+    cantidad = models.IntegerField(default=0)
 
     def __str__(self) -> str:
         return str(self.pk)
