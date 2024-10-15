@@ -1,22 +1,64 @@
 {% extends "base.html" %}
 {% block content %}
 
-
-
-    <div class="container m-5">
-        <h3 class="display-4 my-3">Factura</h3>
-        <form method="post" class="row">
-            {% csrf_token %}
-            {{ factura_form.as_p }}
-            {{ formset.management_form }}
+<div class="container m-5">
+    <h3 class="display-4 my-3">Factura</h3>
+    <form method="post" class="row">
+        {% csrf_token %}
+        {{ factura_form.as_p }}
+        {{ formset.management_form }}
+        <div id="select_container">
             {% for form in formset %}
                 {{ form.as_p }}
             {% endfor %}
-            <div class="col">
-                <button type="submit" class="btn btn-primary">Guardar</button>
-                <button class="btn btn-primary"><a href={% url "listaFacturas" %} class="text-decoration-none text-white">Cancelar</a></button>
-            </div>
-        </form>
-    </div>
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button class="btn btn-primary">
+                <a href={% url "listaFacturas" %} class="text-decoration-none text-white">Cancelar</a>
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+     // Obtenemos el input total
+     const input_total = document.getElementById("id_total");
+    // Obtener el contenedor de los select
+    const contenedor_select = document.getElementById('select_container');
+    const selects = contenedor_select.getElementsByTagName('select');
+
+    // Función para actualizar las opciones disponibles en cada select
+    function updateOptions() {
+        let selectedValues = [];
+
+        // Obtener los valores seleccionados actualmente
+        for (let i = 0; i < selects.length; i++) {
+            selectedValues.push(selects[i].value);
+        }
+
+        // Actualizar las opciones de cada select
+        for (let i = 0; i < selects.length; i++) {
+            let options = selects[i].options;
+
+            for (let j = 0; j < options.length; j++) {
+                if (options[j].value === "" || !selectedValues.includes(options[j].value) || selects[i].value === options[j].value) {
+                    options[j].style.display = '';
+                } else {
+                    options[j].style.display = 'none';
+                }
+            }
+        }
+    }
+
+    // Añadir evento onchange a cada select para actualizar las opciones cuando cambie un valor
+    for (let i = 0; i < selects.length; i++) {
+        selects[i].setAttribute('class', "form-control");
+        selects[i].addEventListener('change', updateOptions);
+    }
+
+    // Llamar la función al cargar la página para aplicar los cambios iniciales
+    updateOptions();
+</script>
 
 {% endblock %}
