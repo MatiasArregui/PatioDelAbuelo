@@ -74,7 +74,7 @@ class Orden(models.Model):
     id_mozo = models.ForeignKey(Mozo, on_delete=models.CASCADE)
     fechaModificacion = models.DateTimeField(auto_now=True)
     entregado = models.BooleanField(default=False)
- 
+
 
     def __str__(self) -> str:
         return str(self.pk) + " " + self.id_mesa.nombre + " " + str(self.total) 

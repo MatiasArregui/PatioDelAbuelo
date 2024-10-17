@@ -74,7 +74,7 @@ class OrdenForm(forms.ModelForm):
         model = Orden
         fields = ("total", "observacion", "id_mesa", "id_mozo", "entregado")
         widgets = {
-            "total": forms.NumberInput(attrs={"class": "form-control"}),
+            "total": forms.NumberInput(attrs={"class": "form-control bg-danger text-white", "readonly":True}),
             "observacion": forms.Textarea(attrs={"class": "form-control"}),
             "id_mesa" : forms.Select(attrs={'class':'form-control'}),
             "id_mozo": forms.Select(attrs={"class": "form-control"}),
@@ -104,7 +104,7 @@ class FacturaForm(forms.ModelForm):
         model = Factura
         fields = ("total", "id_cliente")
         widgets = {
-            "total": forms.NumberInput(attrs={"class": "form-control"}),
+            "total": forms.NumberInput(attrs={"class": "form-control","readonly":True}),
             "id_cliente" : forms.Select(attrs={'class':'form-control'}),
         }
         labels ={

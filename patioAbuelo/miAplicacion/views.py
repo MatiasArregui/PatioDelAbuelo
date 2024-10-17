@@ -2,6 +2,8 @@ from django.shortcuts import render, HttpResponseRedirect
 from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria, Categoria
 from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSet, FacturaForm, FacturaOrdenFormSet
 from django.urls import reverse
+# from datetime import datetime, timedelta
+# import pytz
 
 # Pagina principal ----------------------------------------------------------------------------------->
 def principal(request):
@@ -180,6 +182,7 @@ def listaOrdenes(request):
 def ordenModificar(request, pk):
     orden = Orden.objects.get(id=pk)
     platos = Carta.objects.all()
+    mesa_anterior = orden.id_mesa
     if request.method == 'POST':
         orden_form = OrdenForm(request.POST, instance=orden)
         formset = CartaOrdenFormSet(request.POST, instance=orden)
@@ -187,6 +190,16 @@ def ordenModificar(request, pk):
             orden = orden_form.save()
             formset.instance = orden
             formset.save()
+
+            if mesa_anterior != orden.id_mesa:
+                # Cambiar estado de la mesa original a "libre"
+                mesa_anterior.estado = False
+                mesa_anterior.save()
+                
+                # Cambiar estado de la nueva mesa a "ocupado"
+                mesa = orden.id_mesa
+                mesa.estado = True
+                mesa.save()
             return HttpResponseRedirect(reverse('listaOrdenes'))
     else:
         orden_form = OrdenForm(instance=orden)
@@ -208,6 +221,11 @@ def ordenNuevo(request):
             orden = orden_form.save()
             formset.instance = orden
             formset.save()
+            if orden.fecha == orden.fechaModificacion:
+                # Actualizar estado de la mesa a "ocupado"
+                mesa = orden.id_mesa
+                mesa.estado = True
+                mesa.save()
             return HttpResponseRedirect(reverse('listaOrdenes'))
     else:
         orden_form = OrdenForm()
@@ -259,7 +277,6 @@ def facturaModificar(request, pk):
 # Nueva Factura ------------------>
 def facturaNuevo(request):
     ordenes = Orden.objects.filter(entregado=True)
-    print(ordenes)
     if request.method == 'POST':
         factura_form = FacturaForm(request.POST)
         formset = FacturaOrdenFormSet(request.POST)
