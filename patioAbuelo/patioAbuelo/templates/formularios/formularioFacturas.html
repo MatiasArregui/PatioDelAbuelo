@@ -22,16 +22,13 @@
 </div>
 
 <script>
-     // Obtenemos el input total
-     const input_total = document.getElementById("id_total");
     // Obtener el contenedor de los select
     const contenedor_select = document.getElementById('select_container');
     const selects = contenedor_select.getElementsByTagName('select');
+    const input_total = document.getElementById("id_total");
 
-    // Añadir evento onchange a cada select para actualizar las opciones cuando cambie un valor
-    for (let i = 0; i < selects.length; i++) {
-        selects[i].setAttribute('class', "form-control");
-        selects[i].addEventListener("click", function(){
+    // Función para actualizar las opciones disponibles en cada select
+    function updateOptions() {
         let selectedValues = [];
 
         // Obtener los valores seleccionados actualmente
@@ -51,21 +48,33 @@
                 }
             }
         }
+    };
+    function sumaTotal() {
         let total = 0;
         for (let a = 0; a < selects.length; a++) {
             {% for orden in ordenes %}
-                if (selects[a].value == {{ orden.id | safe }}) {
-                    console.log({{ orden.id | safe }})
-                    total += {{ orden.total | safe }};
-                    console.log(total)
-                }
+            if (selects[a].value == {{ orden.id | safe }}) {
+                let valor = {{orden.total | safe}};
+                total += valor;
+                console.log({{orden.total | safe}});
+            }
             {% endfor %}
         }
         input_total.value = total;
+        console.log(total);
+    };
 
-        })
+    // Añadir evento onchange a cada select para actualizar las opciones cuando cambie un valor
+    for (let i = 0; i < selects.length; i++) {
+        selects[i].setAttribute('class', "form-control");
+        selects[i].addEventListener('change', updateOptions);
+        selects[i].addEventListener('click', sumaTotal);
     }
+    
 
+    // Llamar la función al cargar la página para aplicar los cambios iniciales
+    updateOptions();
+    sumaTotal();
 </script>
 
 {% endblock %}

@@ -259,7 +259,7 @@ def facturaModificar(request, pk):
 # Nueva Factura ------------------>
 def facturaNuevo(request):
     ordenes = Orden.objects.filter(entregado=True)
-    print(ordenes[0].total)
+    print(ordenes)
     if request.method == 'POST':
         factura_form = FacturaForm(request.POST)
         formset = FacturaOrdenFormSet(request.POST)
