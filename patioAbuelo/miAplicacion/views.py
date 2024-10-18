@@ -220,15 +220,24 @@ def ordenModificar(request, pk):
 def ordenNuevo(request):
     platos = Carta.objects.all()
     mesas = [{"value":x.pk, "text":x.nombre} for x in Mesa.objects.filter(estado=False)]
-
-    print(mesas)
     if request.method == 'POST':
         orden_form = OrdenForm(request.POST)
         formset = CartaOrdenFormSet(request.POST)
+        
         if orden_form.is_valid() and formset.is_valid():
             orden = orden_form.save()
             formset.instance = orden
             formset.save()
+            for form in formset:# Imprime las claves disponibles
+                plato = form.cleaned_data.get('id_carta')
+                cantidad = form.cleaned_data.get('cantidad')
+                if plato and cantidad and plato.controlStock == True:
+                    # Disminuir el stock del plato
+                    plato.stock -= cantidad  
+                    plato.save()  # Guarda los cambios en la base de datos
+                    print(f"plato:{plato.controlStock}")
+                    print(f"cantidad:{cantidad}")
+
             if orden.fecha == orden.fechaModificacion:
                 # Actualizar estado de la mesa a "ocupado"
                 mesa = orden.id_mesa
