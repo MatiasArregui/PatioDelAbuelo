@@ -70,8 +70,28 @@
             input_total.value = total;
         });
     }
+    //FUNCION DEL SELECT DE MESAS
+    function updateSelect2() {
+        const select_mesa = document.getElementById("id_id_mesa");
+        console.log(select_mesa)
+        select_mesa.innerHTML = '';
+        let options = {{mesas | safe}};
 
+
+        // Agregar las nuevas opciones segun la categoria seleccionada
+        options.forEach(option => {
+            // Crea la opcion que compondra el select
+            const newOption = document.createElement('option');
+            // Proporciona el valor al option
+            newOption.value = option["value"];
+            // Proporciona el texto al option
+            newOption.text = option["text"];
+            // Agrega el option al select
+            select_mesa.appendChild(newOption);
+        });
+    };
     // Llamar la función al cargar la página para aplicar los cambios iniciales
+    updateSelect2();
     updateOptions();
 </script>
 

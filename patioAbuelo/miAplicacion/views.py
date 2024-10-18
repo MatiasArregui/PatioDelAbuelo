@@ -182,8 +182,9 @@ def listaOrdenes(request):
 def ordenModificar(request, pk):
     orden = Orden.objects.get(id=pk)
     platos = Carta.objects.all()
-    mesas = [{"value":x.pk, "texto":x.nombre} for x in Mesa.objects.filter(estado=False)]
-    mesas.extend([{"value":x.pk, "text":x.nombre} for x in Mesa.objects.filter(id=orden.id_mesa.pk)])
+    mesas = [{"value":x.pk, "text":x.nombre} for x in Mesa.objects.filter(id=orden.id_mesa.pk)]
+    mesas_2 = [{"value":x.pk, "text":x.nombre} for x in Mesa.objects.filter(estado=False)]
+    mesas.extend(mesas_2)
     print(mesas)
     mesa_anterior = orden.id_mesa
     if request.method == 'POST':
@@ -212,11 +213,15 @@ def ordenModificar(request, pk):
         'orden_form': orden_form,
         'formset': formset,
         "platos":platos,
+        "mesas":mesas,
     })
 
 # Nueva Orden ------------------>
 def ordenNuevo(request):
     platos = Carta.objects.all()
+    mesas = [{"value":x.pk, "text":x.nombre} for x in Mesa.objects.filter(estado=False)]
+
+    print(mesas)
     if request.method == 'POST':
         orden_form = OrdenForm(request.POST)
         formset = CartaOrdenFormSet(request.POST)
@@ -238,6 +243,7 @@ def ordenNuevo(request):
         'orden_form': orden_form,
         'formset': formset,
         "platos":platos,
+        "mesas":mesas,
     })
 
 # Borrar Orden ----------------------->
