@@ -26,7 +26,7 @@
     const input_total = document.getElementById("id_total");
     // Obtenemos el contenedor de los selects y los selects dentro del formset
     const contenedor_select = document.getElementById('select_container');
-    const selects = contenedor_select.getElementsByTagName('select');
+    const selects_platos = contenedor_select.getElementsByTagName('select');
     const inputs = contenedor_select.querySelectorAll('input[type="number"]');
 
     // Función para actualizar las opciones disponibles en cada select
@@ -34,16 +34,16 @@
         let selectedValues = [];
 
         // Obtener los valores seleccionados actualmente
-        for (let i = 0; i < selects.length; i++) {
-            selectedValues.push(selects[i].value);
+        for (let i = 0; i < selects_platos.length; i++) {
+            selectedValues.push(selects_platos[i].value);
         }
 
         // Actualizar las opciones de cada select
-        for (let i = 0; i < selects.length; i++) {
-            let options = selects[i].options;
+        for (let i = 0; i < selects_platos.length; i++) {
+            let options = selects_platos[i].options;
 
             for (let j = 0; j < options.length; j++) {
-                if (options[j].value === "" || !selectedValues.includes(options[j].value) || selects[i].value === options[j].value) {
+                if (options[j].value === "" || !selectedValues.includes(options[j].value) || selects_platos[i].value === options[j].value) {
                     options[j].style.display = '';
                 } else {
                     options[j].style.display = 'none';
@@ -53,16 +53,16 @@
     }
 
     // Añadir evento onchange a cada select para actualizar las opciones cuando cambie un valor
-    for (let i = 0; i < selects.length; i++) {
-        selects[i].setAttribute('class', "form-control");
-        selects[i].addEventListener('change', updateOptions);
+    for (let i = 0; i < selects_platos.length; i++) {
+        selects_platos[i].setAttribute('class', "form-control");
+        selects_platos[i].addEventListener('change', updateOptions);
         
         // Añadir evento para calcular el total cuando se haga clic en el input de precio
         inputs[i].addEventListener('click', function() {
             let total = 0;
-            for (let a = 0; a < selects.length; a++) {
+            for (let a = 0; a < selects_platos.length; a++) {
                 {% for plato in platos %}
-                if (selects[a].value == {{ plato.id | safe }}) {
+                if (selects_platos[a].value == {{ plato.id | safe }}) {
                     total += inputs[a].value * {{ plato.precio | safe }};
                 }
                 {% endfor %}

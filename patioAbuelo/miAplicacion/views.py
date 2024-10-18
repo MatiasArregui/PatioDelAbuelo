@@ -182,6 +182,9 @@ def listaOrdenes(request):
 def ordenModificar(request, pk):
     orden = Orden.objects.get(id=pk)
     platos = Carta.objects.all()
+    mesas = [{"value":x.pk, "texto":x.nombre} for x in Mesa.objects.filter(estado=False)]
+    mesas.extend([{"value":x.pk, "text":x.nombre} for x in Mesa.objects.filter(id=orden.id_mesa.pk)])
+    print(mesas)
     mesa_anterior = orden.id_mesa
     if request.method == 'POST':
         orden_form = OrdenForm(request.POST, instance=orden)
@@ -242,6 +245,9 @@ def ordenBorrar(request, pk):
     orden = Orden.objects.get(id=pk)
     if request.method == 'POST':
         orden.delete()
+        mesa = orden.id_mesa
+        mesa.estado = False
+        mesa.save()
         return HttpResponseRedirect(reverse('listaOrdenes'))
     return render(request, './confirmacionBorrado/ordenConfBorrar.html', {'orden': orden})
 
