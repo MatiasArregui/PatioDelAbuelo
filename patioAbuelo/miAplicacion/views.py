@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect
-from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria, Categoria
+from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria, Categoria, CartaOrden
 from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSet, FacturaForm, FacturaOrdenFormSet
 from django.urls import reverse
 # from datetime import datetime, timedelta
@@ -178,6 +178,69 @@ def listaOrdenes(request):
     context = {"ordenes": ordenes}
     return render(request, template_name="./listas/listaOrdenes.html", context=context)
 
+# # Modificar Orden --------->
+# def ordenModificar(request, pk):
+#     orden = Orden.objects.get(id=pk)
+#     platos = Carta.objects.all()
+#     mesas = [{"value":x.pk, "text":x.nombre} for x in Mesa.objects.filter(id=orden.id_mesa.pk)]
+#     mesas_2 = [{"value":x.pk, "text":x.nombre} for x in Mesa.objects.filter(estado=False)]
+#     mesas.extend(mesas_2)
+#     mesa_anterior = orden.id_mesa
+#     cantidad_anterior = [{"plato":x.id_carta, "cantidad":x.cantidad} for x in CartaOrden.objects.filter(id_orden=pk)]
+#     if request.method == 'POST':
+#         orden_form = OrdenForm(request.POST, instance=orden)
+#         formset = CartaOrdenFormSet(request.POST, instance=orden)
+#         if orden_form.is_valid() and formset.is_valid():
+#             for form in formset:
+#                 plato = form.cleaned_data.get('id_carta')
+#                 cantidad = form.cleaned_data.get('cantidad')
+#                 if plato and cantidad and plato.controlStock == True:
+#                     print(plato)
+#                     print(cantidad_anterior)
+#                     print(plato.controlStock)
+#                     print()
+#                     for x in range(0, len(cantidad_anterior)):
+#                         print(x)
+#                         print("uno", str(cantidad_anterior[x]["plato"]) == str(plato))
+#                         print("dos", int(cantidad_anterior[x]["cantidad"]) == int(cantidad))
+#                         if str(cantidad_anterior[x]["plato"]) == str(plato):
+#                             if cantidad_anterior[x]["cantidad"] < cantidad:
+#                                 resta= cantidad - cantidad_anterior[x]["cantidad"]
+#                                 # Disminuir el stock del plato
+#                                 plato.stock -= resta  
+#                                 plato.save()  # Guarda los cambios en la base de datos
+#                             if cantidad_anterior[x]["cantidad"] > cantidad:
+#                                 suma = cantidad_anterior[x]["cantidad"] - cantidad
+#                                 plato.stock += suma
+#                                 plato.save()  # Guarda los cambios en la base de datos
+
+#                         # if str(cantidad_anterior[x]["plato"]) == str(plato) and cantidad_anterior[x]["cantidad"] != cantidad:
+
+
+                            
+#             formset.instance = orden
+#             formset.save()
+
+#             if mesa_anterior != orden.id_mesa:
+#                 # Cambiar estado de la mesa original a "libre"
+#                 mesa_anterior.estado = False
+#                 mesa_anterior.save()
+                
+#                 # Cambiar estado de la nueva mesa a "ocupado"
+#                 mesa = orden.id_mesa
+#                 mesa.estado = True
+#                 mesa.save()
+#             return HttpResponseRedirect(reverse('listaOrdenes'))
+#     else:
+#         orden_form = OrdenForm(instance=orden)
+#         formset = CartaOrdenFormSet(instance=orden)
+
+#     return render(request, "./formularios/formularioOrdenes.html", {
+#         'orden_form': orden_form,
+#         'formset': formset,
+#         "platos":platos,
+#         "mesas":mesas,
+#     })
 # Modificar Orden --------->
 def ordenModificar(request, pk):
     orden = Orden.objects.get(id=pk)
@@ -185,13 +248,44 @@ def ordenModificar(request, pk):
     mesas = [{"value":x.pk, "text":x.nombre} for x in Mesa.objects.filter(id=orden.id_mesa.pk)]
     mesas_2 = [{"value":x.pk, "text":x.nombre} for x in Mesa.objects.filter(estado=False)]
     mesas.extend(mesas_2)
-    print(mesas)
     mesa_anterior = orden.id_mesa
+    cantidad_anterior = [{"plato":x.id_carta, "cantidad":x.cantidad} for x in CartaOrden.objects.filter(id_orden=pk)]
+    lista_cant_anterior = [str(diccionario["plato"]) for diccionario in cantidad_anterior ]
+    print(lista_cant_anterior)
     if request.method == 'POST':
         orden_form = OrdenForm(request.POST, instance=orden)
         formset = CartaOrdenFormSet(request.POST, instance=orden)
         if orden_form.is_valid() and formset.is_valid():
-            orden = orden_form.save()
+            for form in formset:
+                plato = form.cleaned_data.get('id_carta')
+                cantidad = form.cleaned_data.get('cantidad')
+                if plato and cantidad and plato.controlStock == True:
+                    print(plato)
+                    print(cantidad_anterior)
+                    print(plato.controlStock)
+                    print()
+                    for x in range(0, len(cantidad_anterior)):
+                        print(x)
+                        print("uno", str(cantidad_anterior[x]["plato"]) == str(plato))
+                        print("dos", int(cantidad_anterior[x]["cantidad"]) == int(cantidad))
+                        if str(cantidad_anterior[x]["plato"]) == str(plato):
+                            if cantidad_anterior[x]["cantidad"] < cantidad:
+                                resta= cantidad - cantidad_anterior[x]["cantidad"]
+                                # Disminuir el stock del plato
+                                plato.stock -= resta  
+                                plato.save()  # Guarda los cambios en la base de datos
+                            if cantidad_anterior[x]["cantidad"] > cantidad:
+                                suma = cantidad_anterior[x]["cantidad"] - cantidad
+                                plato.stock += suma
+                                plato.save()  # Guarda los cambios en la base de datos
+
+                    if str(plato) not in lista_cant_anterior:
+                        plato.stock -= cantidad  
+                        plato.save() 
+                        # if str(cantidad_anterior[x]["plato"]) == str(plato) and cantidad_anterior[x]["cantidad"] != cantidad:
+
+
+                            
             formset.instance = orden
             formset.save()
 
