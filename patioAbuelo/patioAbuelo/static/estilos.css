@@ -1,42 +1,53 @@
-/* base */
-body{
-    background-color: white;
-}
-.navegador{
-    display: block;
-    text-align: center;
-    background-color: #C1121F;
-    box-sizing: content-box;
-    width: 100%;
-    height: 110px;
-    box-shadow:  0px 6px 3px -1px rgba(0,0,0,0.18);
-    text-decoration: none;
-}
-.navegador h2{
-    padding-top: 10px;
-    color: white;
-}
-.navegador div{
+/* estilos generales*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color:#C1121F;
+  }
+  
+  body {
+    font-family: "Montserrat", sans-serif;
+  }
+  
+  header {
+    background-color:#C1121F;
+    border: solid, 5px, #FFFFFA;
+  }
+  header #btnMenu, header label {
+    display: none;
+  }
+  header .logoMenu {
+    display: none;
+  }
+  header nav ul {
+    list-style: none;
     display: flex;
-    justify-content: center;
-    gap: 15px;
-    height: 50%;
-}
-.navegador div a{
-    align-self: self-end;
-    margin-top: 10px;
+    justify-content: space-evenly;
+    padding: 15px 20px;
+    align-items: center;
+    margin-bottom: 0px;
     text-decoration: none;
-    text-align: center;
-    color: aliceblue;
-    width: 70px;
+  }
+  header nav ul img {
+    width: 150px;
+  }
+  header nav ul {
+    padding: 10px;
     font-size: 20px;
-    transition: 0.2 border-bottom;
-    padding-bottom: 5px;
-}
+  }
+  header nav ul a {
+    text-decoration: none;
+    color: #FFFFFA;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+  }
+  header nav ul a:hover {
+    text-decoration: underline #FFFFFA;
+    color: #FFFFFA;
+  }
 
-.navegador a:hover{
-    border-bottom: 2px solid white;
-}
 .footer{
     display: flex;
     justify-content: center;
@@ -93,3 +104,126 @@ body{
 .carousel-item img {
     object-fit: cover;
 }
+
+
+
+
+
+/* media querys */
+@media (max-width: 768px) {
+    .positionRelative {
+      z-index: 1;
+    }
+    .menu ul {
+      flex-direction: column;
+    }
+    .logoUl {
+      display: none;
+    }
+    .contenedorShop {
+      display: grid;
+      background-color: #FFFFFA;
+      grid-template-columns: repeat(1, 1fr);
+      justify-content: center;
+      align-items: center;
+    }
+    .contenedorCompras, .contenedorAyuda {
+      display: grid;
+      width: 80%;
+      text-align: center;
+      margin: 5px;
+      padding: 5px;
+    }
+    .botonCompras {
+      height: 70px;
+      width: 50vw;
+      font-size: 1rem;
+    }
+    .contenedorAyuda {
+      width: 70vw;
+    }
+    .positionAbsolute a {
+      font-size: 0.7rem;
+      width: 100%;
+    }
+    .usuarioStyle {
+      display: grid;
+      justify-content: center;
+      text-align: center;
+      align-content: center;
+    }
+    input.inicioSesion {
+      display: grid;
+      width: 100%;
+      justify-items: center;
+    }
+    .olvidarContraseña {
+      display: contents;
+      justify-content: center;
+    }
+    .crearCuenta {
+      display: contents;
+      justify-content: center;
+    }
+    footer .wrapper .contacto li {
+      width: 20%;
+      justify-items: center;
+    }
+    .block {
+      display: block;
+    }
+    .faqStyle .botonSuscribirse {
+      font-size: 1rem;
+      width: 50vw;
+      margin: 10px auto;
+      height: 50px;
+    }
+    .faqStyle {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .faqStyle .style {
+      width: 100%;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header label {
+      display: block;
+      position: relative;
+      right: 25px;
+    }
+    header label img {
+      width: 50px;
+    }
+    header #btnMenu:checked ~ .menu {
+      visibility: visible;
+      opacity: 1;
+      z-index: 999;
+    }
+    header .menu {
+      position: absolute;
+      top: 102px;
+      background-color: #000103;
+      width: 100%;
+      visibility: hidden;
+      transition: visibility 1s, opacity 1s ease;
+      opacity: 0;
+      border: 1px #515052;
+      margin: 5px;
+    }
+    header .logoMenu {
+      display: block;
+      width: 100px;
+      margin-left: 25px;
+    }
+    header img {
+      display: block;
+      width: 100px;
+    }
+  }
+   
