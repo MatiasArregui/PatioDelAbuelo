@@ -259,7 +259,8 @@ def ordenModificar(request, pk):
             for form in formset:
                 plato = form.cleaned_data.get('id_carta')
                 cantidad = form.cleaned_data.get('cantidad')
-                if plato and cantidad and plato.controlStock == True:
+                delete = form.cleaned_data.get('DELETE')
+                if plato and cantidad and plato.controlStock == True and delete != True:
                     print(plato)
                     print(cantidad_anterior)
                     print(plato.controlStock)
@@ -283,6 +284,9 @@ def ordenModificar(request, pk):
                         plato.stock -= cantidad  
                         plato.save() 
                         # if str(cantidad_anterior[x]["plato"]) == str(plato) and cantidad_anterior[x]["cantidad"] != cantidad:
+                if plato and cantidad and plato.controlStock == True and delete == True:
+                    plato.stock += cantidad  
+                    plato.save() 
 
 
                             
