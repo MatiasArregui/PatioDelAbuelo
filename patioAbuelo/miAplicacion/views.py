@@ -256,6 +256,7 @@ def ordenModificar(request, pk):
         orden_form = OrdenForm(request.POST, instance=orden)
         formset = CartaOrdenFormSet(request.POST, instance=orden)
         if orden_form.is_valid() and formset.is_valid():
+            orden = orden_form.save()
             for form in formset:
                 plato = form.cleaned_data.get('id_carta')
                 cantidad = form.cleaned_data.get('cantidad')

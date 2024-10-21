@@ -28,6 +28,7 @@
     const contenedor_select = document.getElementById('select_container');
     const selects_platos = contenedor_select.getElementsByTagName('select');
     const inputs = contenedor_select.querySelectorAll('input[type="number"]');
+    const inputs_check = contenedor_select.querySelectorAll('input[type="checkbox"]');
 
     // Función para actualizar las opciones disponibles en cada select
     function updateOptions() {
@@ -50,7 +51,23 @@
                 }
             }
         }
-    }
+    };
+    function updateInputsCantidad() {
+        let total = 0;
+        for (let a = 0; a < selects_platos.length; a++) {
+            if (!inputs_check[a].checked){
+                {% for plato in platos %}
+                if (selects_platos[a].value == {{ plato.id | safe }}) {
+                    total += inputs[a].value * {{ plato.precio | safe }};
+                };
+                {% endfor %}
+            };
+            
+        };
+        input_total.value = total;
+        console.log(input_total.value)
+    };
+
 
     // Añadir evento onchange a cada select para actualizar las opciones cuando cambie un valor
     for (let i = 0; i < selects_platos.length; i++) {
@@ -58,22 +75,12 @@
         selects_platos[i].addEventListener('change', updateOptions);
         
         // Añadir evento para calcular el total cuando se haga clic en el input de precio
-        inputs[i].addEventListener('click', function() {
-            let total = 0;
-            for (let a = 0; a < selects_platos.length; a++) {
-                {% for plato in platos %}
-                if (selects_platos[a].value == {{ plato.id | safe }}) {
-                    total += inputs[a].value * {{ plato.precio | safe }};
-                }
-                {% endfor %}
-            }
-            input_total.value = total;
-        });
+        inputs[i].addEventListener('change', updateInputsCantidad);
+        inputs_check[i].addEventListener('click', updateInputsCantidad);
     }
     //FUNCION DEL SELECT DE MESAS
-    function updateSelect2() {
+    function updateSelectMesa() {
         const select_mesa = document.getElementById("id_id_mesa");
-        console.log(select_mesa)
         select_mesa.innerHTML = '';
         let options = {{mesas | safe}};
 
@@ -91,7 +98,8 @@
         });
     };
     // Llamar la función al cargar la página para aplicar los cambios iniciales
-    updateSelect2();
+
+    updateSelectMesa();
     updateOptions();
 </script>
 
