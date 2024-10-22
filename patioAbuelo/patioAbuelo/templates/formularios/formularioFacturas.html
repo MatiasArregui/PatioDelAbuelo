@@ -15,7 +15,7 @@
         <div class="col">
             <button type="submit" class="btn btn-primary">Guardar</button>
             <button class="btn btn-primary">
-                <a href={% url "listaFacturas" %} class="text-decoration-none text-white">Cancelar</a>
+                <a href="{% url "listaFacturas" %}" class="text-decoration-none text-white">Cancelar</a>
             </button>
         </div>
     </form>
@@ -53,6 +53,7 @@
     };
     //FUNCION DEL SELECT DE MESAS 
     function updateSelectOrden() {
+        input_total.value = 0;
         for (let i = 0; i < selects.length; i++) {
             selects[i].innerHTML = '';
             let options = {{ordenes_select | safe}}; 
@@ -96,8 +97,7 @@
     
 
     // Llamar la función al cargar la página para aplicar los cambios iniciales
-    input_cliente.addEventListener('change', updateSelectOrden);
-
+    updateSelectOrden();
     updateOptions();
 </script>
 

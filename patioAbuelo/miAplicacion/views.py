@@ -374,9 +374,15 @@ def listaFacturas(request):
 
 # Modificar Factura --------->
 def facturaModificar(request, pk):
-    id_orden_factura = [x.pk for x in FacturaOrden.objects.all()]
-    ordenes_select =  [{"value":x.pk, "text":x.fecha} for x in Orden.objects.filter(entregado=True) if x.pk not in id_orden_factura]
-    ordenes = [x for x in Orden.objects.filter(entregado=True) if x.pk not in id_orden_factura]
+    id_orden_factura = [x.id_orden.pk for x in FacturaOrden.objects.all()]
+    factura_orden = [x.id_orden.pk for x in FacturaOrden.objects.filter(id_factura=pk)]
+    print(factura_orden)
+    print(id_orden_factura)
+    ordenes_select = [{"value":"", "text":"--------" , "total":0}] 
+    ordenes_select.extend([{"value":x.pk, "text":x.id_mesa.nombre + " " + "$"+str(x.total), "total":int(x.total)} for x in Orden.objects.filter(entregado=True) if x.pk in id_orden_factura and x.pk in factura_orden])
+    ordenes_select.extend([{"value":x.pk, "text":x.id_mesa.nombre + " " + "$"+str(x.total), "total":int(x.total)} for x in Orden.objects.filter(entregado=True) if x.pk not in id_orden_factura])
+    print(ordenes_select)
+    ordenes = [x for x in Orden.objects.filter(entregado=True)]
     print(ordenes)
     factura = Factura.objects.get(id=pk)
     if request.method == 'POST':
@@ -400,10 +406,13 @@ def facturaModificar(request, pk):
 
 # Nueva Factura ------------------>
 def facturaNuevo(request):
-    id_orden_factura = [x.pk for x in FacturaOrden.objects.all()]
+    id_orden_factura = [x.id_orden.pk for x in FacturaOrden.objects.all()]
+    print(id_orden_factura)
     ordenes_select = [{"value":"", "text":"--------" , "total":0}] 
     ordenes_select.extend([{"value":x.pk, "text":x.id_mesa.nombre + " " + "$"+str(x.total), "total":int(x.total)} for x in Orden.objects.filter(entregado=True) if x.pk not in id_orden_factura])
-    ordenes = [x for x in Orden.objects.filter(entregado=True) if x.pk not in id_orden_factura]
+    print(ordenes_select)
+    ordenes = [x for x in Orden.objects.filter(entregado=True)]
+    print(ordenes)
     if request.method == 'POST':
         print(ordenes)
         factura_form = FacturaForm(request.POST)
