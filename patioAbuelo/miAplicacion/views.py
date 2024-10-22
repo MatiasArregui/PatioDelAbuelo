@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect
-from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria, Categoria, CartaOrden
+from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria, Categoria, CartaOrden, FacturaOrden
 from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSet, FacturaForm, FacturaOrdenFormSet
 from django.urls import reverse
 # from datetime import datetime, timedelta
@@ -374,7 +374,10 @@ def listaFacturas(request):
 
 # Modificar Factura --------->
 def facturaModificar(request, pk):
-    ordenes = Orden.objects.filter(entregado=True)
+    id_orden_factura = [x.pk for x in FacturaOrden.objects.all()]
+    ordenes_select =  [{"value":x.pk, "text":x.fecha} for x in Orden.objects.filter(entregado=True) if x.pk not in id_orden_factura]
+    ordenes = [x for x in Orden.objects.filter(entregado=True) if x.pk not in id_orden_factura]
+    print(ordenes)
     factura = Factura.objects.get(id=pk)
     if request.method == 'POST':
         factura_form = FacturaForm(request.POST, instance=factura)
@@ -391,13 +394,18 @@ def facturaModificar(request, pk):
     return render(request, "./formularios/formularioFacturas.html", {
         'factura_form': factura_form,
         'formset': formset,
+        "ordenes_select":ordenes_select,
         "ordenes":ordenes,
     })
 
 # Nueva Factura ------------------>
 def facturaNuevo(request):
-    ordenes = Orden.objects.filter(entregado=True)
+    id_orden_factura = [x.pk for x in FacturaOrden.objects.all()]
+    ordenes_select = [{"value":"", "text":"--------" , "total":0}] 
+    ordenes_select.extend([{"value":x.pk, "text":x.id_mesa.nombre + " " + "$"+str(x.total), "total":int(x.total)} for x in Orden.objects.filter(entregado=True) if x.pk not in id_orden_factura])
+    ordenes = [x for x in Orden.objects.filter(entregado=True) if x.pk not in id_orden_factura]
     if request.method == 'POST':
+        print(ordenes)
         factura_form = FacturaForm(request.POST)
         formset = FacturaOrdenFormSet(request.POST)
         if factura_form.is_valid() and formset.is_valid():
@@ -412,6 +420,7 @@ def facturaNuevo(request):
     return render(request, "./formularios/formularioFacturas.html", {
         'factura_form': factura_form,
         'formset': formset,
+        "ordenes_select":ordenes_select,
         "ordenes":ordenes,
     })
 
