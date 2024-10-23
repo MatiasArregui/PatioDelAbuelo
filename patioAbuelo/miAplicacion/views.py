@@ -376,14 +376,10 @@ def listaFacturas(request):
 def facturaModificar(request, pk):
     id_orden_factura = [x.id_orden.pk for x in FacturaOrden.objects.all()]
     factura_orden = [x.id_orden.pk for x in FacturaOrden.objects.filter(id_factura=pk)]
-    print(factura_orden)
-    print(id_orden_factura)
     ordenes_select = [{"value":"", "text":"--------" , "total":0}] 
     ordenes_select.extend([{"value":x.pk, "text":x.id_mesa.nombre + " " + "$"+str(x.total), "total":int(x.total)} for x in Orden.objects.filter(entregado=True) if x.pk in id_orden_factura and x.pk in factura_orden])
     ordenes_select.extend([{"value":x.pk, "text":x.id_mesa.nombre + " " + "$"+str(x.total), "total":int(x.total)} for x in Orden.objects.filter(entregado=True) if x.pk not in id_orden_factura])
-    print(ordenes_select)
     ordenes = [x for x in Orden.objects.filter(entregado=True)]
-    print(ordenes)
     factura = Factura.objects.get(id=pk)
     if request.method == 'POST':
         factura_form = FacturaForm(request.POST, instance=factura)
@@ -392,6 +388,17 @@ def facturaModificar(request, pk):
             factura = factura_form.save()
             formset.instance = factura
             formset.save()
+            for form in formset:# Imprime las claves disponibles
+                orden = form.cleaned_data.get('id_orden')
+                if orden:
+                    orden_id = Orden.objects.get(id=orden.pk)
+                    mesa = orden_id.id_mesa
+                    mesa.estado = False
+                    mesa.save()
+                    # Disminuir el stock del plato
+                    # plato.stock -= cantidad  
+                    # plato.save()  # Guarda los cambios en la base de datos
+                    print(f"orden:{orden.pk}")
             return HttpResponseRedirect(reverse('listaFacturas'))
     else:
         factura_form = FacturaForm(instance=factura)
@@ -407,20 +414,25 @@ def facturaModificar(request, pk):
 # Nueva Factura ------------------>
 def facturaNuevo(request):
     id_orden_factura = [x.id_orden.pk for x in FacturaOrden.objects.all()]
-    print(id_orden_factura)
     ordenes_select = [{"value":"", "text":"--------" , "total":0}] 
     ordenes_select.extend([{"value":x.pk, "text":x.id_mesa.nombre + " " + "$"+str(x.total), "total":int(x.total)} for x in Orden.objects.filter(entregado=True) if x.pk not in id_orden_factura])
-    print(ordenes_select)
     ordenes = [x for x in Orden.objects.filter(entregado=True)]
-    print(ordenes)
     if request.method == 'POST':
-        print(ordenes)
         factura_form = FacturaForm(request.POST)
         formset = FacturaOrdenFormSet(request.POST)
         if factura_form.is_valid() and formset.is_valid():
             factura = factura_form.save()
             formset.instance = factura
             formset.save()
+            for form in formset:# Imprime las claves disponibles
+                orden = form.cleaned_data.get('id_orden')
+                if orden:
+                    orden_id = Orden.objects.get(id=orden.pk)
+                    mesa = orden_id.id_mesa
+                    mesa.estado = False
+                    mesa.save()
+                    print(f"orden:{orden.pk}")
+                    
             return HttpResponseRedirect(reverse('listaFacturas'))
     else:
         factura_form = FacturaForm()
