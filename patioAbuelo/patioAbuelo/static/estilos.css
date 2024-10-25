@@ -7,6 +7,9 @@
   
   body {
     font-family: "Montserrat", sans-serif;
+    display: grid;
+    min-height: 100dvh;
+    grid-template-rows: auto 1fr auto;
   }
   
   header {
@@ -49,13 +52,15 @@
   .main{
     background-color: #FFFFFA;
   }
-footer{ 
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #C1121F;
-}
+  footer{ 
+    padding: 10px;
+    display: flex;
+    justify-content: space-evenly;
+    background-color: #C1121F;
+    align-items: center;
+    color: #FFFFFA;
+    border: solid 5px #FFFFFA;
+  }
 .inicio{
     cursor: pointer;
     text-decoration: none;
