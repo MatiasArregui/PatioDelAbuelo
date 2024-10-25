@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static 'loginEstilo.css' %}">
+</head>
+<body>
+    <div class="formulario">
+        <h1>Patio del Abuelo</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="usuario" placeholder="Usuario">
+                <label for="usuario">Usuario</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="contraseña" placeholder="Contraseña">
+                <label for="contraseña">contraseña</label>
+            </div>
+            <div class="form-check form-switch mt-3">
+                <input class="form-check-input bg-danger" type="checkbox" id="recordar" checked>
+                <label class="form-check-label" for="recordar">Recordar usuario</label>
+              </div>
+            <button  class="boton"><a href="{% url "paginaPrincipal"%}">Ingresar</a></button>
+        </form>
+    
+    </div>
+<body>
+<html>

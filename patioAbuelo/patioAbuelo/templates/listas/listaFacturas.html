@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <h1 class="text-center mt-3">Lista Facturas</h1>
+    <table class="table table-light m-5 shadow-sm">
+        <thead class="bg-light">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Total</th>    
+            <th scope="col">Total Pagado</th> 
+            <th scope="col" class="d-flex justify-content-end">
+              Action
+            </th>     
+          </tr>
+        </thead>
+        <tbody>
+            {% for f in facturas %}
+              <tr>
+                <td>{{f.id}}</td>
+                <td>{{f.fecha}}</td>
+                <td>{{f.id_cliente.nombre}}</td>
+                <td>{{f.total}}</td>
+                <td>{{f.total_pago}}</td>
+                <td class="d-flex justify-content-end gap-1">
+                  <button class="btn btn-sm btn-primary"><a href="/facturas/facturaModif/{{ f.id }}" class="text-white text-decoration-none">Modificar</a></button>
+                  <button class="btn btn-sm btn-danger"><a href="/facturas/facturaBorrar/{{ f.id }}" class="text-white text-decoration-none">Eliminar</a></button>
+                </td>
+              </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href={% url "facturaNueva" %} class="customButton">+</a>
+</div>
+{% endblock %}

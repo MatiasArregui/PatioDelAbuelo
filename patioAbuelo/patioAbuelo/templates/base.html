@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patio del Abuelo</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static 'estilos.css' %}">
+</head>
+<body>
+    <header>
+        <a class="logoMenu" href="{% url "paginaPrincipal"%}"><img src="../static/imagenes/Captura_de_pantalla_2024-10-16_182223-removebg-preview.png" alt="logo menu hamburguesa"></a>
+        <input type="checkbox" id="btnMenu">
+        <label for="btnMenu"><img src="../static/imagenes/icons8-menú.svg" alt="menu hamburguesa"></label>
+        <nav class="menu">
+            <ul>
+                <a href="{% url "listaCarta"%}">Carta</a>
+                <a href="{% url "listaMesas"%}">Mesas</a>
+                <a href="{% url "listaClientes"%}">Clientes</a>
+                <a class="inicio" href="{% url "paginaPrincipal"%}"><img src="../static/imagenes/Captura_de_pantalla_2024-10-16_182223-removebg-preview.png" alt=""></a>
+                <a href="{% url "listaMozos"%}">Mozo</a>
+                <a href="{% url "listaOrdenes"%}">Orden</a>
+                <a href="{% url "listaFacturas" %}">Factura</a>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <div class="row">
+            <div class="col-6">Patio del Abuelo</div>
+            <div class="col-6">&copy; Todos los derechos reservados</div>
+        </div>
+    </footer>
+</body>
+</html>
+

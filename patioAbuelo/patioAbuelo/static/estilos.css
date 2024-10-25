@@ -1,0 +1,171 @@
+/* estilos generales*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: "Montserrat", sans-serif;
+    display: grid;
+    min-height: 100dvh;
+    grid-template-rows: auto 1fr auto;
+  }
+  
+  header {
+    background-color:#C1121F;
+    border: solid, 5px, #FFFFFA;
+  }
+  header #btnMenu, header label {
+    display: none;
+  }
+  header .logoMenu {
+    display: none;
+  }
+  header nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 15px 20px;
+    align-items: center;
+    margin-bottom: 0px;
+    text-decoration: none;
+  }
+  header nav ul img {
+    width: 150px;
+  }
+  header nav ul {
+    padding: 10px;
+    font-size: 20px;
+  }
+  header nav ul a {
+    text-decoration: none;
+    color: #FFFFFA;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+  }
+  header nav ul a:hover {
+    text-decoration: underline #FFFFFA;
+    color: #FFFFFA;
+  }
+  .main{
+    background-color: #FFFFFA;
+  }
+  footer{ 
+    padding: 10px;
+    display: flex;
+    justify-content: space-evenly;
+    background-color: #C1121F;
+    align-items: center;
+    color: #FFFFFA;
+    border: solid 5px #FFFFFA;
+  }
+.inicio{
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+}
+.inicio:hover{
+    text-decoration: none;
+    color: white;
+}
+/* lista carta */
+.customButton{
+    display: flex;
+    position: fixed;
+    width: 55px;
+    height: 55px;
+    bottom: 120px;
+    right: 30px;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #C1121F;
+    color:beige;
+    text-decoration: none;
+}
+
+.customButton:hover{
+    color: white;
+    cursor: pointer;
+}
+
+
+
+/* inicio */
+.carousel-inner {
+    min-height: 100vh /* Ajusta el valor según lo que necesites */
+  }
+  
+  .carousel-item img {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+  }
+  
+  
+  
+
+
+
+
+
+
+/* media querys */
+@media (max-width: 768px) {
+    .positionRelative {
+      z-index: 1;
+    }
+    .menu ul {
+      flex-direction: column;
+    }
+    .logoUl {
+      display: none;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header label {
+      display: block;
+      position: relative;
+      right: 25px;
+    }
+    header label img {
+      width: 50px;
+    }
+    header #btnMenu:checked ~ .menu {
+      visibility: visible;
+      opacity: 1;
+      z-index: 999;
+    }
+    header .menu {
+      position: absolute;
+      top: 65px;
+      background-color: #C1121F;
+      width: 100%;
+      visibility: hidden;
+      transition: visibility 1s, opacity 1s ease;
+      opacity: 0;
+    }
+    header .logoMenu {
+      display: block;
+      width: 100px;
+      margin-left: 25px;
+    }
+    header img {
+      display: block;
+      width: 100px;
+    }
+    .inicio{
+        display: none;
+    }
+  }
+
+   

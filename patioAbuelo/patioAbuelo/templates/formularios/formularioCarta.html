@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="container">
+    <h3 class="display-4 my-3">Carta</h3>
+    <form method="post" enctype="multipart/form-data" id="formulario">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary mb-3" type="submit">Guardar</button>
+        <a class="btn btn-outline-primary mb-3" href="{% url 'listaCarta' %}">Cancelar</a>
+    </form>
+</div>
+<br/>
+<script>
+    // ACTUALIZAR LOS VALORES DEL PRIMER SELECT AL HACER CLICK EN EL INPUT DE PRECIO
+    //Obtenemos el elemento input de precio donde vamos a agregar el evento click
+    const input = document.getElementById('id_precio');
+    // Obtenemos el objeto DOM del primer select
+    const select1 = document.getElementById('id_categoria');
+    // Obtenemos el objeto DOM del segundo select
+    const select2 = document.getElementById('id_subCategoria');
+
+    // EVENTO CLICK EN EL INPUT PRECIO 
+    input.addEventListener('click', function() {
+        select1.removeAttribute("disabled");
+        select2.removeAttribute("disabled");
+    });
+
+    // ACTUALIZAR LOS VALORES DEL SEGUNDO SELECT AL HACER CLICK EN EL PRIMER SELECT (CATEGORIAS)
+    function updateSelect2() {
+
+        // Convertimos el objeto obtenido en un valor que usaremos para los condicionales porteriores
+        const selectedValue = select1.value;
+        
+        // Limpiar segundo select (select2)
+        select2.innerHTML = '';
+        let options = [];
+        // Inicializamos las subcategorias de manera separada
+        let opcionUno = {{opcion1|safe}};
+        let opcionDos = {{opcion2|safe}};
+        let opcionTres = {{opcion3|safe}};
+
+        // Filtramos la categoria seleccionada y determinamos los componentes del select segun esta 
+        if (selectedValue == opcionUno[0]["id_categoria"]) {
+            options = {{ opcion1|safe }};
+        };
+        if (selectedValue == opcionDos[0]["id_categoria"]) {
+            options = {{ opcion2|safe }};
+        };
+        if (selectedValue == opcionTres[0]["id_categoria"]) {
+            options = {{ opcion3|safe }};
+        };
+
+        // Agregar las nuevas opciones segun la categoria seleccionada
+        options.forEach(option => {
+            // Crea la opcion que compondra el select
+            const newOption = document.createElement('option');
+            // Proporciona el valor al option
+            newOption.value = option["value"];
+            // Proporciona el texto al option
+            newOption.text = option["text"];
+            // Agrega el option al select
+            select2.appendChild(newOption);
+        });
+    }
+</script>
+{% endblock %}
