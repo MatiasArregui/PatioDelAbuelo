@@ -6,12 +6,16 @@
     <form method="post" class="row">
         {% csrf_token %}
         {{ factura_form.as_p }}
-        {{ formset.management_form }}
+        {{ formset_orden.management_form }}
         <div id="select_container">
-            {% for form in formset %}
+            {% for form in formset_orden %}
                 {{ form.as_p }}
             {% endfor %}
         </div>
+        {{ formset_pago.management_form }}
+        {% for form in formset_pago %}
+                {{ form.as_p }}
+        {% endfor %}
         <div class="col">
             <button type="submit" class="btn btn-primary">Guardar</button>
             <button class="btn btn-primary">

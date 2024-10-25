@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect
 from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria, Categoria, CartaOrden, FacturaOrden
-from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSet, FacturaForm, FacturaOrdenFormSet
+from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSet, FacturaForm, FacturaOrdenFormSet, FacturaPagoFormSet
 from django.urls import reverse
 # from datetime import datetime, timedelta
 # import pytz
@@ -419,12 +419,15 @@ def facturaNuevo(request):
     ordenes = [x for x in Orden.objects.filter(entregado=True)]
     if request.method == 'POST':
         factura_form = FacturaForm(request.POST)
-        formset = FacturaOrdenFormSet(request.POST)
-        if factura_form.is_valid() and formset.is_valid():
+        formset_orden = FacturaOrdenFormSet(request.POST)
+        formset_pago = FacturaPagoFormSet(request.POST)
+        if factura_form.is_valid() and formset_orden.is_valid() and formset_pago.is_valid():
             factura = factura_form.save()
-            formset.instance = factura
-            formset.save()
-            for form in formset:# Imprime las claves disponibles
+            formset_orden.instance = factura
+            formset_orden.save()
+            formset_pago.instance = factura
+            formset_pago.save()
+            for form in formset_orden:# Imprime las claves disponibles
                 orden = form.cleaned_data.get('id_orden')
                 if orden:
                     orden_id = Orden.objects.get(id=orden.pk)
@@ -436,11 +439,13 @@ def facturaNuevo(request):
             return HttpResponseRedirect(reverse('listaFacturas'))
     else:
         factura_form = FacturaForm()
-        formset = FacturaOrdenFormSet()
+        formset_orden = FacturaOrdenFormSet()
+        formset_pago = FacturaPagoFormSet()
 
     return render(request, "./formularios/formularioFacturas.html", {
         'factura_form': factura_form,
-        'formset': formset,
+        'formset_orden': formset_orden,
+        'formset_pago': formset_pago,
         "ordenes_select":ordenes_select,
         "ordenes":ordenes,
     })

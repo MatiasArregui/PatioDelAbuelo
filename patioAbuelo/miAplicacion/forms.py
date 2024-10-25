@@ -1,5 +1,5 @@
 from django import forms
-from .models import Mozo, Cliente, Carta, Categoria, SubCategoria, CartaOrden, Orden, Factura, FacturaOrden
+from .models import Mozo, Cliente, Carta, Categoria, SubCategoria, CartaOrden, Orden, Factura, FacturaOrden, FacturaPago
 from django.forms import inlineformset_factory
 class MozoForm(forms.ModelForm):
     class Meta:
@@ -68,6 +68,17 @@ class CartaOrdenForm(forms.ModelForm):
         labels ={
             "id_carta": "Plato",
         }
+class FacturaPagoForm(forms.ModelForm):
+    class Meta:
+        model = FacturaPago
+        fields = ("id_tipoPago", "total")
+        widgets = {
+            "id_tipoPago": forms.Select(attrs={"class": "form-control"}),
+            "total": forms.NumberInput(attrs={"class": "form-control"}),
+        }
+        labels ={
+            "id_tipoPago": "Tipo Pago",
+        }
 
 class OrdenForm(forms.ModelForm):
     class Meta:
@@ -87,6 +98,7 @@ class OrdenForm(forms.ModelForm):
 
 CartaOrdenFormSet = inlineformset_factory(Orden, CartaOrden, form=CartaOrdenForm, extra=3)
 
+
 class FacturaOrdenForm(forms.ModelForm):
     class Meta:
         model = FacturaOrden
@@ -102,9 +114,11 @@ class FacturaOrdenForm(forms.ModelForm):
 class FacturaForm(forms.ModelForm):
     class Meta:
         model = Factura
-        fields = ("total", "id_cliente")
+        fields = ("total", "total_pago", "vuelto", "id_cliente")
         widgets = {
             "total": forms.NumberInput(attrs={"class": "form-control","readonly":True}),
+            "total_pago": forms.NumberInput(attrs={"class": "form-control"}),
+            "vuelto": forms.NumberInput(attrs={"class": "form-control"}),
             "id_cliente" : forms.Select(attrs={'class':'form-control'}),
         }
         labels ={
@@ -113,3 +127,4 @@ class FacturaForm(forms.ModelForm):
         }
 
 FacturaOrdenFormSet = inlineformset_factory(Factura, FacturaOrden, form=FacturaOrdenForm, extra=3)
+FacturaPagoFormSet = inlineformset_factory(Factura, FacturaPago, form=FacturaPagoForm, extra=3)
