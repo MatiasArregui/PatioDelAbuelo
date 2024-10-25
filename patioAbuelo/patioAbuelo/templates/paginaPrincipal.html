@@ -1,35 +1,34 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="../static/imagenes/4.jpg" class="d-block w-100" alt="Imagen 1">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="../static/imagenes/5.jpg" class="d-block w-100" alt="Imagen 2">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="../static/imagenes/3.jpg" class="d-block w-100" alt="Imagen 3">
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
+<form method="post" action="#" enctype="multipart/form-data">
+  <div>
+    <img src="../static/imagenes/pastelDePapa.jpg" alt="avatar" id="img" />
+    <input type="file" name="foto" id="foto" accept="image/*" />
+    <label for="foto">Cambiar foto</label>
+  </div>
+    <button type="submit">Guardar cambios</button>
+  </div>
+</form>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+  const defaultFile = 'https://stonegatesl.com/wp-content/uploads/2021/01/avatar-300x300.jpg';
+
+const file = document.getElementById( 'foto' );
+const img = document.getElementById( 'img' );
+file.addEventListener( 'change', e => {
+  if( e.target.files[0] ){
+    const reader = new FileReader( );
+    reader.onload = function( e ){
+      img.src = e.target.result;
+    }
+    reader.readAsDataURL(e.target.files[0])
+  }else{
+    img.src = defaultFile;
+  }
+} );
+</script>
 
 {% endblock %}

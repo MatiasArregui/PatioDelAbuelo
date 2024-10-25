@@ -3,7 +3,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color:#C1121F;
   }
   
   body {
@@ -47,16 +46,15 @@
     text-decoration: underline #FFFFFA;
     color: #FFFFFA;
   }
-
-.footer{
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-    background-color: #C1121F;
-    color: aliceblue;
-    padding: 20px;
-    margin-top: 5px;
-    z-index: 1;
+  .main{
+    background-color: #FFFFFA;
+  }
+footer{ 
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #C1121F;
 }
 .inicio{
     cursor: pointer;
@@ -95,15 +93,19 @@
 
 
 /* inicio */
-
-.carousel-container {
+.carousel-inner {
+    min-height: 100vh /* Ajusta el valor según lo que necesites */
+  }
+  
+  .carousel-item img {
     width: 100%;
-    height: 400px; 
-    overflow: hidden;
-}
-.carousel-item img {
-    object-fit: cover;
-}
+    height: 100%;
+    background-size: cover;
+  }
+  
+  
+  
+
 
 
 
@@ -119,73 +121,6 @@
     }
     .logoUl {
       display: none;
-    }
-    .contenedorShop {
-      display: grid;
-      background-color: #FFFFFA;
-      grid-template-columns: repeat(1, 1fr);
-      justify-content: center;
-      align-items: center;
-    }
-    .contenedorCompras, .contenedorAyuda {
-      display: grid;
-      width: 80%;
-      text-align: center;
-      margin: 5px;
-      padding: 5px;
-    }
-    .botonCompras {
-      height: 70px;
-      width: 50vw;
-      font-size: 1rem;
-    }
-    .contenedorAyuda {
-      width: 70vw;
-    }
-    .positionAbsolute a {
-      font-size: 0.7rem;
-      width: 100%;
-    }
-    .usuarioStyle {
-      display: grid;
-      justify-content: center;
-      text-align: center;
-      align-content: center;
-    }
-    input.inicioSesion {
-      display: grid;
-      width: 100%;
-      justify-items: center;
-    }
-    .olvidarContraseña {
-      display: contents;
-      justify-content: center;
-    }
-    .crearCuenta {
-      display: contents;
-      justify-content: center;
-    }
-    footer .wrapper .contacto li {
-      width: 20%;
-      justify-items: center;
-    }
-    .block {
-      display: block;
-    }
-    .faqStyle .botonSuscribirse {
-      font-size: 1rem;
-      width: 50vw;
-      margin: 10px auto;
-      height: 50px;
-    }
-    .faqStyle {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-    .faqStyle .style {
-      width: 100%;
     }
     header {
       display: flex;
@@ -207,14 +142,12 @@
     }
     header .menu {
       position: absolute;
-      top: 102px;
-      background-color: #000103;
+      top: 65px;
+      background-color: #C1121F;
       width: 100%;
       visibility: hidden;
       transition: visibility 1s, opacity 1s ease;
       opacity: 0;
-      border: 1px #515052;
-      margin: 5px;
     }
     header .logoMenu {
       display: block;
@@ -225,5 +158,9 @@
       display: block;
       width: 100px;
     }
+    .inicio{
+        display: none;
+    }
   }
+
    
