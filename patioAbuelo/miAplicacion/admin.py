@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import Carta, CartaOrden, Factura, FacturaOrden, Mozo, Mesa, Cliente, Categoria, SubCategoria, Orden
+from .models import Carta, CartaOrden, Factura, FacturaOrden, Mozo, Mesa, Cliente, Categoria, SubCategoria, Orden, TipoPago, FacturaPago
 # Register your models here.
 admin.site.register(Mesa)
+admin.site.register(TipoPago)
 
 # DETALLES DE cATEGORIAS -------------------------------------->
 class CategoriaDetalle(admin.ModelAdmin):
@@ -51,10 +52,16 @@ admin.site.register(Orden, OrdenAdmin)
 # INLINE DETALLE DE FACTURA ---------------------------->    
 class OrdenInline(admin.TabularInline):
     model = FacturaOrden
+    
+# INLINE TIPO DE FACTURA ---------------------------->    
+class TipoInline(admin.TabularInline):
+    model = FacturaPago
+    list_display = ("id", "pago", "total")
 
 class FacturaAdmin(admin.ModelAdmin):
     inlines = [
         OrdenInline,
+        TipoInline,
     ]
     list_display = ("id", "fecha", "total")
 
