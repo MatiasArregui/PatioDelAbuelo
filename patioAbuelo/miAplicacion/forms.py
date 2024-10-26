@@ -117,8 +117,8 @@ class FacturaForm(forms.ModelForm):
         fields = ("total", "total_pago", "vuelto", "id_cliente")
         widgets = {
             "total": forms.NumberInput(attrs={"class": "form-control","readonly":True}),
-            "total_pago": forms.NumberInput(attrs={"class": "form-control"}),
-            "vuelto": forms.NumberInput(attrs={"class": "form-control"}),
+            "total_pago": forms.NumberInput(attrs={"class": "form-control","readonly":True}),
+            "vuelto": forms.NumberInput(attrs={"class": "form-control","readonly":True}),
             "id_cliente" : forms.Select(attrs={'class':'form-control'}),
         }
         labels ={
