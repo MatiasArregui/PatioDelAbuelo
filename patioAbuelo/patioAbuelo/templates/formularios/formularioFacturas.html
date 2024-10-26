@@ -114,24 +114,46 @@
             console.error("El total calculado no es un número válido.");
         }
     }
+    function totalVuelto(){
+        let total_factura = parseFloat(input_total.value);
+        let total_pago = parseFloat(input_totalPago.value);
+        
+        // Verificar que los valores son números válidos
+        if (!isNaN(total_factura) && !isNaN(total_pago)) {
+            if (total_pago > total_factura) {
+                let resultado = total_pago - total_factura;
+                input_vuelto.value = resultado;
+            } else {
+                let resultado = 0;
+                input_vuelto.value = resultado;
+            }
+        } else {
+            console.error("Uno de los valores no es un número válido.");
+            input_vuelto.value = "Error";
+        }
+    }
 
 
     // Añadir evento onchange a cada select para actualizar las opciones cuando cambie un valor
     for (let i = 0; i < selects.length; i++) {
+        // Agregado funciones a componentes del container de ordenes
         selects[i].setAttribute('class', "form-control");
         selects[i].addEventListener('change', updateOptions);
         selects[i].addEventListener('change', sumaTotal);
         inputs_check[i].addEventListener('change', sumaTotal);
-
+        // Agregado funciones a componentes del container de tipo de pago
         selects_pago[i].addEventListener('change', sumaTotalPago);
         inputs_pago[i].addEventListener('change', sumaTotalPago);
         inputs_checkPago[i].addEventListener('change', sumaTotalPago);
+        selects_pago[i].addEventListener('change', totalVuelto);
+        inputs_pago[i].addEventListener('change', totalVuelto);
+        inputs_checkPago[i].addEventListener('change', totalVuelto);
         
     }
     
 
     // Llamar la función al cargar la página para aplicar los cambios iniciales
-    updateSelectOrden();
+    updateSelectOrden(); 
     updateOptions();
 </script>
 

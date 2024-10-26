@@ -383,12 +383,15 @@ def facturaModificar(request, pk):
     factura = Factura.objects.get(id=pk)
     if request.method == 'POST':
         factura_form = FacturaForm(request.POST, instance=factura)
-        formset = FacturaOrdenFormSet(request.POST, instance=factura)
-        if factura_form.is_valid() and formset.is_valid():
+        formset_orden = FacturaOrdenFormSet(request.POST, instance=factura)
+        formset_pago = FacturaPagoFormSet(request.POST, instance=factura)
+        if factura_form.is_valid() and formset_orden.is_valid() and formset_pago.is_valid():
             factura = factura_form.save()
-            formset.instance = factura
-            formset.save()
-            for form in formset:# Imprime las claves disponibles
+            formset_orden.instance = factura
+            formset_orden.save()
+            formset_pago.instance = factura
+            formset_pago.save()
+            for form in formset_orden:# Imprime las claves disponibles
                 orden = form.cleaned_data.get('id_orden')
                 if orden:
                     orden_id = Orden.objects.get(id=orden.pk)
@@ -402,11 +405,13 @@ def facturaModificar(request, pk):
             return HttpResponseRedirect(reverse('listaFacturas'))
     else:
         factura_form = FacturaForm(instance=factura)
-        formset = FacturaOrdenFormSet(instance=factura)
+        formset_orden = FacturaOrdenFormSet(instance=factura)
+        formset_pago = FacturaPagoFormSet(instance=factura)
 
     return render(request, "./formularios/formularioFacturas.html", {
         'factura_form': factura_form,
-        'formset': formset,
+        'formset_orden': formset_orden,
+        'formset_pago': formset_pago,
         "ordenes_select":ordenes_select,
         "ordenes":ordenes,
     })
