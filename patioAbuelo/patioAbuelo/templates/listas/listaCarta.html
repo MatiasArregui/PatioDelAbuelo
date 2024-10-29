@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="row">
-  <h1 class="text-center mt-3 col-6">Lista Carta</h1>
-    <table class="table table-light m-5 shadow-sm col-6">
+
+  <h1 class="text-center mt-3 ">Lista Carta</h1>
+    <table class="table table-light shadow-sm table-responsive">
         <thead class="bg-light">
           <tr>
             <th scope="col">ID</th>
@@ -41,5 +41,5 @@
         </tbody>
     </table>
     <a href={% url "cartaNuevo" %} class="customButton">+</a>
-</div>
+
 {% endblock %}

@@ -83,12 +83,12 @@ class FacturaPagoForm(forms.ModelForm):
 class OrdenForm(forms.ModelForm):
     class Meta:
         model = Orden
-        fields = ("total", "observacion", "id_mesa", "id_mozo", "entregado")
+        fields = ("observacion", "id_mesa", "id_mozo", "total", "entregado")
         widgets = {
-            "total": forms.NumberInput(attrs={"class": "form-control bg-danger text-white", "readonly":True}),
             "observacion": forms.Textarea(attrs={"class": "form-control"}),
             "id_mesa" : forms.Select(attrs={'class':'form-control'}),
             "id_mozo": forms.Select(attrs={"class": "form-control"}),
+            "total": forms.NumberInput(attrs={"class": "form-control bg-danger text-white", "readonly":True}),
             "entregado": forms.CheckboxInput(attrs={'class': 'form-check-input form-control'}),
         }
         labels = {
@@ -96,7 +96,7 @@ class OrdenForm(forms.ModelForm):
             "id_mozo": "Mozo",
         }
 
-CartaOrdenFormSet = inlineformset_factory(Orden, CartaOrden, form=CartaOrdenForm, extra=3)
+CartaOrdenFormSet = inlineformset_factory(Orden, CartaOrden, form=CartaOrdenForm, extra=6)
 
 
 class FacturaOrdenForm(forms.ModelForm):
@@ -114,12 +114,12 @@ class FacturaOrdenForm(forms.ModelForm):
 class FacturaForm(forms.ModelForm):
     class Meta:
         model = Factura
-        fields = ("total", "total_pago", "vuelto", "id_cliente")
+        fields = ("id_cliente", "total", "total_pago", "vuelto")
         widgets = {
+            "id_cliente" : forms.Select(attrs={'class':'form-control'}),
             "total": forms.NumberInput(attrs={"class": "form-control","readonly":True}),
             "total_pago": forms.NumberInput(attrs={"class": "form-control","readonly":True}),
             "vuelto": forms.NumberInput(attrs={"class": "form-control","readonly":True}),
-            "id_cliente" : forms.Select(attrs={'class':'form-control'}),
         }
         labels ={
             "total": "Total",

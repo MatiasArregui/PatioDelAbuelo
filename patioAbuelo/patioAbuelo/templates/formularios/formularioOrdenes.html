@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container m-5">
+
     <h3 class="display-4 my-3">Orden</h3>
-    <form method="post" class="row">
+    <form method="post">
         {% csrf_token %}
         {{ orden_form.as_p }}
         {{ formset.management_form }}
-        <div id="select_container">
+        <div id="select_container" class="row">
             {% for form in formset %}
-                {{ form.as_p }}
+                <div class="col-4">{{ form.as_p }}</div>
             {% endfor %}
         </div>
         <div class="col">
@@ -19,7 +19,7 @@
             </button>
         </div>
     </form>
-</div>
+
 
 <script>
     // Obtenemos el input total

@@ -4,20 +4,21 @@
 <div class="container m-5">
     <h3 class="display-4 my-3">Factura</h3>
     <form method="post" class="row">
-        {% csrf_token %}
-        {{ factura_form.as_p }}
+        
         {{ formset_orden.management_form }}
-        <div id="select_container">
+        <div id="select_container" class="row">
             {% for form in formset_orden %}
-                {{ form.as_p }}
+                <div class="col-4">{{ form.as_p }}</div>
             {% endfor %}
         </div>
-        <div id="pago_container">
+        <div id="pago_container" class="row">
         {{ formset_pago.management_form }}
         {% for form in formset_pago %}
-                {{ form.as_p }}
+                <div class="col-4">{{ form.as_p }}</div>
         {% endfor %}
         </div>
+        {% csrf_token %}
+        {{ factura_form.as_p }}
         <div class="col">
             <button type="submit" class="btn btn-primary">Guardar</button>
             <button class="btn btn-primary">

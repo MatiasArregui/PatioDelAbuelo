@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container">
-  <table class="table m-5 shadow-sm">
+<h1 style="text-align: center;" class="mt-3">Lista Mesas</h1>
+  <table class="table table-light shadow-sm table-responsive">
       <thead class="bg-light">
-        <h1 style="text-align: center;" class="mt-3">Lista Mesas</h1>
         <tr>
           <th scope="col">ID</th>
           <th scope="col">Mesa</th>
@@ -40,6 +39,4 @@
       </tbody>
   </table>
   <a href={% url "mesaNueva" %} class="customButton">+</a>
-
-</div>
 {% endblock %}
