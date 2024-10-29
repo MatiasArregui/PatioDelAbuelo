@@ -10,10 +10,10 @@ Include
 entorno
 
 #Base de datos
-db.sqlite3
+# db.sqlite3
 
 #.idea
 .idea
 
 #No subir migrations
-migrations
+# migrations
