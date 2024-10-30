@@ -555,7 +555,8 @@ def facturaNuevo(request):
 def facturaBorrar(request, pk):
     factura = Factura.objects.get(id=pk)
     if request.method == 'POST':
-        factura.delete()
+        factura.anulado = True
+        factura.save()
         return HttpResponseRedirect(reverse('listaFacturas'))
     return render(request, './confirmacionBorrado/facturaConfBorrar.html', {'factura': factura})
 

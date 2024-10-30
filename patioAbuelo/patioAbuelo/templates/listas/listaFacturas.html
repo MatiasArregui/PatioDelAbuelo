@@ -19,7 +19,8 @@
       </thead>
       <tbody>
           {% for f in facturas %}
-            <tr>
+          {% if f.anulado == True %}
+            <tr class="table-danger">
               <td>{{f.id}}</td>
               <td>{{f.fecha}}</td>
               <td>{{f.id_cliente.nombre}}</td>
@@ -27,11 +28,22 @@
               <td>{{f.total_pago}}</td>
               <td>{{f.vuelto}}</td>
               <td>{{f.cobrado}}</td>
-              <td class="d-flex justify-content-end gap-1">
-                <button class="btn btn-sm btn-primary"><a href="/facturas/facturaModif/{{ f.id }}" class="text-white text-decoration-none">Modificar</a></button>
-                <button class="btn btn-sm btn-danger"><a href="/facturas/facturaBorrar/{{ f.id }}" class="text-white text-decoration-none">Eliminar</a></button>
-              </td>
             </tr>
+          {%else%}
+          <tr>
+            <td>{{f.id}}</td>
+            <td>{{f.fecha}}</td>
+            <td>{{f.id_cliente.nombre}}</td>
+            <td>{{f.total}}</td>
+            <td>{{f.total_pago}}</td>
+            <td>{{f.vuelto}}</td>
+            <td>{{f.cobrado}}</td>
+            <td class="d-flex justify-content-end gap-1">
+              <button class="btn btn-sm btn-primary"><a href="/facturas/facturaModif/{{ f.id }}" class="text-white text-decoration-none">Cobrar</a></button>
+              <button class="btn btn-sm btn-danger"><a href="/facturas/facturaBorrar/{{ f.id }}" class="text-white text-decoration-none">Anular</a></button>
+            </td>
+          </tr>
+          {%endif%}
           {% endfor %}
       </tbody>
   </table>

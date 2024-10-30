@@ -2,8 +2,8 @@
 {% block content %}
 
     <div class="container">
-        <h3 class="display-4 my-3">Borrar Factura</h3>
-        <p>¿Está seguro de borrar la factura <b>{{factura.id}} {{ factura.fecha }}</b>?</p>
+        <h3 class="display-4 my-3">Anular Factura</h3>
+        <p>¿Está seguro de anular la factura <b>{{factura.id}} {{ factura.fecha }}</b>?</p>
         <form method="post">
             {% csrf_token %}
             <button class="btn btn-primary" type="submit">Aceptar</button>
