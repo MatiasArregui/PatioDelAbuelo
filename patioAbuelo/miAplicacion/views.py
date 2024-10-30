@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect
-from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria, Categoria, CartaOrden, FacturaOrden, Cierre
+from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria, Categoria, CartaOrden, FacturaOrden, Cierre, FacturaCierre
 from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSet, FacturaForm, FacturaOrdenFormSet, FacturaPagoFormSet, CierreForm,  FacturaCierreFormSet
 from django.urls import reverse
 # from datetime import datetime, timedelta
@@ -586,23 +586,38 @@ def cierreModif(request, pk):
 
 # Nuevo Cierre ------------------>
 def cierreNuevo(request):
+    
     if request.method == 'POST':
         form = CierreForm(request.POST)
-        formset = FacturaCierreFormSet(request.POST)
+        # formset = FacturaCierreFormSet(request.POST)
         
-        if form.is_valid() and formset.is_valid():
+        if form.is_valid():
             cierre = form.save()
-            formset.instance = cierre
-            formset.save()
+            # formset.instance = cierre
+            # formset.save()
+             # Facturas que han sido cobradas y que no han sido anuladas
+            facturas = Factura.objects.filter(cobrado=True, anulado=False)
+            total , vuelto = 0, 0
+            # Itero por cada uno de los diccionarios para usarlos de "instancia"
+            for factura in facturas:
+                total += factura.total_pago
+                vuelto += factura.vuelto
+                print(factura.pk)
+                print(cierre.pk)
+                # Por cada factura genero un nuevo objeto en la tabla intermedia, usando el id del cierre
+                FacturaCierre.objects.create(id_cierre=cierre, id_factura=factura)
+            cierre.total= total
+            cierre.vuelto = vuelto
+            cierre.save()
             
             return HttpResponseRedirect(reverse('listaCierres'))
     else:
         form = CierreForm()
-        formset = FacturaCierreFormSet()
+        # formset = FacturaCierreFormSet()
 
     return render(request, "./formularios/formularioCierre.html", {
         'form': form,
-        'formset': formset,
+        
     })
 
 #Cierre borrar ----------------------------------------------->
