@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <h1 class="text-center mt-3 ">Lista Cierres</h1>
+    <table class="table table-light shadow-sm table-responsive">
+        <thead class="bg-light">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Total</th>
+            <th scope="col">Vuelto</th>
+            <th scope="col" class="d-flex justify-content-end">
+            Action
+            </th>    
+          </tr>
+        </thead>
+        <tbody>
+            {% for c in cierres %}
+              <tr>
+                <td>{{c.id}}</td>
+                <td>{{c.fecha}}</td>
+                <td>{{c.total}}</td>
+                <td>{{c.vuelto}}</td>
+                <td class="d-flex justify-content-end gap-1">
+                  <button class="btn btn-sm btn-primary"><a href="/cierre/cierreModif/{{ c.id }}" class="text-white text-decoration-none bg-primary">Modificar</a></button>
+                  <button class="btn btn-sm btn-danger"><a href="/cierre/cierreBorrar/{{ c.id }}" class="text-white text-decoration-none bg-danger">Eliminar</a></button>
+                </td>
+              </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href={% url "cierreNuevo" %} class="customButton">+</a>
+
+{% endblock %}

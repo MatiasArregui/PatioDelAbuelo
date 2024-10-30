@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect
-from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria, Categoria, CartaOrden, FacturaOrden
-from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSet, FacturaForm, FacturaOrdenFormSet, FacturaPagoFormSet
+from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria, Categoria, CartaOrden, FacturaOrden, Cierre
+from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSet, FacturaForm, FacturaOrdenFormSet, FacturaPagoFormSet, CierreForm,  FacturaCierreFormSet
 from django.urls import reverse
 # from datetime import datetime, timedelta
 # import pytz
@@ -462,3 +462,56 @@ def facturaBorrar(request, pk):
         factura.delete()
         return HttpResponseRedirect(reverse('listaFacturas'))
     return render(request, './confirmacionBorrado/facturaConfBorrar.html', {'factura': factura})
+
+
+# CIERRE VIEWS ----------------------------------------------------------------------------------------->
+#Listado Cierres ------------------------------------->
+def listaCierres(request):
+    cierres = Cierre.objects.all()
+    context = {"cierres":cierres}
+    return render(request, template_name="./listas/listaCierres.html", context=context)
+
+#Cierre modificar ---------------------------------->
+def cierreModif(request, pk):
+    cierre = Cierre.objects.get(id=pk)
+    if request.method == 'POST':
+        form = CierreForm(request.POST, instance=cierre)
+        formset = FacturaCierreFormSet(request.POST, instance=cierre)
+        if form.is_valid() and formset.is_valid():
+            cierre = form.save()
+            formset.instance = cierre
+            formset.save()
+            return HttpResponseRedirect(reverse('listaCierres'))
+    else:
+        form = CierreForm(instance=cierre)
+        formset = FacturaCierreFormSet(instance=cierre)
+    return render(request, './formularios/formularioCierre.html', {'form': form, 'formset': formset})
+
+# Nuevo Cierre ------------------>
+def cierreNuevo(request):
+    if request.method == 'POST':
+        form = CierreForm(request.POST)
+        formset = FacturaCierreFormSet(request.POST)
+        
+        if form.is_valid() and formset.is_valid():
+            cierre = form.save()
+            formset.instance = cierre
+            formset.save()
+            
+            return HttpResponseRedirect(reverse('listaCierres'))
+    else:
+        form = CierreForm()
+        formset = FacturaCierreFormSet()
+
+    return render(request, "./formularios/formularioCierre.html", {
+        'form': form,
+        'formset': formset,
+    })
+
+#Cierre borrar ----------------------------------------------->
+def cierreBorrar(request, pk):
+    cierre = Cierre.objects.get(id=pk)
+    if request.method == 'POST':
+        cierre.delete()
+        return HttpResponseRedirect(reverse('listaCierres'))
+    return render(request, './confirmacionBorrado/cierreConfBorrar.html', {'cierre': cierre})

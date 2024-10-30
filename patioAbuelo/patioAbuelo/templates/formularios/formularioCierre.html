@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+    <h3 class="display-4 my-3">Cierre</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {{ formset.management_form }}
+        <div id="select_container" class="row">
+            {% for form in formset %}
+                <div class="col-4">{{ form.as_p }}</div>
+            {% endfor %}
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button class="btn btn-primary">
+                <a href={% url "listaCierres" %} class="text-decoration-none text-white">Cancelar</a>
+            </button>
+        </div>
+    </form>
+
+
+{% endblock %}

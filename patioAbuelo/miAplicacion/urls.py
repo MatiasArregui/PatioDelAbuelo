@@ -45,5 +45,11 @@ urlpatterns = [
     path('mozos/mozoModif/<int:pk>/', views.MozoModif, name='mozoModif'),
     path('mozos/mozoBorrar/<int:pk>/', views.MozoBorrar, name='mozoBorrar'),
     
+    #Cierre ---------------------------------------------------------------------------------->
+    path("cierre/", views.listaCierres, name="listaCierres"),
+    path('cierre/cierreNuevo/', views.cierreNuevo, name='cierreNuevo'),
+    path('cierre/cierreModif/<int:pk>/', views.cierreModif, name='cierreModif'),
+    path('cierre/cierreBorrar/<int:pk>/', views.cierreBorrar, name='cierreBorrar'),
+    
     
 ]

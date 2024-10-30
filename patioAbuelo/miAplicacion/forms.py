@@ -1,5 +1,5 @@
 from django import forms
-from .models import Mozo, Cliente, Carta, Categoria, SubCategoria, CartaOrden, Orden, Factura, FacturaOrden, FacturaPago
+from .models import Mozo, Cliente, Carta, Categoria, SubCategoria, CartaOrden, Orden, Factura, FacturaOrden, FacturaPago, Cierre, FacturaCierre
 from django.forms import inlineformset_factory
 class MozoForm(forms.ModelForm):
     class Meta:
@@ -68,17 +68,6 @@ class CartaOrdenForm(forms.ModelForm):
         labels ={
             "id_carta": "Plato",
         }
-class FacturaPagoForm(forms.ModelForm):
-    class Meta:
-        model = FacturaPago
-        fields = ("id_tipoPago", "total")
-        widgets = {
-            "id_tipoPago": forms.Select(attrs={"class": "form-control"}),
-            "total": forms.NumberInput(attrs={"class": "form-control"}),
-        }
-        labels ={
-            "id_tipoPago": "Tipo Pago",
-        }
 
 class OrdenForm(forms.ModelForm):
     class Meta:
@@ -98,7 +87,18 @@ class OrdenForm(forms.ModelForm):
 
 CartaOrdenFormSet = inlineformset_factory(Orden, CartaOrden, form=CartaOrdenForm, extra=6)
 
-
+class FacturaPagoForm(forms.ModelForm):
+    class Meta:
+        model = FacturaPago
+        fields = ("id_tipoPago", "total")
+        widgets = {
+            "id_tipoPago": forms.Select(attrs={"class": "form-control"}),
+            "total": forms.NumberInput(attrs={"class": "form-control"}),
+        }
+        labels ={
+            "id_tipoPago": "Tipo Pago",
+        }
+        
 class FacturaOrdenForm(forms.ModelForm):
     class Meta:
         model = FacturaOrden
@@ -128,3 +128,27 @@ class FacturaForm(forms.ModelForm):
 
 FacturaOrdenFormSet = inlineformset_factory(Factura, FacturaOrden, form=FacturaOrdenForm, extra=3)
 FacturaPagoFormSet = inlineformset_factory(Factura, FacturaPago, form=FacturaPagoForm, extra=3)
+
+class FacturaCierreForm(forms.ModelForm):
+    class Meta:
+        model = FacturaCierre
+        fields = ("id_factura",)
+        widgets = {
+            "id_factura": forms.Select(attrs={"class": "form-control"}),
+        }
+        labels ={
+            "id_factura": "Factura",
+        }
+
+class CierreForm(forms.ModelForm):
+    class Meta:
+        model = Cierre
+        fields = ('total', 'vuelto')
+        widgets = {
+            'total': forms.TextInput(attrs={'class': 'form-control'}),
+            'vuelto': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+        labels = {"total":"Total",
+                  "vuelto":"Vuelto",
+            }
+FacturaCierreFormSet = inlineformset_factory(Cierre, FacturaCierre, form=FacturaCierreForm, extra=3)
