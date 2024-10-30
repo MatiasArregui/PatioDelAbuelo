@@ -68,6 +68,7 @@ class Factura(models.Model):
     total_pago = models.DecimalField(max_digits=15, decimal_places=2, default=0)
     vuelto = models.DecimalField(max_digits=15, decimal_places=2, default=0)
     anulado = models.BooleanField(default=False)
+    cobrado = models.BooleanField(default=False)
     id_cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     id_orden = models.ManyToManyField("Orden", through="FacturaOrden")
     id_tipoPago = models.ManyToManyField(TipoPago, through="FacturaPago")

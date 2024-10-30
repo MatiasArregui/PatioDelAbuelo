@@ -373,48 +373,128 @@ def listaFacturas(request):
     return render(request, template_name="./listas/listaFacturas.html", context=context)
 
 # Modificar Factura --------->
+# def facturaModificar(request, pk):
+#     id_orden_factura = [x.id_orden.pk for x in FacturaOrden.objects.all()]
+#     factura_orden = [x.id_orden.pk for x in FacturaOrden.objects.filter(id_factura=pk)]
+#     ordenes_select = [{"value":"", "text":"--------" , "total":0}] 
+#     ordenes_select.extend([{"value":x.pk, "text":x.id_mesa.nombre + " " + "$"+str(x.total), "total":int(x.total)} for x in Orden.objects.filter(entregado=True) if x.pk in id_orden_factura and x.pk in factura_orden])
+#     ordenes_select.extend([{"value":x.pk, "text":x.id_mesa.nombre + " " + "$"+str(x.total), "total":int(x.total)} for x in Orden.objects.filter(entregado=True) if x.pk not in id_orden_factura])
+#     ordenes = [x for x in Orden.objects.filter(entregado=True)]
+#     factura = Factura.objects.get(id=pk)
+#     if request.method == 'POST':
+#         factura_form = FacturaForm(request.POST, instance=factura)
+#         formset_orden = FacturaOrdenFormSet(request.POST, instance=factura)
+#         formset_pago = FacturaPagoFormSet(request.POST, instance=factura)
+#         if factura_form.is_valid() and formset_orden.is_valid() and formset_pago.is_valid():
+#             factura = factura_form.save()
+#             formset_orden.instance = factura
+#             formset_orden.save()
+#             formset_pago.instance = factura
+#             formset_pago.save()
+#             #Obtener el valor de los campos
+#             #Total de la suma de las ordenes que componen la factura
+#             total_factura = factura.total
+#             #Total de la suma de la seleccion de los tipos de pago
+#             total_pago = factura.total_pago
+#             #Total del vuelto que genero la suma de la seleccion de tipos de pago
+#             total_vuelto = factura.vuelto
+#             print(total_factura)
+#             print(total_pago)
+#             print(total_vuelto)
+#             #Comparamos y en caso de dar con el total de la factura se pone el estado de la factura como "cobrado"
+#             if total_factura == total_pago - total_vuelto:
+#                 factura.cobrado = True
+#                 factura.save()
+#             for form in formset_orden:# Imprime las claves disponibles
+#                 orden = form.cleaned_data.get('id_orden')
+#                 if orden:
+#                     orden_id = Orden.objects.get(id=orden.pk)
+#                     mesa = orden_id.id_mesa
+#                     mesa.estado = False
+#                     mesa.save()
+#                     # Disminuir el stock del plato
+#                     # plato.stock -= cantidad  
+#                     # plato.save()  # Guarda los cambios en la base de datos
+#                     print(f"orden:{orden.pk}")
+#             return HttpResponseRedirect(reverse('listaFacturas'))
+#     else:
+#         factura_form = FacturaForm(instance=factura)
+#         formset_orden = FacturaOrdenFormSet(instance=factura)
+#         formset_pago = FacturaPagoFormSet(instance=factura)
+
+#     return render(request, "./formularios/formularioFacturas.html", {
+#         'factura_form': factura_form,
+#         'formset_orden': formset_orden,
+#         'formset_pago': formset_pago,
+#         "ordenes_select":ordenes_select,
+#         "ordenes":ordenes,
+#     })
+
 def facturaModificar(request, pk):
     id_orden_factura = [x.id_orden.pk for x in FacturaOrden.objects.all()]
     factura_orden = [x.id_orden.pk for x in FacturaOrden.objects.filter(id_factura=pk)]
-    ordenes_select = [{"value":"", "text":"--------" , "total":0}] 
+    ordenes_select = [{"value":"", "text":"--------" , "total":0}]
     ordenes_select.extend([{"value":x.pk, "text":x.id_mesa.nombre + " " + "$"+str(x.total), "total":int(x.total)} for x in Orden.objects.filter(entregado=True) if x.pk in id_orden_factura and x.pk in factura_orden])
     ordenes_select.extend([{"value":x.pk, "text":x.id_mesa.nombre + " " + "$"+str(x.total), "total":int(x.total)} for x in Orden.objects.filter(entregado=True) if x.pk not in id_orden_factura])
     ordenes = [x for x in Orden.objects.filter(entregado=True)]
     factura = Factura.objects.get(id=pk)
+    
     if request.method == 'POST':
         factura_form = FacturaForm(request.POST, instance=factura)
         formset_orden = FacturaOrdenFormSet(request.POST, instance=factura)
         formset_pago = FacturaPagoFormSet(request.POST, instance=factura)
+        
         if factura_form.is_valid() and formset_orden.is_valid() and formset_pago.is_valid():
-            factura = factura_form.save()
-            formset_orden.instance = factura
-            formset_orden.save()
-            formset_pago.instance = factura
-            formset_pago.save()
-            for form in formset_orden:# Imprime las claves disponibles
-                orden = form.cleaned_data.get('id_orden')
-                if orden:
-                    orden_id = Orden.objects.get(id=orden.pk)
-                    mesa = orden_id.id_mesa
-                    mesa.estado = False
-                    mesa.save()
-                    # Disminuir el stock del plato
-                    # plato.stock -= cantidad  
-                    # plato.save()  # Guarda los cambios en la base de datos
-                    print(f"orden:{orden.pk}")
-            return HttpResponseRedirect(reverse('listaFacturas'))
+            # Obtener el valor de los campos
+            total_factura = factura.total
+            total_pago = factura.total_pago
+            total_vuelto = factura.vuelto
+            
+            # Comprobar si el total pagado es mayor o igual al total de la factura
+            if total_pago >= total_factura - total_vuelto:
+                factura = factura_form.save()
+                formset_orden.instance = factura
+                formset_orden.save()
+                formset_pago.instance = factura
+                formset_pago.save()
+                
+                # Comprobamos y en caso de dar con el total de la factura se pone el estado de la factura como "cobrado"
+                if total_factura == total_pago - total_vuelto:
+                    factura.cobrado = True
+                    factura.save()
+
+                for form in formset_orden:
+                    orden = form.cleaned_data.get('id_orden')
+                    if orden:
+                        orden_id = Orden.objects.get(id=orden.pk)
+                        mesa = orden_id.id_mesa
+                        mesa.estado = False
+                        mesa.save()
+                        print(f"orden:{orden.pk}")
+                
+                return HttpResponseRedirect(reverse('listaFacturas'))
+            else:
+                # Esta funcion permite que luego de hacer la comprarcion del total con el total pagado, en caso de no cubrir el total 
+                # te muestra un mensaje en el formulario aclarando que solamente puedes proceder si se cumple esta condicion.
+                factura_form.add_error(None, "El total pagado debe ser mayor o igual al total de la factura.")
+        
+    
     else:
         factura_form = FacturaForm(instance=factura)
         formset_orden = FacturaOrdenFormSet(instance=factura)
         formset_pago = FacturaPagoFormSet(instance=factura)
-
+    
     return render(request, "./formularios/formularioFacturas.html", {
         'factura_form': factura_form,
         'formset_orden': formset_orden,
         'formset_pago': formset_pago,
-        "ordenes_select":ordenes_select,
-        "ordenes":ordenes,
+        "ordenes_select": ordenes_select,
+        "ordenes": ordenes,
     })
+
+
+
+
 
 # Nueva Factura ------------------>
 def facturaNuevo(request):
@@ -432,6 +512,22 @@ def facturaNuevo(request):
             formset_orden.save()
             formset_pago.instance = factura
             formset_pago.save()
+            
+            #Obtener el valor de los campos
+            #Total de la suma de las ordenes que componen la factura
+            total_factura = factura.total
+            #Total de la suma de la seleccion de los tipos de pago
+            total_pago = factura.total_pago
+            #Total del vuelto que genero la suma de la seleccion de tipos de pago
+            total_vuelto = factura.vuelto
+            print(total_factura)
+            print(total_pago)
+            print(total_vuelto)
+            #Comparamos y en caso de dar con el total de la factura se pone el estado de la factura como "cobrado"
+            if total_factura == total_pago - total_vuelto:
+                factura.cobrado = True
+                factura.save()
+            
             for form in formset_orden:# Imprime las claves disponibles
                 orden = form.cleaned_data.get('id_orden')
                 if orden:
