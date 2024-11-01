@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+    <div class="container">
+        <h3 class="display-4 my-3">cliente</h3>
+        <form method="post" class="row">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button class="btn btn-primary"><a href={% url "listaClientes" %} class="text-decoration-none text-white">Cancelar</a></button>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

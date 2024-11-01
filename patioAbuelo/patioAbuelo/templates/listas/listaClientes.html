@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1 class="text-center mt-3">Lista Clientes</h1>
+    <table class="table table-light shadow-sm table-responsive">
+        <thead class="bg-light">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Teléfono</th>
+            <th scope="col">Dirección</th>
+            <th scope="col" class="d-flex justify-content-end">
+            Action
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for c in clientes%}
+              <tr>
+                <td>{{c.id}}</td>
+                <td>{{c.nombre}}</td>
+                <td>{{ c.telefono|default_if_none:"-----" }}</td>
+                <td>{{c.direccion | default_if_none:"-----"}}</td>
+                <td class="d-flex justify-content-end gap-1">
+                  <button class="btn btn-sm btn-primary"><a href="/clientes/clienteModif/{{ c.id }}" class="text-white text-decoration-none">Modificar</a></button>
+                  <button class="btn btn-sm btn-danger"><a href="/clientes/clienteBorrar/{{ c.id }}" class="text-white text-decoration-none">Eliminar</a></button>
+                </td>
+              </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href={% url "clienteNuevo" %} class="customButton">+</a>
+{% endblock %}
