@@ -143,12 +143,14 @@ class FacturaCierreForm(forms.ModelForm):
 class CierreForm(forms.ModelForm):
     class Meta:
         model = Cierre
-        fields = ('total', 'vuelto')
+        fields = ('total_ordenes', "total_facturas", 'vuelto')
         widgets = {
-            'total': forms.TextInput(attrs={'class': 'form-control'}),
-            'vuelto': forms.TextInput(attrs={'class': 'form-control'}),
+            'total_ordenes': forms.NumberInput(attrs={'class': 'form-control'}),
+            'total_facturas': forms.NumberInput(attrs={'class': 'form-control'}),
+            'vuelto': forms.NumberInput(attrs={'class': 'form-control'}),
         }
-        labels = {"total":"Total",
+        labels = {"total_ordenes":"Total Ordenes",
+                  "total_facturas":"Total Facturas",
                   "vuelto":"Vuelto",
             }
 FacturaCierreFormSet = inlineformset_factory(Cierre, FacturaCierre, form=FacturaCierreForm, extra=3)

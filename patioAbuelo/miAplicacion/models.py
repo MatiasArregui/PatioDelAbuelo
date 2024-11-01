@@ -94,7 +94,8 @@ class Orden(models.Model):
 # MODELO DE MOZO ----------------------------------------->
 class Cierre(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
-    total = models.DecimalField(max_digits=15, decimal_places=2)
+    total_ordenes = models.DecimalField(max_digits=15, decimal_places=2)
+    total_facturas = models.DecimalField(max_digits=15, decimal_places=2)
     vuelto = models.DecimalField(max_digits=15, decimal_places=2)
     id_factura = models.ManyToManyField(Factura, through="FacturaCierre")
     

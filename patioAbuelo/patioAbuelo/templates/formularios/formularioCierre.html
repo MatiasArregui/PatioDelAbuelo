@@ -9,7 +9,7 @@
             <th scope="col">ID</th>
             <th scope="col">Fecha</th>
             <th scope="col">Cliente</th>
-            <th scope="col">Total</th>    
+            <th scope="col">Total Ordenes</th>    
             <th scope="col">Total Pagado</th> 
             <th scope="col">Vuelto</th>    
           </tr>
@@ -42,6 +42,29 @@
             </button>
         </div>
     </form>
+    <script>
+        const input_total_ordenes = document.getElementById("id_total_ordenes");
+        const input_total_facturas = document.getElementById("id_total_facturas");
+        const input_vuelto = document.getElementById("id_vuelto");
+        const facturas = {{facturas_js | safe}}
+
+        function sumaTotal() {
+            let total_ordenes = 0;
+            let total_facturas = 0;
+            let vuelto = 0;
+            for (let a = 0; a < facturas.length; a++) {
+                total_ordenes += facturas[a]["total"];
+                total_facturas += facturas[a]["total_pago"];
+                vuelto += facturas[a]["vuelto"];
+                
+            };
+            input_total_ordenes.value = total_ordenes;
+            input_total_facturas.value = total_facturas;
+            input_vuelto.value = vuelto;
+        };
+        sumaTotal();
+    </script>
+
 
 
 

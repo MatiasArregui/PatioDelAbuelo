@@ -589,6 +589,7 @@ def cierreNuevo(request):
     lista_id_facturas_en_cierre = [x.id_factura.pk for x in FacturaCierre.objects.all()]
     # Facturas que han sido cobradas y que no han sido anuladas
     facturas = [x for x in Factura.objects.filter(cobrado=True, anulado=False) if x.pk not in lista_id_facturas_en_cierre]
+    facturas_js = [{"total":int(x.total), "total_pago":int(x.total_pago), "vuelto":int(x.vuelto)} for x in Factura.objects.filter(cobrado=True, anulado=False) if x.pk not in lista_id_facturas_en_cierre]
     if request.method == 'POST':
         form = CierreForm(request.POST)
         # formset = FacturaCierreFormSet(request.POST)
@@ -619,6 +620,7 @@ def cierreNuevo(request):
     return render(request, "./formularios/formularioCierre.html", {
         'form': form,
         "facturas":facturas,
+        "facturas_js":facturas_js,
         
     })
 
