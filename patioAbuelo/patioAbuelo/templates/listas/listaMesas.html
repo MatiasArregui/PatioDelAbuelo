@@ -1,42 +1,53 @@
 {% extends "base.html" %}
 {% block content %}
 <h1 style="text-align: center;" class="mt-3">Lista Mesas</h1>
-  <table class="table table-light shadow-sm table-responsive">
-      <thead class="bg-light">
+<table class="table table-light shadow-sm table-responsive">
+    <thead class="bg-light">
         <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Mesa</th>
-          <th scope="col">Estado</th>
-          <th scope="col" class="d-flex justify-content-end">
-          Action
-          </th>
+            <th scope="col">ID</th>
+            <th scope="col">Mesa</th>
+            <th scope="col">Estado</th>
+            <th scope="col" class="d-flex justify-content-end">Action</th>
         </tr>
-      </thead>
-      <tbody>
-          {% for b in mesas%}
-            {%if b.estado == False %}
-            <tr class="table-success">
-              <td>{{b.id}}</td>
-              <td>{{b.nombre}}</td>
-              <td>Desocupado</td>
-              <td class="d-flex justify-content-end gap-1">
-                <button class="btn btn-sm btn-primary"><a href="/mesas/mesaModif/{{ b.id }}" class="text-white text-decoration-none">Modificar</a></button>
-                <button class="btn btn-sm btn-danger"><a href="/mesas/mesaBorrar/{{ b.id }}" class="text-white text-decoration-none">Eliminar</a></button>
-              </td>
+    </thead>
+    <tbody>
+        {% for b in page_obj %}
+            <tr class="{% if b.estado == False %}table-success{% endif %}">
+                <td>{{ b.id }}</td>
+                <td>{{ b.nombre }}</td>
+                <td>{% if b.estado == False %}Desocupado{% else %}Ocupado{% endif %}</td>
+                <td class="d-flex justify-content-end gap-1">
+                    <button class="btn btn-sm btn-primary">
+                        <a href="{% url 'mesaModif' b.id %}" class="text-white text-decoration-none">Modificar</a>
+                    </button>
+                    <button class="btn btn-sm btn-danger">
+                        <a href="{% url 'mesaBorrar' b.id %}" class="text-white text-decoration-none">Eliminar</a>
+                    </button>
+                </td>
             </tr>
-            {%else%}
-            <tr>
-              <td>{{b.id}}</td>
-              <td>{{b.nombre}}</td>
-              <td>Ocupado</td>
-              <td class="d-flex justify-content-end gap-1">
-                <button class="btn btn-sm btn-primary"><a href="/mesas/mesaModif/{{ b.id }}" class="text-white text-decoration-none">Modificar</a></button>
-                <button class="btn btn-sm btn-danger"><a href="/mesas/mesaBorrar/{{ b.id }}" class="text-white text-decoration-none">Eliminar</a></button>
-              </td>
-            </tr>
-            {%endif%}
-          {% endfor %}
-      </tbody>
-  </table>
-  <a href={% url "mesaNueva" %} class="customButton">+</a>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+        <a class="btn btn-outline-primary mb-3" href="?page=1">« Primera</a>
+        <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.previous_page_number }}">‹ Anterior</a>
+    {% endif %}
+
+    {% for i in page_range %}
+        {% if page_obj.number == i %}
+            <span class="btn btn-primary mb-3">{{ i }}</span>
+        {% else %}
+            <a class="btn btn-outline-primary mb-3" href="?page={{ i }}">{{ i }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.next_page_number }}">Siguiente ›</a>
+        <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.paginator.num_pages }}">Última »</a>
+    {% endif %}
+</div>
+
+<a href="{% url 'mesaNueva' %}" class="customButton">+</a>
 {% endblock %}
