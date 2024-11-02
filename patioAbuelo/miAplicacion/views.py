@@ -21,6 +21,7 @@ class LoginIngreso(LoginView):
 
 # PLATO VIEWS ------------------------------------------------------------------------------>
 # Listado plato --------------------------->
+
 def listaCarta(request):
     carta = Carta.objects.all()
     categoria = Categoria.objects.get(nombre__icontains="plato")
@@ -30,10 +31,15 @@ def listaCarta(request):
     page_number = request.GET.get('page')  # Obtener el número de página de la query string
     page_obj = paginator.get_page(page_number)  # Obtener objetos de la página actual
 
+    # Calcular el rango de páginas
+    page_range_start = max(1, page_obj.number - 3)
+    page_range_end = min(page_obj.paginator.num_pages, page_obj.number + 3)
+    
     # Preparar el contexto
     context = {
         "page_obj": page_obj,
-        "categoria": categoria
+        "categoria": categoria,
+        "page_range": range(page_range_start, page_range_end + 1)  # Rango de páginas
     }
 
     return render(request, template_name="./listas/listaCarta.html", context=context)

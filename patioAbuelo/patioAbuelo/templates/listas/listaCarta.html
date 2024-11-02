@@ -45,17 +45,21 @@
 
 <div class="pagination justify-content-center">
     {% if page_obj.has_previous %}
-        <a class="btn btn-outline-primary mb-3" href="?page=1">Primera</a>
-        <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+        <a class="btn btn-outline-primary mb-3" href="?page=1">« Primera</a>
+        <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.previous_page_number }}">‹ Anterior</a>
     {% endif %}
 
-    <span class="current-page btn btn-outline-light disabled text-primary mb-3">
-        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
-    </span>
+    {% for i in page_range %}
+        {% if page_obj.number == i %}
+            <span class="btn btn-primary mb-3">{{ i }}</span>
+        {% else %}
+            <a class="btn btn-outline-primary mb-3" href="?page={{ i }}">{{ i }}</a>
+        {% endif %}
+    {% endfor %}
 
     {% if page_obj.has_next %}
-        <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
-        <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.paginator.num_pages }}">Última</a>
+        <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.next_page_number }}">Siguiente ›</a>
+        <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.paginator.num_pages }}">Última »</a>
     {% endif %}
 </div>
 
