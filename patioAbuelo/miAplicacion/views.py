@@ -138,10 +138,24 @@ def mesaBorrar(request, pk):
 # CIENTES VIEWS ---------------------------------------------------------------------------------------------->
 # Listado Cliente -------
 def listaClientes(request):
-    clientes = Cliente.objects.all()
-    context = {"clientes":clientes}
-    return render(request, template_name="./listas/listaClientes.html", context=context)
+    clientes = Cliente.objects.all()  # Obtener todos los clientes
 
+    # Configuración de la paginación
+    paginator = Paginator(clientes, 7)  # 7 elementos por página
+    page_number = request.GET.get('page')  # Obtener el número de página de la query string
+    page_obj = paginator.get_page(page_number)  # Obtener objetos de la página actual
+
+    # Calcular el rango de páginas
+    page_range_start = max(1, page_obj.number - 3)
+    page_range_end = min(page_obj.paginator.num_pages, page_obj.number + 3)
+
+    # Preparar el contexto
+    context = {
+        "page_obj": page_obj,
+        "page_range": range(page_range_start, page_range_end + 1)  # Rango de páginas
+    }
+
+    return render(request, template_name="./listas/listaClientes.html", context=context)
 # Modificar Cliente --------->
 def ClienteModif(request, pk):
     cliente = Cliente.objects.get(id=pk)
