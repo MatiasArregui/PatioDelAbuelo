@@ -192,6 +192,20 @@ def ClienteBorrar(request, pk):
 def listaMozos(request):
     mozos = Mozo.objects.all()
     context = {"mozos":mozos}
+    # Configuración de la paginación
+    paginator = Paginator(mozos, 7)  # 7 elementos por página
+    page_number = request.GET.get('page')  # Obtener el número de página de la query string
+    page_obj = paginator.get_page(page_number)  # Obtener objetos de la página actual
+
+    # Calcular el rango de páginas
+    page_range_start = max(1, page_obj.number - 3)
+    page_range_end = min(page_obj.paginator.num_pages, page_obj.number + 3)
+    
+    # Preparar el contexto
+    context = {
+        "page_obj": page_obj,
+        "page_range": range(page_range_start, page_range_end + 1)  # Rango de páginas
+    }
     return render(request, template_name="./listas/listaMozos.html", context=context)
 #Mozo modificar ---------------------------------->
 def MozoModif(request, pk):
@@ -227,6 +241,20 @@ def MozoBorrar(request, pk):
 def listaOrdenes(request):
     ordenes = Orden.objects.all()
     context = {"ordenes": ordenes}
+    # Configuración de la paginación
+    paginator = Paginator(ordenes, 7)  # 7 elementos por página
+    page_number = request.GET.get('page')  # Obtener el número de página de la query string
+    page_obj = paginator.get_page(page_number)  # Obtener objetos de la página actual
+
+    # Calcular el rango de páginas
+    page_range_start = max(1, page_obj.number - 3)
+    page_range_end = min(page_obj.paginator.num_pages, page_obj.number + 3)
+    
+    # Preparar el contexto
+    context = {
+        "page_obj": page_obj,
+        "page_range": range(page_range_start, page_range_end + 1)  # Rango de páginas
+    }
     return render(request, template_name="./listas/listaOrdenes.html", context=context)
 
 # # Modificar Orden --------->
