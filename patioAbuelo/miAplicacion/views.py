@@ -1,7 +1,8 @@
 from django.shortcuts import render, HttpResponseRedirect
 from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria, Categoria, CartaOrden, FacturaOrden, Cierre, FacturaCierre
-from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSet, FacturaForm, FacturaOrdenFormSet, FacturaPagoFormSet, CierreForm,  FacturaCierreFormSet
-from django.urls import reverse
+from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSet, FacturaForm, FacturaOrdenFormSet, FacturaPagoFormSet, CierreForm,  FacturaCierreFormSet, LoginForm
+from django.urls import reverse, reverse_lazy
+from django.contrib.auth.views import LoginView
 # from datetime import datetime, timedelta
 # import pytz
 
@@ -10,8 +11,12 @@ def principal(request):
     return render(request, template_name="paginaPrincipal.html")
 
 # Login de ingreso ------------------------------------------------------------------------------------->
-def loginIngreso(request):
-    return render(request, template_name="login.html")
+class LoginIngreso(LoginView):
+    template_name ="./registration/login.html"
+    authentication_form = LoginForm
+
+    def get_success_url(self):
+        return reverse_lazy("paginaPrincipal")
 
 # PLATO VIEWS ------------------------------------------------------------------------------>
 # Listado plato --------------------------->

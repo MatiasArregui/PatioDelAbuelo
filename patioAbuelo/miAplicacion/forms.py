@@ -1,6 +1,8 @@
 from django import forms
 from .models import Mozo, Cliente, Carta, Categoria, SubCategoria, CartaOrden, Orden, Factura, FacturaOrden, FacturaPago, Cierre, FacturaCierre
 from django.forms import inlineformset_factory
+from django.contrib.auth.forms import AuthenticationForm
+
 class MozoForm(forms.ModelForm):
     class Meta:
         model = Mozo
@@ -154,3 +156,19 @@ class CierreForm(forms.ModelForm):
                   "vuelto":"Vuelto",
             }
 FacturaCierreFormSet = inlineformset_factory(Cierre, FacturaCierre, form=FacturaCierreForm, extra=3)
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(
+        label='Usuario',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Nombre de usuario'
+        })
+    )
+    password = forms.CharField(
+        label='Contraseña',
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Contraseña'
+        })
+    )

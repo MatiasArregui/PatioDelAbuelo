@@ -1,10 +1,12 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
+from django.contrib.auth.views import LoginView
+from .forms import LoginForm
 
 urlpatterns = [
     #Login ----------------------------------------------------------------------------------->
-    path("", views.loginIngreso, name="loginIngreso"),
+    path('login/', LoginView.as_view(), name='login'),
     
     #Pagina de inicio ------------------------------------------------------------------------>
     path("inicio/", views.principal, name="paginaPrincipal"),

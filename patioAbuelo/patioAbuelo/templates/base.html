@@ -26,6 +26,17 @@
                 <a href="{% url "listaFacturas" %}">Factura</a>
                 <a href="{% url "listaCierres" %}">Cierre</a>
             </ul>
+            <ul class="nav navbar-nav ms-auto">
+                {% if user.is_authenticated %}
+                   <li class="nav-item">
+                       <a class="nav-link" href="{% url 'logout' %}">{{ request.user }} | Logout</a>
+                   </li>
+               {% else %}
+                   <li class="nav-item">
+                       <a class="nav-link" href="{% url 'login' %}">Login</a>
+                   </li>
+               {% endif %}
+            </ul>
         </nav>
     </header>
     <main class="container">
