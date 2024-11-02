@@ -3,6 +3,7 @@ from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria, Ca
 from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSet, FacturaForm, FacturaOrdenFormSet, FacturaPagoFormSet, CierreForm,  FacturaCierreFormSet, LoginForm
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.views import LoginView
+from django.core.paginator import Paginator
 # from datetime import datetime, timedelta
 # import pytz
 
@@ -23,9 +24,19 @@ class LoginIngreso(LoginView):
 def listaCarta(request):
     carta = Carta.objects.all()
     categoria = Categoria.objects.get(nombre__icontains="plato")
-    context = {"carta": carta, "categoria":categoria}
-    return render(request, template_name="./listas/listaCarta.html", context=context)
 
+    # Configuración de la paginación
+    paginator = Paginator(carta, 7)  # 7 elementos por página
+    page_number = request.GET.get('page')  # Obtener el número de página de la query string
+    page_obj = paginator.get_page(page_number)  # Obtener objetos de la página actual
+
+    # Preparar el contexto
+    context = {
+        "page_obj": page_obj,
+        "categoria": categoria
+    }
+
+    return render(request, template_name="./listas/listaCarta.html", context=context)
 # Modificar plato ------------->
 def cartaModificar(request, pk):
     carta = Carta.objects.get(id=pk)
