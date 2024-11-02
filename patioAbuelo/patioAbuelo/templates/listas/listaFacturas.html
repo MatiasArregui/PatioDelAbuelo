@@ -18,7 +18,7 @@
         </tr>
       </thead>
       <tbody>
-          {% for f in facturas %}
+          {% for f in page_obj %}
           {% if f.anulado == True%}
             <tr class="table-danger">
               <td>{{f.id}}</td>
@@ -62,6 +62,25 @@
           {% endfor %}
       </tbody>
   </table>
+  <div class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+        <a class="btn btn-outline-primary mb-3" href="?page=1">« Primera</a>
+        <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.previous_page_number }}">‹ Anterior</a>
+    {% endif %}
+
+    {% for i in page_range %}
+        {% if page_obj.number == i %}
+            <span class="btn btn-primary mb-3">{{ i }}</span>
+        {% else %}
+            <a class="btn btn-outline-primary mb-3" href="?page={{ i }}">{{ i }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.next_page_number }}">Siguiente ›</a>
+        <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.paginator.num_pages }}">Última »</a>
+    {% endif %}
+</div>
   <a href={% url "facturaNueva" %} class="customButton">+</a>
 
 {% endblock %}

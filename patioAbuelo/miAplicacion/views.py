@@ -391,7 +391,21 @@ def ordenBorrar(request, pk):
 # Factura Orden ------->
 def listaFacturas(request):
     facturas = Factura.objects.all()
-    context = {"facturas": facturas}
+     # Configuración de la paginación
+    paginator = Paginator(facturas, 7)  # 7 elementos por página
+    page_number = request.GET.get('page')  # Obtener el número de página de la query string
+    page_obj = paginator.get_page(page_number)  # Obtener objetos de la página actual
+
+    # Calcular el rango de páginas
+    page_range_start = max(1, page_obj.number - 3)
+    page_range_end = min(page_obj.paginator.num_pages, page_obj.number + 3)
+    
+    # Preparar el contexto
+    context = {
+        "page_obj": page_obj,
+        "page_range": range(page_range_start, page_range_end + 1)  # Rango de páginas
+    }
+
     return render(request, template_name="./listas/listaFacturas.html", context=context)
 
 # Modificar Factura --------->
@@ -514,10 +528,6 @@ def facturaModificar(request, pk):
         "ordenes": ordenes,
     })
 
-
-
-
-
 # Nueva Factura ------------------>
 def facturaNuevo(request):
     id_orden_factura = [x.id_orden.pk for x in FacturaOrden.objects.all()]
@@ -587,7 +597,20 @@ def facturaBorrar(request, pk):
 #Listado Cierres ------------------------------------->
 def listaCierres(request):
     cierres = Cierre.objects.all()
-    context = {"cierres":cierres}
+    # Configuración de la paginación
+    paginator = Paginator(cierres, 7)  # 7 elementos por página
+    page_number = request.GET.get('page')  # Obtener el número de página de la query string
+    page_obj = paginator.get_page(page_number)  # Obtener objetos de la página actual
+
+    # Calcular el rango de páginas
+    page_range_start = max(1, page_obj.number - 3)
+    page_range_end = min(page_obj.paginator.num_pages, page_obj.number + 3)
+    
+    # Preparar el contexto
+    context = {
+        "page_obj": page_obj,
+        "page_range": range(page_range_start, page_range_end + 1)  # Rango de páginas
+    }
     return render(request, template_name="./listas/listaCierres.html", context=context)
 
 #Cierre modificar ---------------------------------->
