@@ -4,11 +4,16 @@
 <div class="container m-5">
     <h3 class="display-4 my-3">Factura</h3>
     <form method="post" class="row">
-        
+        {% csrf_token %}
+        <div class="col mb-3">
+            <label for="id_id_cliente">Cliente:</label>
+            {{ factura_form.id_cliente }}
+        </div>
+        <hr>
         {{ formset_orden.management_form }}
         <div id="select_container" class="row">
             {% for form in formset_orden %}
-                <div class="col-4">{{ form.as_p }}</div>
+                <div class="col-12">{{ form.as_p }}</div>
             {% endfor %}
         </div>
         <div id="pago_container" class="row">
@@ -17,8 +22,21 @@
                 <div class="col-4">{{ form.as_p }}</div>
         {% endfor %}
         </div>
-        {% csrf_token %}
-        {{ factura_form.as_p }}
+        <hr>
+        <div class="row mb-3">
+            <div class="col">
+                <label for="id_total">Total:</label>
+                {{ factura_form.total }}
+            </div>
+            <div class="col">
+                <label for="id_total_pago">Total Pago:</label>
+                {{ factura_form.total_pago }}
+            </div>
+            <div class="col">
+                <label for="id_vuelto">Vuelto:</label>
+                {{ factura_form.vuelto }}
+            </div>
+        </div>
         <div class="col">
             <button type="submit" class="btn btn-primary">Guardar</button>
             <button class="btn btn-primary">
