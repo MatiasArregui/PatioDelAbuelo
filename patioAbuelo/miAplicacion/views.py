@@ -4,6 +4,8 @@ from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSe
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator
+from django.db.models import Q
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 # from datetime import datetime, timedelta
 # import pytz
 
@@ -22,27 +24,29 @@ class LoginIngreso(LoginView):
 # PLATO VIEWS ------------------------------------------------------------------------------>
 # Listado plato --------------------------->
 
-def listaCarta(request):
-    carta = Carta.objects.all()
+class listaCarta(ListView):
     categoria = Categoria.objects.get(nombre__icontains="plato")
-
-    # Configuración de la paginación
-    paginator = Paginator(carta, 7)  # 7 elementos por página
-    page_number = request.GET.get('page')  # Obtener el número de página de la query string
-    page_obj = paginator.get_page(page_number)  # Obtener objetos de la página actual
-
-    # Calcular el rango de páginas
-    page_range_start = max(1, page_obj.number - 3)
-    page_range_end = min(page_obj.paginator.num_pages, page_obj.number + 3)
-    
-    # Preparar el contexto
-    context = {
-        "page_obj": page_obj,
+    model = Carta
+    template_name = "./listas/listaCarta.html"
+    context_object_name = 'carta'
+    paginate_by = 7
+    extra_context = {
         "categoria": categoria,
-        "page_range": range(page_range_start, page_range_end + 1)  # Rango de páginas
     }
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            queryset = queryset.filter(nombre__icontains=query)
+        return queryset
 
-    return render(request, template_name="./listas/listaCarta.html", context=context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.request.GET.get('q', '')  # Enviar el valor de la búsqueda al contexto
+        return context
+
+
 # Modificar plato ------------->
 def cartaModificar(request, pk):
     carta = Carta.objects.get(id=pk)
@@ -87,25 +91,12 @@ def cartaBorrar(request, pk):
 
 # MESAS VIEWS ----------------------------------->
 # Listado Mesa ------->
-def listaMesas(request):
-    mesas = Mesa.objects.all()  # Obtener todas las mesas
+class listaMesas(ListView):
+    model = Mesa
+    template_name = "./listas/listaMesas.html"
+    context_object_name = 'mesa'
+    paginate_by = 2
 
-    # Configuración de la paginación
-    paginator = Paginator(mesas, 7)  # 7 elementos por página
-    page_number = request.GET.get('page')  # Obtener el número de página de la query string
-    page_obj = paginator.get_page(page_number)  # Obtener objetos de la página actual
-
-    # Calcular el rango de páginas
-    page_range_start = max(1, page_obj.number - 3)
-    page_range_end = min(page_obj.paginator.num_pages, page_obj.number + 3)
-
-    # Preparar el contexto
-    context = {
-        "page_obj": page_obj,
-        "page_range": range(page_range_start, page_range_end + 1)  # Rango de páginas
-    }
-
-    return render(request, template_name="./listas/listaMesas.html", context=context)
 
 # Modificar Mesa --------->
 def mesaModificar(request, pk):
@@ -137,25 +128,23 @@ def mesaBorrar(request, pk):
 
 # CIENTES VIEWS ---------------------------------------------------------------------------------------------->
 # Listado Cliente -------
-def listaClientes(request):
-    clientes = Cliente.objects.all()  # Obtener todos los clientes
+class listaClientes(ListView):
+    model = Cliente
+    template_name = "./listas/listaclientes.html"
+    context_object_name = 'clientes'
+    paginate_by = 2
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            queryset = queryset.filter(nombre__icontains=query)
+        return queryset
 
-    # Configuración de la paginación
-    paginator = Paginator(clientes, 7)  # 7 elementos por página
-    page_number = request.GET.get('page')  # Obtener el número de página de la query string
-    page_obj = paginator.get_page(page_number)  # Obtener objetos de la página actual
-
-    # Calcular el rango de páginas
-    page_range_start = max(1, page_obj.number - 3)
-    page_range_end = min(page_obj.paginator.num_pages, page_obj.number + 3)
-
-    # Preparar el contexto
-    context = {
-        "page_obj": page_obj,
-        "page_range": range(page_range_start, page_range_end + 1)  # Rango de páginas
-    }
-
-    return render(request, template_name="./listas/listaClientes.html", context=context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.request.GET.get('q', '')  # Enviar el valor de la búsqueda al contexto
+        return context
 # Modificar Cliente --------->
 def ClienteModif(request, pk):
     cliente = Cliente.objects.get(id=pk)
@@ -238,24 +227,23 @@ def MozoBorrar(request, pk):
 
 # ORDEN VIEWS ---------------------------------------------------------------------------------------------->
 # Listado Orden ------->
-def listaOrdenes(request):
-    ordenes = Orden.objects.all()
-    context = {"ordenes": ordenes}
-    # Configuración de la paginación
-    paginator = Paginator(ordenes, 7)  # 7 elementos por página
-    page_number = request.GET.get('page')  # Obtener el número de página de la query string
-    page_obj = paginator.get_page(page_number)  # Obtener objetos de la página actual
-
-    # Calcular el rango de páginas
-    page_range_start = max(1, page_obj.number - 3)
-    page_range_end = min(page_obj.paginator.num_pages, page_obj.number + 3)
+class listaOrdenes(ListView):
+    model = Orden
+    template_name = "./listas/listaOrdenes.html"
+    context_object_name = 'ordenes'
+    paginate_by = 2
     
-    # Preparar el contexto
-    context = {
-        "page_obj": page_obj,
-        "page_range": range(page_range_start, page_range_end + 1)  # Rango de páginas
-    }
-    return render(request, template_name="./listas/listaOrdenes.html", context=context)
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            queryset = queryset.filter(fecha__icontains=query)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.request.GET.get('q', '')  # Enviar el valor de la búsqueda al contexto
+        return context
 
 # # Modificar Orden --------->
 # def ordenModificar(request, pk):
