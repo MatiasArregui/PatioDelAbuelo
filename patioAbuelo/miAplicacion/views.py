@@ -11,7 +11,9 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 # Pagina principal ----------------------------------------------------------------------------------->
 def principal(request):
-    return render(request, template_name="paginaPrincipal.html")
+    carta = Carta.objects.all()
+    context = {"carta": carta}
+    return render(request, template_name="paginaPrincipal.html", context=context)
 
 # Login de ingreso ------------------------------------------------------------------------------------->
 class LoginIngreso(LoginView):
@@ -72,7 +74,7 @@ def cartaNuevo(request):
     opcion3 = [{"value":x.pk, "text":x.nombre, "id_categoria":x.id_categoria.pk} for x in SubCategoria.objects.filter(id_categoria=3)]
 
     if request.method == 'POST':
-        form = CartaForm(request.POST)
+        form = CartaForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('listaCarta'))

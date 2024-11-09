@@ -130,8 +130,11 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Configuraciones de Auntenticacion
+#Imagenes de platos
+MEDIA_URL = '/media/' 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Configuraciones de Auntenticacion
 LOGIN_URL = '/login/' # URL de la pagina si se intenta ingresar sin iniciar
 LOGIN_REDIRECT_URL = '/inicio/' # Redireccion despues de un login exitoso
 LOGOUT_REDIRECT_URL = '/login/' # Redireccion despues de cerrar sesion

@@ -1,34 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form method="post" action="#" enctype="multipart/form-data">
-  <div>
-    <img src="../static/imagenes/pastelDePapa.jpg" alt="avatar" id="img" />
-    <input type="file" name="foto" id="foto" accept="image/*" />
-    <label for="foto">Cambiar foto</label>
-  </div>
-    <button type="submit">Guardar cambios</button>
-  </div>
-</form>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-<script>
-  const defaultFile = 'https://stonegatesl.com/wp-content/uploads/2021/01/avatar-300x300.jpg';
-
-const file = document.getElementById( 'foto' );
-const img = document.getElementById( 'img' );
-file.addEventListener( 'change', e => {
-  if( e.target.files[0] ){
-    const reader = new FileReader( );
-    reader.onload = function( e ){
-      img.src = e.target.result;
-    }
-    reader.readAsDataURL(e.target.files[0])
-  }else{
-    img.src = defaultFile;
-  }
-} );
-</script>
+    <div class="row">
+        {% for c in carta%}
+        <div class="col-4 border shadow-sm m-1">
+            <h1>{{c.nombre}}</h1>
+        
+            <img src="{{c.imagen.url}}" alt="" class="img-fluid">
+        </div>
+        {%endfor%}
+    </div>
 
 {% endblock %}

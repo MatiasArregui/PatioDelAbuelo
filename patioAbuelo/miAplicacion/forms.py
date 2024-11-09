@@ -32,7 +32,7 @@ class ClienteForm(forms.ModelForm):
 class CartaForm(forms.ModelForm):
     class Meta:
         model = Carta
-        fields = ("nombre", "precio", "controlStock", "stock", "categoria", "subCategoria")
+        fields = ("nombre", "precio", "controlStock", "stock", "categoria", "subCategoria", "imagen")
         widgets = {
             "nombre": forms.TextInput(attrs={"class": "form-control"}),
             "precio": forms.NumberInput(attrs={"class": "form-control"}),
@@ -40,6 +40,7 @@ class CartaForm(forms.ModelForm):
             "stock": forms.NumberInput(attrs={"class": "form-control"}),
             "categoria": forms.Select(attrs={"class": "form-control", "onchange":"updateSelect2()","disabled":"true"}),
             "subCategoria":forms.Select(attrs={"class": "form-control", "disabled":"true"}),
+            "imagen": forms.ClearableFileInput(attrs={"class": "form-control"}),
         }
         labels = {
             "nombre": "Nombre",
@@ -48,6 +49,7 @@ class CartaForm(forms.ModelForm):
             "stock": "Stock",
             "categoria": "Categoría",
             "subCategoria": "Subcategoría",
+            "imagen":"Imagen del Producto",
         }
     #     #Hacer filtrado por js
     # def __init__(self, *args, **kwargs):

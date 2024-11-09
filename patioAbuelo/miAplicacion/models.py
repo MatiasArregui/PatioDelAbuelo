@@ -21,6 +21,7 @@ class Carta(models.Model):
     nombre = models.CharField(max_length=120)
     precio = models.DecimalField(max_digits=15, decimal_places=2)
     controlStock = models.BooleanField(default=False)
+    imagen = models.ImageField(upload_to='imagenes/')
     stock = models.IntegerField(default=0)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     subCategoria = models.ForeignKey(SubCategoria, on_delete=models.CASCADE)
