@@ -178,24 +178,13 @@ def ClienteBorrar(request, pk):
 
 # MOZO VIEWS ----------------------------------------------------------------------------------------->
 #Listado Mozos ------------------------------------->
-def listaMozos(request):
-    mozos = Mozo.objects.all()
-    context = {"mozos":mozos}
-    # Configuración de la paginación
-    paginator = Paginator(mozos, 7)  # 7 elementos por página
-    page_number = request.GET.get('page')  # Obtener el número de página de la query string
-    page_obj = paginator.get_page(page_number)  # Obtener objetos de la página actual
-
-    # Calcular el rango de páginas
-    page_range_start = max(1, page_obj.number - 3)
-    page_range_end = min(page_obj.paginator.num_pages, page_obj.number + 3)
+class listaMozos(ListView):
+    model = Mozo
+    template_name = "./listas/listamozos.html"
+    context_object_name = 'mozos'
+    paginate_by = 2
     
-    # Preparar el contexto
-    context = {
-        "page_obj": page_obj,
-        "page_range": range(page_range_start, page_range_end + 1)  # Rango de páginas
-    }
-    return render(request, template_name="./listas/listaMozos.html", context=context)
+
 #Mozo modificar ---------------------------------->
 def MozoModif(request, pk):
     mozo = Mozo.objects.get(id=pk)
@@ -434,24 +423,24 @@ def ordenBorrar(request, pk):
 
 # FACTURAS VIEWS ---------------------------------------------------------------------------------------------->
 # Factura Orden ------->
-def listaFacturas(request):
-    facturas = Factura.objects.all()
-     # Configuración de la paginación
-    paginator = Paginator(facturas, 7)  # 7 elementos por página
-    page_number = request.GET.get('page')  # Obtener el número de página de la query string
-    page_obj = paginator.get_page(page_number)  # Obtener objetos de la página actual
-
-    # Calcular el rango de páginas
-    page_range_start = max(1, page_obj.number - 3)
-    page_range_end = min(page_obj.paginator.num_pages, page_obj.number + 3)
+class listaFacturas(ListView):
+    model = Factura
+    template_name = "./listas/listafacturas.html"
+    context_object_name = 'facturas'
+    paginate_by = 2
     
-    # Preparar el contexto
-    context = {
-        "page_obj": page_obj,
-        "page_range": range(page_range_start, page_range_end + 1)  # Rango de páginas
-    }
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            queryset = queryset.filter(fecha__icontains=query)
+        return queryset
 
-    return render(request, template_name="./listas/listaFacturas.html", context=context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.request.GET.get('q', '')  # Enviar el valor de la búsqueda al contexto
+        return context
+
 
 # Modificar Factura --------->
 # def facturaModificar(request, pk):
@@ -640,23 +629,23 @@ def facturaBorrar(request, pk):
 
 # CIERRE VIEWS ----------------------------------------------------------------------------------------->
 #Listado Cierres ------------------------------------->
-def listaCierres(request):
-    cierres = Cierre.objects.all()
-    # Configuración de la paginación
-    paginator = Paginator(cierres, 7)  # 7 elementos por página
-    page_number = request.GET.get('page')  # Obtener el número de página de la query string
-    page_obj = paginator.get_page(page_number)  # Obtener objetos de la página actual
-
-    # Calcular el rango de páginas
-    page_range_start = max(1, page_obj.number - 3)
-    page_range_end = min(page_obj.paginator.num_pages, page_obj.number + 3)
+class listaCierres(ListView):
+    model = Cierre
+    template_name = "./listas/listaCierres.html"
+    context_object_name = 'cierres'
+    paginate_by = 2
     
-    # Preparar el contexto
-    context = {
-        "page_obj": page_obj,
-        "page_range": range(page_range_start, page_range_end + 1)  # Rango de páginas
-    }
-    return render(request, template_name="./listas/listaCierres.html", context=context)
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            queryset = queryset.filter(fecha__icontains=query)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.request.GET.get('q', '')  # Enviar el valor de la búsqueda al contexto
+        return context
 
 #Cierre modificar ---------------------------------->
 def cierreModif(request, pk):

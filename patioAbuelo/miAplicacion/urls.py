@@ -18,7 +18,7 @@ urlpatterns = [
     path("ordenes/ordenBorrar/<int:pk>/", views.ordenBorrar, name="ordenBorrar"),
     
     #Facturas -------------------------------------------------------------------------------->
-    path("facturas/", views.listaFacturas, name="listaFacturas"),
+    path("facturas/", views.listaFacturas.as_view(), name="listaFacturas"),
     path("facturas/facturaNueva/", views.facturaNuevo, name="facturaNueva"),
     path("facturas/facturaModif/<int:pk>/", views.facturaModificar, name="facturaModificar"),
     path("facturas/facturaBorrar/<int:pk>/", views.facturaBorrar, name="facturaBorrar"),
@@ -42,13 +42,13 @@ urlpatterns = [
     path('carta/cartaBorrar/<int:pk>/', views.cartaBorrar, name='cartaBorrar'),
     
     #Mozos ---------------------------------------------------------------------------------->
-    path("mozos/", views.listaMozos, name="listaMozos"),
+    path("mozos/", views.listaMozos.as_view(), name="listaMozos"),
     path('mozos/mozoNuevo/', views.MozoNuevo, name='mozoNuevo'),
     path('mozos/mozoModif/<int:pk>/', views.MozoModif, name='mozoModif'),
     path('mozos/mozoBorrar/<int:pk>/', views.MozoBorrar, name='mozoBorrar'),
     
     #Cierre ---------------------------------------------------------------------------------->
-    path("cierre/", views.listaCierres, name="listaCierres"),
+    path("cierre/", views.listaCierres.as_view(), name="listaCierres"),
     path('cierre/cierreNuevo/', views.cierreNuevo, name='cierreNuevo'),
     path('cierre/cierreModif/<int:pk>/', views.cierreModif, name='cierreModif'),
     path('cierre/cierreBorrar/<int:pk>/', views.cierreBorrar, name='cierreBorrar'),
