@@ -138,3 +138,10 @@ class FacturaCierre(models.Model):
     
     def __str__(self) -> str:
         return str(self.pk)
+    
+# MODELO DE PLATO DEL DIA----------------------------------------->
+class PlatoDia(models.Model):
+    id_carta = models.ForeignKey(Carta, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return str(self.pk)

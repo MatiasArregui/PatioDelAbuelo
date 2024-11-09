@@ -1,8 +1,9 @@
 from django.contrib import admin
-from .models import Carta, CartaOrden, Factura, FacturaOrden, Mozo, Mesa, Cliente, Categoria, SubCategoria, Orden, TipoPago, FacturaPago, Cierre, FacturaCierre
+from .models import Carta, PlatoDia, CartaOrden, Factura, FacturaOrden, Mozo, Mesa, Cliente, Categoria, SubCategoria, Orden, TipoPago, FacturaPago, Cierre, FacturaCierre
 # Register your models here.
 admin.site.register(Mesa)
 admin.site.register(TipoPago)
+admin.site.register(PlatoDia)
 
 # DETALLES DE cATEGORIAS -------------------------------------->
 class CategoriaDetalle(admin.ModelAdmin):

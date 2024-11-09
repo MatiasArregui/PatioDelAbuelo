@@ -1,18 +1,23 @@
 from django.shortcuts import render, HttpResponseRedirect
-from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria, Categoria, CartaOrden, FacturaOrden, Cierre, FacturaCierre
+from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria, Categoria, CartaOrden, FacturaOrden, Cierre, FacturaCierre, PlatoDia
 from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSet, FacturaForm, FacturaOrdenFormSet, FacturaPagoFormSet, CierreForm,  FacturaCierreFormSet, LoginForm
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+import random
 # from datetime import datetime, timedelta
 # import pytz
 
 # Pagina principal ----------------------------------------------------------------------------------->
 def principal(request):
-    carta = Carta.objects.all()
-    context = {"carta": carta}
+    cartaId = [x.pk for x in Carta.objects.all()]
+    carta_aleratoria = random.choice(cartaId)
+    carta = Carta.objects.get(id=carta_aleratoria)
+    platoDia = PlatoDia.objects.all()
+    context = {"carta": carta,
+               "platoDia":platoDia}
     return render(request, template_name="paginaPrincipal.html", context=context)
 
 # Login de ingreso ------------------------------------------------------------------------------------->
