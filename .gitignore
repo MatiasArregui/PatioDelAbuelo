@@ -17,3 +17,6 @@ db.sqlite3
 
 #No subir migrations
 migrations
+
+#Ignorar carpeta media
+media
