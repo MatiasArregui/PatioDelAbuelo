@@ -12,11 +12,14 @@
     <link rel="stylesheet" href="{% static 'loginEstilo.css' %}">
 </head>
 <body>
-        <h1>Patio del Abuelo</h1>
-        <form method="post">
+    <div id="formulario" class="container">
+        <h2 class="pb-3">Patio del Abuelo</h2>
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-primary mt-3">Enviar</button>
+            <button type="submit" class="boton">Ingresar</button>
         </form>
+    </div>
 <body>
 <html>
+
