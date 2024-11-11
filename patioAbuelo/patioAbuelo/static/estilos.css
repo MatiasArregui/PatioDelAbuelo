@@ -14,41 +14,8 @@
   
   header {
     background-color:#C1121F;
-    border: solid, 5px, #FFFFFA;
   }
-  header #btnMenu, header label {
-    display: none;
-  }
-  header .logoMenu {
-    display: none;
-  }
-  header nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: space-evenly;
-    padding: 15px 20px;
-    align-items: center;
-    margin-bottom: 0px;
-    text-decoration: none;
-  }
-  header nav ul img {
-    width: 150px;
-  }
-  header nav ul {
-    padding: 10px;
-    font-size: 20px;
-  }
-  header nav ul a {
-    text-decoration: none;
-    color: #FFFFFA;
-    font-family: "Montserrat", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 500;
-  }
-  header nav ul a:hover {
-    text-decoration: underline #FFFFFA;
-    color: #FFFFFA;
-  }
+ 
   .main{
     background-color: #FFFFFA;
   }
@@ -61,15 +28,8 @@
     color: #FFFFFA;
     border: solid 5px #FFFFFA;
   }
-.inicio{
-    cursor: pointer;
-    text-decoration: none;
-    color: white;
-}
-.inicio:hover{
-    text-decoration: none;
-    color: white;
-}
+
+
 /* lista carta */
 .customButton{
     display: flex;
@@ -94,24 +54,6 @@
     color: white;
     cursor: pointer;
 }
-
-
-
-/* inicio */
-.carousel-inner {
-    min-height: 100vh /* Ajusta el valor según lo que necesites */
-  }
-  
-  .carousel-item img {
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-  }
-  
-  
-  
-
-
 
 
 
