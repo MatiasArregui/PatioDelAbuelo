@@ -22,11 +22,6 @@
         <header class="row">
             <div class="col d-flex justify-content-start align-items-center">
                 <a href="{% url 'paginaPrincipal' %}"><img src="{% static 'imagenes/patioAbuelo.png'%}" alt="" width="90"></a>
-                <div class="d-flex flex-column">
-                    <h5 class="p-0 m-0 text-center text-white">Patio del Abuelo</h5>
-                    <hr class="p-0 m-0 text-white">
-                    <p class="text-center p-0 m-0 text-white">Restaurante</p>
-                </div>
             </div>
             <!-- Boton derecho del header que abre le canva -->
             <div class="col d-flex justify-content-end">
@@ -37,11 +32,6 @@
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                 <div class="offcanvas-header d-flex justify-content-start align-items-center mt-3">
                     <a href="{% url 'paginaPrincipal'%}"><img src="{% static 'imagenes/patioAbuelo.png'%}" alt="" width="70"></a>
-                    <div class="d-flex flex-column">
-                        <h5 id="offcanvasRightLabel" class="p-0 m-0 text-center">Patio del Abuelo</h5>
-                        <hr class="p-0 m-0">
-                        <p class="text-center p-0 m-0">Restaurante</p>
-                    </div>
                     <button type="button" class="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">
@@ -93,13 +83,7 @@
         {% block content %}
         {% endblock %}
     </main>
-    <footer class="d-none d-md-block">
-        <div class="row">
-            <div class="col-6">Patio del Abuelo</div>
-            <div class="col-6">&copy; Todos los derechos reservados</div>
-        </div>
-    </footer>
-    <footer class="d-block d-md-none fixed-bottom">
+    <footer>
         <div class="row">
             <div class="col-6">Patio del Abuelo</div>
             <div class="col-6">&copy; Todos los derechos reservados</div>

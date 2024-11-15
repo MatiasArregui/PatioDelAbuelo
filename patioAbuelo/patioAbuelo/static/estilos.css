@@ -10,12 +10,79 @@
     display: grid;
     min-height: 100dvh;
     grid-template-rows: auto 1fr auto;
+    overflow-x: hidden;
   }
   
   header {
     background-color:#C1121F;
+    border: solid, 5px, #FFFFFA;
   }
- 
+  header #btnMenu, header label {
+    display: none;
+  }
+  header .logoMenu {
+    display: none;
+  }
+  header nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 15px 20px;
+    align-items: center;
+    margin-bottom: 0px;
+    text-decoration: none;
+  }
+  header nav ul img {
+    width: 150px;
+  }
+  header nav ul {
+    padding: 10px;
+    font-size: 20px;
+  }
+  header nav ul a {
+    text-decoration: none;
+    color: #FFFFFA;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+  }
+  header nav ul a:hover {
+    text-decoration: underline #FFFFFA;
+    color: #FFFFFA;
+  }
+
+  /* Logo */
+.logo, .logo-offcanvas {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Botón del Menú */
+.menu-icon {
+  width: 30px;
+  height: 30px;
+}
+
+/* Offcanvas Styles */
+.offcanvas-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.offcanvas-body {
+  padding: 1rem;
+}
+
+.nav-link {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+
+  .nombre{
+    text-align: center;
+  }
   .main{
     background-color: #FFFFFA;
   }
@@ -30,8 +97,17 @@
   }
 
 
+  .inicio{
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+}
+  .inicio:hover{
+    text-decoration: none;
+    color: white;
+}
 /* lista carta */
-.customButton{
+  .customButton{
     display: flex;
     position: fixed;
     width: 55px;
@@ -50,11 +126,43 @@
     text-decoration: none;
 }
 
-.customButton:hover{
+  .customButton:hover{
     color: white;
     cursor: pointer;
 }
 
+
+
+/* inicio */
+.carousel-inner {
+    min-height: 100vh /* Ajusta el valor según lo que necesites */
+  }
+  
+  .carousel-item img {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+  }
+
+  
+  
+  
+
+
+/* Responsiveness */
+@media (max-width: 576px) {
+  header .logo {
+      width: 70px; /* Logo más pequeño en móviles */
+  }
+
+  .menu-icon {
+      width: 25px; /* Icono más pequeño en móviles */
+  }
+
+  .nav-link {
+      font-size: 0.9rem; /* Texto más pequeño */
+  }
+}
 
 
 
@@ -108,27 +216,11 @@
     .inicio{
         display: none;
     }
+    header .logo {
+      width: 90px; /* Tamaño estándar del logo */
   }
 
-
-  .pagination .btn {
-    margin: 0 5px; /* Espaciado entre botones */
-}
-
-.pagination .btn-primary {
-    background-color: #007bff; /* Color de fondo para el botón activo */
-    border-color: #007bff; /* Color del borde para el botón activo */
-}
-
-.pagination .btn-outline-primary {
-    color: #007bff; /* Color del texto */
-    border-color: #007bff; /* Color del borde */
-}
-
-.pagination .btn-primary:hover,
-.pagination .btn-outline-primary:hover {
-    background-color: #0056b3; /* Color de fondo al pasar el mouse */
-    border-color: #0056b3; /* Color del borde al pasar el mouse */
-}
-
-   
+  .menu-icon {
+      width: 30px;
+  }
+  }
