@@ -1,0 +1,20 @@
+#Cache de compilacion
+.vscode
+__pycache__
+
+#Entorno virtual
+pyvenv.cfg
+Lib
+Scripts
+Include
+entorno
+
+#Base de datos
+
+
+#.idea
+.idea
+
+#No subir migrations
+migrations
+

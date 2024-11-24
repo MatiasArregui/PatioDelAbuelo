@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <h1 class="text-center mt-3">Lista Mozos</h1>
+    <table class="table table-light shadow-sm table-responsive">
+        <thead class="bg-light">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Telefono</th>
+            <th scope="col" class="d-flex justify-content-end">
+            Action
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for m in mozos %}
+              <tr>
+                <td>{{m.id}}</td>
+                <td>{{m.nombre}}</td>
+                {% if m.telefono %}
+                  <td>{{m.telefono}}</td>
+                {% else %}
+                  <td>-----</td>
+                {% endif %}
+                
+                <td class="d-flex justify-content-end gap-1">
+                  <button class="btn btn-sm btn-primary"><a href="/mozos/mozoModif/{{ m.id }}" class="text-white text-decoration-none">Modificar</a></button>
+                  <button class="btn btn-sm btn-danger"><a href="/mozos/mozoBorrar/{{ m.id }}" class="text-white text-decoration-none">Eliminar</a></button>
+                </td>
+              </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+          <a class="btn btn-outline-primary mb-3" href="?page=1">
+              Primera
+          </a>
+          <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.previous_page_number }}">
+              Anterior
+          </a>
+      {% endif %}
+  
+      <span class="current-page btn btn-outline-light disabled text-primary mb-3">
+          {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+      </span>
+  
+      {% if page_obj.has_next %}
+          <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.next_page_number }}">
+              Siguiente
+          </a>
+          <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.paginator.num_pages }}">
+              Última
+          </a>
+      {% endif %}
+  </div>
+    <a href={% url "mozoNuevo" %} class="customButton">+</a>
+
+{% endblock %}

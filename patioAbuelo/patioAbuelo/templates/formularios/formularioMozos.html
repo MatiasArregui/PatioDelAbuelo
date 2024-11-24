@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    <h3 class="display-4 my-3">Mozo</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary mb-3" type="submit">Guardar</button>
+        <a class="btn btn-outline-primary mb-3" href="{% url 'listaMozos' %}">Cancelar</a>
+    </form>
+</div>
+
+{% endblock %}
