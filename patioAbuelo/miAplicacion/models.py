@@ -19,6 +19,7 @@ class SubCategoria(models.Model):
 # MODELO DE CARTA ------------------------------------>
 class Carta(models.Model):
     nombre = models.CharField(max_length=120)
+    descripcion = models.CharField(max_length=120, default="", null=True, blank=True)
     precio = models.DecimalField(max_digits=15, decimal_places=2)
     controlStock = models.BooleanField(default=False)
     imagen = models.ImageField(upload_to='imagenes/')

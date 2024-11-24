@@ -32,9 +32,10 @@ class ClienteForm(forms.ModelForm):
 class CartaForm(forms.ModelForm):
     class Meta:
         model = Carta
-        fields = ("nombre", "precio", "controlStock", "stock", "categoria", "subCategoria", "imagen")
+        fields = ("nombre", "precio", "controlStock", "stock", "categoria", "subCategoria", "imagen", "descripcion")
         widgets = {
             "nombre": forms.TextInput(attrs={"class": "form-control"}),
+            "descripcion": forms.TextInput(attrs={"class": "form-control"}),
             "precio": forms.NumberInput(attrs={"class": "form-control"}),
             "controlstock" : forms.BooleanField(widget=forms.CheckboxInput(attrs={'class': 'form-check-input form-control'})),
             "stock": forms.NumberInput(attrs={"class": "form-control"}),
@@ -44,6 +45,7 @@ class CartaForm(forms.ModelForm):
         }
         labels = {
             "nombre": "Nombre",
+            "descripcion":"Descripción",
             "precio": "Precio",
             "controlStock": "Verificar stock",
             "stock": "Stock",
