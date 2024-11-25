@@ -25,8 +25,8 @@
             </div>
             <!-- Boton derecho del header que abre le canva -->
             <div class="col d-flex justify-content-end">
-                <button class="btn  justify-self-end" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                    <img src="{% static 'imagenes/iconCanva.svg'%}" alt="" width="30" height="30">
+                <button class="btn justify-self-end" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                    <img src="{% static 'imagenes/iconCanva.svg'%}"  alt="" width="30" height="30">
                 </button>
             </div>
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
@@ -46,7 +46,7 @@
                         <a href="{% url "listaClientes"%}" class="nav-link">Cliente</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url "listaMesas"%}" class="nav-link">Meza</a>
+                        <a href="{% url "listaMesas"%}" class="nav-link">Mesa</a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url "listaOrdenes"%}" class="nav-link">Orden</a>
@@ -60,21 +60,18 @@
                     <li class="nav-item">
                         <a href="#" class="nav-link">Plato del dia</a>
                     </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">{{ request.user }} | Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                {% endif %}
                   </ul>
                 </div>
-                <div class="offcanvas-body">
-                    <ul class="nav navbar-nav ms-auto ">
-                        {% if user.is_authenticated %}
-                           <li class="nav-item">
-                               <a class="nav-link" href="{% url 'logout' %}">{{ request.user }} | Logout</a>
-                           </li>
-                       {% else %}
-                           <li class="nav-item">
-                               <a class="nav-link" href="{% url 'login' %}">Login</a>
-                           </li>
-                       {% endif %}
-                    </ul>
-                </div>
+
             </div>
         </header>
         

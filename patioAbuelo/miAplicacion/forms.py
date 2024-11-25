@@ -39,7 +39,7 @@ class CartaForm(forms.ModelForm):
             "precio": forms.NumberInput(attrs={"class": "form-control"}),
             "controlstock" : forms.BooleanField(widget=forms.CheckboxInput(attrs={'class': 'form-check-input form-control'})),
             "stock": forms.NumberInput(attrs={"class": "form-control"}),
-            "categoria": forms.Select(attrs={"class": "form-control", "onchange":"updateSelect2()","disabled":"true"}),
+            "categoria": forms.Select(attrs={"class": "form-control", "onchange":"updateSelect2()"}),
             "subCategoria":forms.Select(attrs={"class": "form-control", "disabled":"true"}),
             "imagen": forms.ClearableFileInput(attrs={"class": "form-control"}),
         }

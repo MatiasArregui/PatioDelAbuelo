@@ -20,14 +20,15 @@
     const select2 = document.getElementById('id_subCategoria');
 
     // EVENTO CLICK EN EL INPUT PRECIO 
-    input.addEventListener('click', function() {
-        select1.removeAttribute("disabled");
+    input.addEventListener('change', function() {
         select2.removeAttribute("disabled");
     });
-
+    if (select2.value !== ""){
+        select2.removeAttribute("disabled");
+    };
     // ACTUALIZAR LOS VALORES DEL SEGUNDO SELECT AL HACER CLICK EN EL PRIMER SELECT (CATEGORIAS)
     function updateSelect2() {
-
+        
         // Convertimos el objeto obtenido en un valor que usaremos para los condicionales porteriores
         const selectedValue = select1.value;
         

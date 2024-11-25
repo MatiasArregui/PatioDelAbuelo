@@ -10,7 +10,7 @@ Include
 entorno
 
 #Base de datos
-
+db.sqlite3
 
 #.idea
 .idea
