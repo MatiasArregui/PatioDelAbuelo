@@ -763,7 +763,7 @@ def mozoDetalle(request, pk):
     mozo = Mozo.objects.get(id=pk)
     context = {"mozo": mozo}
     return render(request, "./detalles/mozoDetalle.html", context=context)
-#Detalle Mozo ----------------->
+#Detalle Cierre ----------------->
 def cierreDetalle(request, pk):
     # cierre = Cierre.objects.get(id=1)
     # facturaCierreId = [x.id_factura.pk for x in FacturaCierre.objects.filter(id_cierre=cierre.id)]
@@ -776,3 +776,10 @@ def cierreDetalle(request, pk):
     print(facturas)
     context = {"cierre": cierre, "facturas":facturas}
     return render(request, "./detalles/cierreDetalle.html", context=context)
+#Detalle Orden ----------------->
+def ordenDetalle(request, pk):
+    orden = Orden.objects.get(id=pk)
+    facturaOrdenId = [x.id_carta.pk for x in CartaOrden.objects.filter(id_orden=orden.pk)]
+    carta = [x for x in Carta.objects.all() if x.pk in facturaOrdenId]
+    context = {"orden": orden, "carta":carta}
+    return render(request, "./detalles/ordenDetalle.html", context=context)
