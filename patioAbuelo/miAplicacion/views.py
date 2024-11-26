@@ -751,3 +751,15 @@ def PlatoDiaBorrar(request, pk):
         platoDia.delete()
         return HttpResponseRedirect(reverse('listaPlatoDia'))
     return render(request, './confirmacionBorrado/platoDiaConfBorrar.html', {'platodia': platoDia})
+
+# DETALLES --------------------------------------------------------------------->
+#Detalle Carta ----------------->
+def cartaDetalle(request, pk):
+    carta = Carta.objects.get(id=pk)
+    context = {"carta": carta}
+    return render(request, "./detalles/cartaDetalle.html", context=context)
+#Detalle Mozo ----------------->
+def mozoDetalle(request, pk):
+    mozo = Mozo.objects.get(id=pk)
+    context = {"mozo": mozo}
+    return render(request, "./detalles/mozoDetalle.html", context=context)

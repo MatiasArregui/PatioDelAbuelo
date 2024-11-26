@@ -66,4 +66,9 @@ urlpatterns = [
     path('platodia/platoDiaModif/<int:pk>/', login_required(views.PlatoDiaModif), name='platoDiaModif'),
     path('platodia/platoDiaBorrar/<int:pk>/', login_required(views.PlatoDiaBorrar), name='platoDiaBorrar'),
 
+    # DETALLES ------------------------------------------------->
+    path("carta/<int:pk>", login_required(views.cartaDetalle), name="cartaDetalle"),
+    path("mozos/<int:pk>", login_required(views.mozoDetalle), name="mozoDetalle"),
+    
+    
 ]
