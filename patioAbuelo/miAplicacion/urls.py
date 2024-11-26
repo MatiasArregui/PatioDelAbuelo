@@ -69,6 +69,7 @@ urlpatterns = [
     # DETALLES ------------------------------------------------->
     path("carta/<int:pk>", login_required(views.cartaDetalle), name="cartaDetalle"),
     path("mozos/<int:pk>", login_required(views.mozoDetalle), name="mozoDetalle"),
+    path("cierre/<int:pk>", login_required(views.cierreDetalle), name="cierreDetalle"),
     
     
 ]

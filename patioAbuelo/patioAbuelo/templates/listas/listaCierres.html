@@ -1,5 +1,16 @@
 {% extends "base.html" %}
+{% block estilos %}
+<style>
+    tbody tr:hover {
+        color: #C1121F; /* Cambia el color del texto */
+    }
+    tbody tr {
+        cursor: pointer; /* Cambia el cursor a un puntero para indicar que es seleccionable */
+    }
+</style>
 
+
+{% endblock %}
 {% block content %}
 
   <h1 class="text-center mt-3 ">Lista Cierres</h1>
@@ -26,7 +37,7 @@
         </thead>
         <tbody>
             {% for c in page_obj %}
-              <tr>
+              <tr onclick="window.location.href='{% url 'cierreDetalle' c.id%}'">
                 <td>{{c.id}}</td>
                 <td>{{c.fecha}}</td>
                 <td>{{c.total_ordenes}}</td>

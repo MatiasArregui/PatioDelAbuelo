@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+                <h1>{{cierre.fecha}}</h1>
+                <h4>Facturas</h4>
+                <table class="table table-light shadow-sm table-responsive">
+                    <thead class="bg-light">
+                      <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Total Ordenes</th>    
+                        <th scope="col">Total Pagado</th> 
+                        <th scope="col">Vuelto</th>    
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for f in facturas %}
+                        <tr>
+                          <td>{{f.id}}</td>
+                          <td>{{f.fecha}}</td>
+                          <td>{{f.id_cliente.nombre}}</td>
+                          <td>{{f.total}}</td>
+                          <td>{{f.total_pago}}</td>
+                          <td>{{f.vuelto}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <p>Total de la suma de ordenes: {{cierre.total_ordenes}}</p>
+                <p>Total de la suma de facturas:{{cierre.total_facturas}}</p>
+                <p>Total de la suma de vuelto:{{cierre.vuelto}}</p>
+            
+
+
+        </div>
+    </div>
+
+{% endblock %}
