@@ -1,4 +1,16 @@
 {% extends "base.html" %}
+{% block estilos %}
+<style>
+    tbody tr:hover {
+        color: #C1121F; /* Cambia el color del texto */
+    }
+    tbody tr {
+        cursor: pointer; /* Cambia el cursor a un puntero para indicar que es seleccionable */
+    }
+</style>
+
+
+{% endblock %}
 
 {% block content %}
 
@@ -29,7 +41,7 @@
     </thead>
     <tbody>
         {% for c in carta %}
-            <tr>
+            <tr onclick="window.location.href='{% url 'cartaDetalle' c.id%}'">
                 <td>{{ c.id }}</td>
                 <td>{{ c.nombre }}</td>
                 <td>{{ c.precio }}</td>

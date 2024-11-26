@@ -59,4 +59,18 @@ urlpatterns = [
     path('cierre/cierreBorrar/<int:pk>/', login_required(views.cierreBorrar), name='cierreBorrar'),
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    # DETALLES ------------------------------------------------->
+    path("carta/<int:pk>", login_required(views.cartaDetalle), name="cartaDetalle"),
+    path("mozos/<int:pk>", login_required(views.mozoDetalle), name="mozoDetalle"),
+    
+    
 ]

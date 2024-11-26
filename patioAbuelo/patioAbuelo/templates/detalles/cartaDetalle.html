@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <div class="col border shadow-sm m-1">
+                <h1>{{carta.nombre}}</h1>
+                <p>{{carta.descripcion}}</p>
+                <p>{{carta.precio}}</p>
+                <p>{{carta.categoria.nombre}}</p>
+                <p>{{carta.subCategoria.nombre}}</p>
+            
+                <img src="{{carta.imagen.url}}" alt="" class="img-fluid">
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
