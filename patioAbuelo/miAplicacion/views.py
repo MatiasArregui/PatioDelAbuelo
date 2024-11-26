@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect
 from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria, Categoria, CartaOrden, FacturaOrden, Cierre, FacturaCierre, PlatoDia
-from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSet, FacturaForm, FacturaOrdenFormSet, FacturaPagoFormSet, CierreForm,  FacturaCierreFormSet, LoginForm
+from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSet, FacturaForm, FacturaOrdenFormSet, FacturaPagoFormSet, CierreForm,  FacturaCierreFormSet, LoginForm, PlatoDiaForm
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator
@@ -714,3 +714,40 @@ def cierreBorrar(request, pk):
         cierre.delete()
         return HttpResponseRedirect(reverse('listaCierres'))
     return render(request, './confirmacionBorrado/cierreConfBorrar.html', {'cierre': cierre})
+
+# PLATO DIA VIEWS ----------------------------------------------------------------------------------------->
+#Listado Plato día ------------------------------------->
+class listaPlatoDia(ListView):
+    model = PlatoDia
+    template_name = "./listas/listaplatodia.html"
+    context_object_name = 'platodia'
+    
+
+#Plato dia modificar ---------------------------------->
+def PlatoDiaModif(request, pk):
+    platoDia = PlatoDia.objects.get(id=pk)
+    if request.method == 'POST':
+        form = PlatoDiaForm(request.POST, instance=platoDia)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('listaPlatoDia'))
+    else:
+        form = PlatoDiaForm(instance=platoDia)
+    return render(request, './formularios/formularioPlatoDia.html', {'form': form, 'platodia': platoDia})
+# Plato día nuevo -------------------------------------------->
+def PlatoDiaNuevo(request):
+    if request.method == 'POST':
+        form = PlatoDiaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('listaPlatoDia'))
+    else:
+        form = PlatoDiaForm()
+    return render(request, './formularios/formularioPlatoDia.html', {'form': form})
+#Plato dia borrar ----------------------------------------------->
+def PlatoDiaBorrar(request, pk):
+    platoDia = PlatoDia.objects.get(id=pk)
+    if request.method == 'POST':
+        platoDia.delete()
+        return HttpResponseRedirect(reverse('listaPlatoDia'))
+    return render(request, './confirmacionBorrado/platoDiaConfBorrar.html', {'platodia': platoDia})

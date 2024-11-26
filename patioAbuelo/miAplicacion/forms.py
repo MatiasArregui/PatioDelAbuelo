@@ -1,5 +1,5 @@
 from django import forms
-from .models import Mozo, Cliente, Carta, Categoria, SubCategoria, CartaOrden, Orden, Factura, FacturaOrden, FacturaPago, Cierre, FacturaCierre
+from .models import Mozo, Cliente, Carta, Categoria, SubCategoria, CartaOrden, Orden, Factura, FacturaOrden, FacturaPago, Cierre, FacturaCierre, PlatoDia
 from django.forms import inlineformset_factory
 from django.contrib.auth.forms import AuthenticationForm
 
@@ -176,3 +176,16 @@ class LoginForm(AuthenticationForm):
             'placeholder': 'Contraseña'
         })
     )
+
+
+class PlatoDiaForm(forms.ModelForm):
+    class Meta:
+        model = PlatoDia
+        fields = ['id_carta']
+        widgets = {
+            'id_carta': forms.Select(attrs={'class': 'form-control'})
+        }
+        labels = {"id_carta":"Plato del día"
+            }
+
+        

@@ -58,7 +58,7 @@
                         <a href="{% url "listaCierres"%}" class="nav-link">Cierre</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Plato del dia</a>
+                        <a href="{% url "listaPlatoDia"%}" class="nav-link">Plato del dia</a>
                     </li>
                     {% if user.is_authenticated %}
                     <li class="nav-item">

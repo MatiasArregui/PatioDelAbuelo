@@ -59,4 +59,11 @@ urlpatterns = [
     path('cierre/cierreBorrar/<int:pk>/', login_required(views.cierreBorrar), name='cierreBorrar'),
     
     
+
+    #Plato del día ---------------------------------------------------------------------------------->
+    path("platodia/", login_required(views.listaPlatoDia.as_view()), name="listaPlatoDia"),
+    path('platodia/platoDiaNuevo/', login_required(views.PlatoDiaNuevo), name='platoDiaNuevo'),
+    path('platodia/platoDiaModif/<int:pk>/', login_required(views.PlatoDiaModif), name='platoDiaModif'),
+    path('platodia/platoDiaBorrar/<int:pk>/', login_required(views.PlatoDiaBorrar), name='platoDiaBorrar'),
+
 ]

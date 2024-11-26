@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <h1 class="text-center mt-3">Lista Plato del día</h1>
+    <table class="table table-light shadow-sm table-responsive">
+        <thead class="bg-light">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col" class="d-flex justify-content-end">
+            Action
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for p in platodia %}
+              <tr>
+                <td>{{p.id_carta}}</td>
+                <td class="d-flex justify-content-end gap-1">
+                  <button class="btn btn-sm btn-primary"><a href="/platodia/platoDiaModif/{{ p.id }}" class="text-white text-decoration-none">Modificar</a></button>
+                  <button class="btn btn-sm btn-danger"><a href="/platodia/platoDiaBorrar/{{ p.id }}" class="text-white text-decoration-none">Eliminar</a></button>
+                </td>
+              </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href={% url "platoDiaNuevo" %} class="customButton">+</a>
+
+{% endblock %}
