@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1>{{mesa.nombre}}</h1>
+            {% if mesa.estado %}
+                <p>Ocupada</p>
+            {% else %}
+            <p>Desocupada</p>
+            {% endif  %}
+        </div>
+    </div>
+
+
+{% endblock %}

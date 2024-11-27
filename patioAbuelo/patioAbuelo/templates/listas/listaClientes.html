@@ -1,4 +1,17 @@
 {% extends "base.html" %}
+{% block estilos %}
+<style>
+    tbody tr:hover {
+        color: #C1121F; /* Cambia el color del texto */
+        opacity: 0.5;
+    }
+    tbody tr {
+        cursor: pointer; /* Cambia el cursor a un puntero para indicar que es seleccionable */
+    }
+</style>
+
+
+{% endblock %}
 {% block content %}
 <h1 class="text-center mt-3">Lista Clientes</h1>
 <form method="GET" class="d-none d-md-table-cell col-md-4">
@@ -24,7 +37,7 @@
     </thead>
     <tbody>
         {% for c in clientes %}
-            <tr>
+            <tr onclick="window.location.href='{% url 'clienteDetalle' c.id%}'"> 
                 <td>{{ c.id }}</td>
                 <td>{{ c.nombre }}</td>
                 <td>{{ c.telefono|default_if_none:"-----" }}</td>

@@ -763,6 +763,16 @@ def mozoDetalle(request, pk):
     mozo = Mozo.objects.get(id=pk)
     context = {"mozo": mozo}
     return render(request, "./detalles/mozoDetalle.html", context=context)
+#Detalle Cliente ----------------->
+def clienteDetalle(request, pk):
+    cliente = Cliente.objects.get(id=pk)
+    context = {"cliente": cliente}
+    return render(request, "./detalles/clienteDetalle.html", context=context)
+#Detalle Mesa ----------------->
+def mesaDetalle(request, pk):
+    mesa = Mesa.objects.get(id=pk)
+    context = {"mesa": mesa}
+    return render(request, "./detalles/mesaDetalle.html", context=context)
 #Detalle Cierre ----------------->
 def cierreDetalle(request, pk):
     # cierre = Cierre.objects.get(id=1)
