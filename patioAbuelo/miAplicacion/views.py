@@ -793,3 +793,17 @@ def ordenDetalle(request, pk):
     carta = [x for x in Carta.objects.all() if x.pk in facturaOrdenId]
     context = {"orden": orden, "carta":carta}
     return render(request, "./detalles/ordenDetalle.html", context=context)
+#Detalle Orden ----------------->
+def facturaDetalle(request, pk):
+    factura = Factura.objects.get(id=pk)
+    print(factura)
+    ordenFacturaId = [x.id_orden.pk for x in FacturaOrden.objects.filter(id_factura=factura.pk)]
+    print(ordenFacturaId)
+    ordenes = [x for x in Orden.objects.all() if x.pk in ordenFacturaId]
+    print(ordenes)
+    cartaOrdenId =[x.pk for x in CartaOrden.objects.all()]
+    print(cartaOrdenId)
+    platos = [x for x in Carta.objects.all() if x.pk in cartaOrdenId]
+    print(platos)
+    context = {"ordenes": ordenes, "platos": platos, "factura": factura}
+    return render(request, "./detalles/facturaDetalle.html", context=context)

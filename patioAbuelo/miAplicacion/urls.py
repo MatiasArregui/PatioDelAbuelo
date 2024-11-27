@@ -71,8 +71,9 @@ urlpatterns = [
     path("mozos/<int:pk>", login_required(views.mozoDetalle), name="mozoDetalle"),
     path("clientes/<int:pk>", login_required(views.clienteDetalle), name="clienteDetalle"),
     path("mesas/<int:pk>", login_required(views.mesaDetalle), name="mesaDetalle"),
-    path("cierre/<int:pk>", login_required(views.cierreDetalle), name="cierreDetalle"),
+    path("facturas/<int:pk>", login_required(views.facturaDetalle), name="facturaDetalle"),
     path("ordenes/<int:pk>", login_required(views.ordenDetalle), name="ordenDetalle"),
+    path("cierre/<int:pk>", login_required(views.cierreDetalle), name="cierreDetalle"),
     
     
 ]

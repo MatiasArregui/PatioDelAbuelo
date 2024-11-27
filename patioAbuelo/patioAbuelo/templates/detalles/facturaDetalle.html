@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h2>Factura n° {{factura.id}}</h2>
+            <p></p>
+            <p>{{factura.fecha}}</p>
+
+            <hr>
+            {% for o in ordenes %}
+                    <h4>Orden n° {{ o.id }}</h4>
+                    <hr>
+                    <p>fecha: {{ o.fecha }}</p>
+                    <p>nombre de la mesa: {{ o.id_mesa.nombre }}</p>
+                    <p>nombre del mozo: {{ o.id_mozo.nombre }}</p>
+                    <p>{{ o.observacion }}</p>
+                    <h5>Platos de la orden</h5>
+                    <table class="table table-light shadow-sm table-responsive">
+                    <thead class="bg-light">
+                        <tr>
+                            <th scope="col">Plato</th>
+                            <th scope="col">Precio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for plato in platos %}
+                        <tr>
+                            <td>{{ plato.nombre }}</td>
+                            <td>{{ plato.precio }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endfor %}
+            <hr>
+            <p>total factura: {{factura.total}}</p>
+            <p>total pagado: {{factura.total_pago}}</p>
+            <p>vuelto: {{factura.vuelto}}</p>
+        </div>
+    </div>
+
+{% endblock %}

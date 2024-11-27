@@ -1,4 +1,17 @@
 {% extends "base.html" %}
+{% block estilos %}
+<style>
+    tbody tr:hover {
+        color: #C1121F; /* Cambia el color del texto */
+        opacity: 0.5;
+    }
+    tbody tr {
+        cursor: pointer; /* Cambia el cursor a un puntero para indicar que es seleccionable */
+    }
+</style>
+
+
+{% endblock %}
 {% block content %}
 
 <h1 class="text-center mt-3">Lista Facturas</h1>
@@ -31,7 +44,7 @@
       <tbody>
           {% for f in facturas %}
           {% if f.anulado == True%}
-            <tr class="table-danger">
+            <tr class="table-danger" onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">
               <td>{{f.id}}</td>
               <td>{{f.fecha}}</td>
               <td>{{f.id_cliente.nombre}}</td>
@@ -42,7 +55,7 @@
             </tr>
           {%endif%}
           {% if f.cobrado == True and f.anulado == False%}
-          <tr>
+          <tr onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">
             <td>{{f.id}}</td>
             <td>{{f.fecha}}</td>
             <td>{{f.id_cliente.nombre}}</td>
@@ -56,7 +69,7 @@
           </tr>
           {%endif%}
           {%if f.cobrado == False and f.anulado == False%}
-          <tr>
+          <tr onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">
             <td>{{f.id}}</td>
             <td>{{f.fecha}}</td>
             <td>{{f.id_cliente.nombre}}</td>
