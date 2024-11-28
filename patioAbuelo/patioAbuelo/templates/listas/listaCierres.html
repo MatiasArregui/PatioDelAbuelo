@@ -71,6 +71,8 @@
           </a>
       {% endif %}
   </div>
+  {% if perms.miAplicacion.add_cierre %}
     <a href={% url "cierreNuevo" %} class="customButton">+</a>
+{% endif %}
 
 {% endblock %}

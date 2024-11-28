@@ -38,30 +38,46 @@
                 </div>
                 <div class="offcanvas-body">
                   <ul class="navbar-nav">
+                    {% if perms.miAplicacion.view_carta %}
                     <li class="nav-item">
                         <a href="{% url "listaCarta"%}" class="nav-link">Carta</a>
                     </li>
+                    {% endif %}
+                    {% if perms.miAplicacion.view_mozo %}
                     <li class="nav-item">
                         <a href="{% url "listaMozos"%}" class="nav-link">Mozo</a>
                     </li>
+                    {% endif %}
+                    {% if perms.miAplicacion.view_cliente %}
                     <li class="nav-item">
                         <a href="{% url "listaClientes"%}" class="nav-link">Cliente</a>
                     </li>
+                    {% endif %}
+                    {% if perms.miAplicacion.view_mesa %}
                     <li class="nav-item">
                         <a href="{% url "listaMesas"%}" class="nav-link">Mesa</a>
                     </li>
+                    {% endif %}
+                    {% if perms.miAplicacion.view_orden %}
                     <li class="nav-item">
                         <a href="{% url "listaOrdenes"%}" class="nav-link">Orden</a>
                     </li>
+                    {% endif %}
+                    {% if perms.miAplicacion.view_factura %}
                     <li class="nav-item">
                         <a href="{% url "listaFacturas"%}" class="nav-link">Factura</a>
                     </li>
+                    {% endif %}
+                    {% if perms.miAplicacion.view_cierre %}
                     <li class="nav-item">
                         <a href="{% url "listaCierres"%}" class="nav-link">Cierre</a>
                     </li>
+                    {% endif %}
+                    {% if perms.miAplicacion.view_platoDia %}
                     <li class="nav-item">
                         <a href="{% url "listaPlatoDia"%}" class="nav-link">Plato del dia</a>
                     </li>
+                    {% endif %}
                     {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'logout' %}">{{ request.user }} | Logout</a>

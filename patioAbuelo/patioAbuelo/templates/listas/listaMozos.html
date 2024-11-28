@@ -68,6 +68,8 @@
           </a>
       {% endif %}
   </div>
+  {% if perms.miAplicacion.add_mozo %}
     <a href={% url "mozoNuevo" %} class="customButton">+</a>
+  {% endif %}
 
 {% endblock %}

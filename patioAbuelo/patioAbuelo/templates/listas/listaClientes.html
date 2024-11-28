@@ -32,7 +32,9 @@
             <th scope="col">Nombre</th>
             <th scope="col">Teléfono</th>
             <th scope="col">Dirección</th>
+            {% if perms.miAplicacion.change_cliente %}
             <th scope="col" class="d-flex justify-content-end">Action</th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
@@ -42,6 +44,7 @@
                 <td>{{ c.nombre }}</td>
                 <td>{{ c.telefono|default_if_none:"-----" }}</td>
                 <td>{{ c.direccion|default_if_none:"-----" }}</td>
+                {% if perms.miAplicacion.change_cliente %}
                 <td class="d-flex justify-content-end gap-1">
                     <button class="btn btn-sm btn-primary">
                         <a href="/clientes/clienteModif/{{ c.id }}" class="text-white text-decoration-none">Modificar</a>
@@ -50,6 +53,7 @@
                         <a href="/clientes/clienteBorrar/{{ c.id }}" class="text-white text-decoration-none">Eliminar</a>
                     </button>
                 </td>
+                {% endif %}
             </tr>
         {% endfor %}
     </tbody>
@@ -78,5 +82,7 @@
         </a>
     {% endif %}
 </div>
+{% if perms.miAplicacion.add_cliente %}
 <a href="{% url 'clienteNuevo' %}" class="customButton">+</a>
+{% endif %}
 {% endblock %}

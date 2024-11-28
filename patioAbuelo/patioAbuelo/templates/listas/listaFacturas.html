@@ -36,6 +36,7 @@
           <th scope="col">Total Pagado</th> 
           <th scope="col">Vuelto</th> 
           <th scope="col">Cobrado</th> 
+          
           <th scope="col" class="d-flex justify-content-end">
             Action
           </th>     
@@ -63,9 +64,11 @@
             <td>{{f.total_pago}}</td>
             <td>{{f.vuelto}}</td>
             <td>{{f.cobrado}}</td>
+            {% if perms.miAplicacion.delete_factura %}
             <td class="d-flex justify-content-end gap-1">
               <button class="btn btn-sm btn-danger"><a href="/facturas/facturaBorrar/{{ f.id }}" class="text-white text-decoration-none">Anular</a></button>
             </td>
+            {%endif%}
           </tr>
           {%endif%}
           {%if f.cobrado == False and f.anulado == False%}
@@ -79,7 +82,9 @@
             <td>{{f.cobrado}}</td>
             <td class="d-flex justify-content-end gap-1">
               <button class="btn btn-sm btn-primary"><a href="/facturas/facturaModif/{{ f.id }}" class="text-white text-decoration-none">Cobrar</a></button>
+              {% if perms.miAplicacion.delete_factura %}
               <button class="btn btn-sm btn-danger"><a href="/facturas/facturaBorrar/{{ f.id }}" class="text-white text-decoration-none">Anular</a></button>
+              {% endif %}
             </td>
           </tr>
           {%endif%}
@@ -109,6 +114,7 @@
         </a>
     {% endif %}
 </div>
+{% if perms.miAplicacion.add_factura %}
   <a href={% url "facturaNueva" %} class="customButton">+</a>
-
+{% endif %}
 {% endblock %}
