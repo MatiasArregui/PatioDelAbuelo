@@ -31,13 +31,36 @@ class LoginIngreso(LoginView):
 # PLATO VIEWS ------------------------------------------------------------------------------>
 # Listado plato --------------------------->
 
+# class listaCarta(ListView):
+#     model = Carta
+#     template_name = "./listas/listaCarta.html"
+#     context_object_name = 'carta'
+#     paginate_by = 7
+    
+
+#     def get_queryset(self):
+#         queryset = super().get_queryset()
+#         query = self.request.GET.get('q')
+#         if query:
+#             queryset = queryset.filter(nombre__icontains=query)
+#         return queryset
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         subCategorias = SubCategoria.objects.all()
+#         # Aquí agregamos otro contexto adicional
+#         context['subcategorias'] = subCategorias
+#         context['query'] = self.request.GET.get('q', '')  # Enviar el valor de la búsqueda al contexto
+#         print(context)
+#         return context
 class listaCarta(ListView):
     model = Carta
     template_name = "./listas/listaCarta.html"
     context_object_name = 'carta'
-    paginate_by = 7
-
+    #Sacamos la paginacion para que nos permita usar los datos presentes en el template
+    # paginate_by = 7
     
+
     def get_queryset(self):
         queryset = super().get_queryset()
         query = self.request.GET.get('q')
@@ -47,8 +70,13 @@ class listaCarta(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        subCategorias = SubCategoria.objects.all()
+        # Aquí agregamos otro contexto adicional
+        context['subcategorias'] = subCategorias
         context['query'] = self.request.GET.get('q', '')  # Enviar el valor de la búsqueda al contexto
+        print(context)
         return context
+        
 
 
 # Modificar plato ------------->

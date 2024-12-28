@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 {% block estilos %}
 <style>
-    tbody tr:hover {
+    .plato:hover {
         color: #C1121F; /* Cambia el color del texto */
         opacity: 0.5;
     }
-    tbody tr {
+
+    .plato { display: none; /* Ocultar todos los platos por defecto */ 
         cursor: pointer; /* Cambia el cursor a un puntero para indicar que es seleccionable */
-    }
+        }
 </style>
 
 
@@ -17,7 +18,7 @@
 
 <h1 class="text-center mt-3">Lista Carta</h1>
 <form method="GET" class="d-none d-md-table-cell col-md-4">
-    <div class="input-group">
+    <div class="input-group d-none">
         <input type="text" class="form-control" name="q" value="{{ query }}" \
             placeholder="Buscar en título o descripción...">
         <button class="btn btn-primary text-light" type="submit">
@@ -27,7 +28,7 @@
         </button>
     </div>
 </form>
-<table class="table table-light shadow-sm table-responsive">
+<table class="table table-light shadow-sm table-responsive d-none">
     <thead class="bg-light">
         <tr>
             <th scope="col">ID</th>
@@ -71,7 +72,8 @@
     </tbody>
 </table>
 
-<div class="pagination justify-content-center">
+
+<div class="pagination justify-content-center d-none">
     {% if page_obj.has_previous %}
         <a class="btn btn-outline-primary mb-3" href="?page=1">
             Primera
@@ -94,8 +96,68 @@
         </a>
     {% endif %}
 </div>
-
+{% comment %} Boton que permite agregar otro plato a la carta {% endcomment %}
 {% if perms.miAplicacion.add_carta %}
 <a href="{% url 'cartaNuevo' %}" class="customButton">+</a>
 {% endif %}
+{% comment %} Aca voy a poner lo que seria la vista que habiamos hablado {% endcomment %}
+<nav class="categoriasContainer d-flex justify-content-between">
+    <a href="#" class="filter-link m-1" data-category="todas">Todas</a>
+    {% for subcategoria in subcategorias%}
+    <a href="#" class="filter-link m-1" data-category="{{subcategoria.nombre}}">{{subcategoria.nombre}}</a>
+    {% endfor %}
+</nav>
+{% for subcategoria in subcategorias%}
+    <div class="d-flex justify-content-between row">
+    {% for plato in carta %}
+        {% if plato.subCategoria.nombre == subcategoria.nombre %}
+            <div class="plato col-4" onclick="window.location.href='{% url 'cartaModif' plato.id %}'" data-category="{{subcategoria.nombre}}">
+                <h1>{{plato.nombre}}</h1>
+                <p>{{plato.descripcion}}</p>
+                <p>{{plato.precio}}</p>
+                <p>{{plato.categoria.nombre}}</p>
+                <p>{{plato.subCategoria.nombre}}</p>
+            
+                <img src="{{plato.imagen.url}}" alt="" class="img-fluid">
+                {% if perms.miAplicacion.change_carta %}
+                <div class="d-flex justify-content-center gap-1">
+                    <button class="btn btn-sm btn-primary">
+                        <a href="{% url 'cartaModif' plato.id %}" class="text-white text-decoration-none bg-primary">Modificar</a>
+                    </button>
+                    <button class="btn btn-sm btn-danger">
+                        <a href="{% url 'cartaBorrar' plato.id %}" class="text-white text-decoration-none bg-danger">Eliminar</a>
+                    </button>
+                </div>
+                {% endif %}
+            </div>
+        {% endif%}
+    {% endfor %}
+    <div>
+{% endfor %}
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const filterLinks = document.querySelectorAll('.filter-link');
+        const platos = document.querySelectorAll('.plato');
+    
+        filterLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();  // Evitar el comportamiento por defecto del enlace
+                const selectedCategory = event.target.getAttribute('data-category');
+    
+                platos.forEach(plato => {
+                    if (selectedCategory === 'todas' || plato.getAttribute('data-category') === selectedCategory) {
+                        plato.style.display = 'block';
+                        
+                    } else {
+                        plato.style.display = 'none';
+                    }
+                });
+            });
+        });
+    });
+    
+</script>
+
 {% endblock %}
+
+
