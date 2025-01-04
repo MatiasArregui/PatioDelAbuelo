@@ -113,7 +113,7 @@
         {% if plato.subCategoria.nombre == subcategoria.nombre %}
             <div class="plato col-4" onclick="window.location.href='{% url 'cartaModif' plato.id %}'" data-category="{{subcategoria.nombre}}">
                 <h1>{{plato.nombre}}</h1>
-                <p>{{plato.descripcion}}</p>
+                <p>descripcion:{{plato.descripcion}}</p>
                 <p>{{plato.precio}}</p>
                 <p>{{plato.categoria.nombre}}</p>
                 <p>{{plato.subCategoria.nombre}}</p>

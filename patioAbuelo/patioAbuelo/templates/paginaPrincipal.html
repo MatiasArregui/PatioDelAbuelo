@@ -6,6 +6,10 @@
         <div class="col-6">
             <div class="col border shadow-sm m-1">
                 <h1>{{carta.nombre}}</h1>
+                <p>descripcion:{{carta.descripcion}}</p>
+                <p>{{carta.precio}}</p>
+                <p>{{carta.categoria.nombre}}</p>
+                <p>{{carta.subCategoria.nombre}}</p>
             
                 <img src="{{carta.imagen.url}}" alt="" class="img-fluid">
             </div>
@@ -15,6 +19,10 @@
             {% for p in platoDia%}
             <div class="col border shadow-sm m-1">
                 <h1>{{p.id_carta.nombre}}</h1>
+                <p>descripcion:{{p.id_carta.descripcion}}</p>
+                <p>{{p.id_carta.precio}}</p>
+                <p>{{p.id_carta.categoria.nombre}}</p>
+                <p>{{p.id_carta.subCategoria.nombre}}</p>
             
                 <img src="{{p.id_carta.imagen.url}}" alt="" class="img-fluid">
             </div>
