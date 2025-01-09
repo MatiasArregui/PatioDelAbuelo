@@ -68,12 +68,10 @@ class CartaOrdenForm(forms.ModelForm):
         model = CartaOrden
         fields = ("id_carta", "cantidad")
         widgets = {
-            "id_carta": forms.Select(attrs={"class": "form-control"}),
-            "cantidad": forms.NumberInput(attrs={"class": "form-control"}),
+            "id_carta": forms.Select(attrs={"class": "form-control carta"}),
+            "cantidad": forms.NumberInput(attrs={"class": "form-control cant"}),
         }
-        labels ={
-            "id_carta": "Plato",
-        }
+
 
 class OrdenForm(forms.ModelForm):
     class Meta:

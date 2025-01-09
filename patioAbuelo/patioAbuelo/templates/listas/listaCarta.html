@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block estilos %}
+{% comment %} {% block estilos %}
 <style>
     .plato:hover {
         color: #C1121F; /* Cambia el color del texto */
@@ -12,7 +12,7 @@
 </style>
 
 
-{% endblock %}
+{% endblock %} {% endcomment %}
 
 {% block content %}
 
@@ -47,7 +47,7 @@
         {% for c in carta %}
             <tr onclick="window.location.href='{% url 'cartaDetalle' c.id%}'">
                 <td>{{ c.id }}</td>
-                <td>{{ c.nombre }}</td>
+                <td onclick="window.location.href='{% url 'cartaDetalle' c.id%}'">{{ c.nombre }}</td>
                 <td>{{ c.precio }}</td>
                 <td>{{ c.controlStock }}</td>
                 {% if not c.controlStock %}
@@ -108,17 +108,20 @@
     {% endfor %}
 </nav>
 {% for subcategoria in subcategorias%}
+    {% comment %} <h1 class="m-4 text-danger">{{subcategoria.nombre}}</h1> {% endcomment %}
     <div class="d-flex justify-content-between row">
     {% for plato in carta %}
         {% if plato.subCategoria.nombre == subcategoria.nombre %}
-            <div class="plato col-4" onclick="window.location.href='{% url 'cartaModif' plato.id %}'" data-category="{{subcategoria.nombre}}">
-                <h1>{{plato.nombre}}</h1>
-                <p>descripcion:{{plato.descripcion}}</p>
-                <p>{{plato.precio}}</p>
-                <p>{{plato.categoria.nombre}}</p>
-                <p>{{plato.subCategoria.nombre}}</p>
-            
-                <img src="{{plato.imagen.url}}" alt="" class="img-fluid">
+            <div class="plato col-4 mb-2" data-category="{{subcategoria.nombre}}" onclick="window.location.href='{% url 'cartaDetalle' plato.id %}'">
+                
+                <div>
+                    <h1>{{plato.nombre}}</h1>
+                    <p>descripcion:{{plato.descripcion}}</p>
+                    <p>{{plato.precio}}</p>
+                    <p>{{plato.categoria.nombre}}</p>
+                    <p>{{plato.subCategoria.nombre}}</p>
+                    <img src="{{plato.imagen.url}}" alt="" class="img-fluid" onclick="window.location.href='{% url 'cartaDetalle' plato.id%}'">
+                </div>
                 {% if perms.miAplicacion.change_carta %}
                 <div class="d-flex justify-content-center gap-1">
                     <button class="btn btn-sm btn-primary">

@@ -10,7 +10,10 @@
             <div class="col-4">
                 <label for="nombre" class="form-label">Nombre:</label>
                 <input type="text" class="form-control" id="nombre" name="nombre" value="{{ mesa.nombre }}" required><br>
-            <div class="col"><button type="submit" class="btn btn-primary">Guardar</button></div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button class="btn btn-primary"><a href={% url "listaMesas" %} class="text-decoration-none text-white">Cancelar</a></button>
+            </div>
         </form>
     </div>
 
