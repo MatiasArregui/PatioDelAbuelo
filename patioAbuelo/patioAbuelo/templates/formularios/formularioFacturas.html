@@ -11,51 +11,17 @@
         </div>
         <hr>
         {{ formset_orden.management_form }}
-        <table class="table table-ligth mt-2 mb-2" id="select_container">
-            <thead class="bg-light table-danger">
-                <tr>
-                    <td>Orden</td>
-                    <td>Borrar</td>
-                </tr>
-            </thead>
-            {% for form in formset_orden %}
-            <tbody>
-                <tr>
-                    <td>{{ form.id_orden }}</td>
-                    <td>{{ form.DELETE }}</td>
-                </tr>
-            </tbody>
-            {% endfor %}
-        </table>
-        <!-- <div id="select_container" class="row">
+        <div id="select_container" class="row">
             {% for form in formset_orden %}
                 <div class="col-12">{{ form.as_p }}</div>
             {% endfor %}
-        </div> -->
+        </div>
+        <div id="pago_container" class="row">
         {{ formset_pago.management_form }}
-        <table class="table table-ligth mt-2 mb-2" id="pago_container">
-            <thead class="bg-light table-danger">
-                <tr>
-                    <td>Tipo Pago</td>
-                    <td>Total</td>
-                    <td>Borrar</td>
-                </tr>
-            </thead>
-            {% for form in formset_pago %}
-            <tbody>
-                <tr>
-                    <td>{{ form.id_tipoPago }}</td>
-                    <td>{{ form.total }}</td>
-                    <td>{{ form.DELETE }}</td>
-                </tr>
-            </tbody>
-            {% endfor %}
-        </table>
-        <!-- <div id="pago_container" class="row">
         {% for form in formset_pago %}
                 <div class="col-4">{{ form.as_p }}</div>
         {% endfor %}
-        </div> -->
+        </div>
         <hr>
         <div class="row mb-3">
             <div class="col">

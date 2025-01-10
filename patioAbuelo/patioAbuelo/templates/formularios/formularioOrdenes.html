@@ -1,12 +1,4 @@
 {% extends "base.html" %}
-{% block estilos %}
-<style>
-    .label-block {
-      display: block;
-    }
-  </style>
-  
-{% endblock %}
 {% block content %}
 
 
@@ -14,40 +6,12 @@
     <form method="post">
         {% csrf_token %}
         {{ orden_form.as_p }}
-        {{ formset.management_form }} 
-        <table class="table table-ligth mt-2 mb-2" id="select_container">
-            <thead class="bg-light table-danger">
-                <tr>
-                    <td>Plato</td>
-                    <td>Cantidad</td>
-                    <td>Borrar</td>
-                </tr>
-            </thead>
+        {{ formset.management_form }}
+        <div id="select_container" class="row">
             {% for form in formset %}
-            <tbody>
-                <tr>
-                    <td>{{ form.id_carta }}</td>
-                    <td>{{ form.cantidad }}</td>
-                    <td>{{ form.DELETE }}</td>
-                </tr>
-            </tbody>
+                <div class="col-4">{{ form.as_p }}</div>
             {% endfor %}
-        </table>
-        <!-- <div id="select_container" class="row">
-            {% for form in formset %}
-                    <div class="col-5 ">
-                        <label for="carta">Plato</label>
-                        {{ form.id_carta }}
-                    </div>
-                    <div class="col-5 ">
-                        <label for="cant">Cantidad</label>
-                        {{ form.cantidad }}
-                    </div>
-                    <div class="col-2 ">
-                        {{ form.DELETE }}
-                    </div>
-            {% endfor %}
-        </div> -->
+        </div>
         <div class="col">
             <button type="submit" class="btn btn-primary">Guardar</button>
             <button class="btn btn-primary">
