@@ -1,10 +1,76 @@
 {% extends "base.html" %}
+{% block estilos %}
+<style>
+    .mi-div-menu {
+        position: relative; /* Necesario para la superposición */
+        text-align:center;
+        height: 60vh; 
+    }
+    .mi-div-menu::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-image: url('{{carta.imagen.url}}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.5; /* Ajusta este valor para cambiar la opacidad */
+        z-index: 1; /* Coloca la imagen detrás del contenido */
+    }
+    .mi-div-menu > * {
+        position: relative; /* Necesario para que el contenido esté encima de la imagen */
+        z-index: 2;
+    }
 
+
+
+    .mi-div-plato-dia {
+        position: relative; /* Necesario para la superposición */
+        text-align:center;
+    }
+    .mi-div-plato-dia::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-image: url('{{platoDia.id_carta.imagen.url}}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.5; /* Ajusta este valor para cambiar la opacidad */
+        z-index: 1; /* Coloca la imagen detrás del contenido */
+    }
+    .mi-div-plato-dia > * {
+        position: relative; /* Necesario para que el contenido esté encima de la imagen */
+        z-index: 2;
+    }
+    {% comment %} .mi-div-menu{ 
+        background-image: url('{{carta.imagen.url}}'); 
+        background-size: cover; 
+        background-position: center; 
+        background-repeat: no-repeat;
+        height: 320px;
+        color:white;
+    }
+    .mi-div-plato-dia{ 
+        background-image: url('{{platoDia.id_carta.imagen.url}}'); 
+        background-size: cover; 
+        background-position: center; 
+        background-repeat: no-repeat;
+        height: 320px;
+    } {% endcomment %}
+        
+    </style>
+{% endblock %}
 {% block content %}
-    <div class="row">
+    <div class="row d-flex justify-content-between mt-5">
         {% comment %} div o contenedor en el que un Plato random aparece {% endcomment %}
-        <div class="col-6">
-            <div class="col border shadow-sm m-1">
+        <div class="col-5 mi-div-menu">
                 {% comment %} nombre del plato o menu {% endcomment %}
                 <h1>{{carta.nombre}}</h1>
                 {% comment %} descripcion del plato (lleva huevos, tomate, etc){% endcomment %}
@@ -12,33 +78,44 @@
                 {% comment %} precio del plato{% endcomment %}
                 <p>{{carta.precio}}</p>
                 {% comment %} categoria del plato (bebida, postre, principal){% endcomment %}
-                <p>{{carta.categoria.nombre}}</p>
+                {% comment %} <p>{{carta.categoria.nombre}}</p> {% endcomment %}
                 {% comment %} subcategoria del plato (vinos, empanadas, etc){% endcomment %}
                 <p>{{carta.subCategoria.nombre}}</p>
                 {% comment %} imagen del plato {% endcomment %}
-                <img src="{{carta.imagen.url}}" alt="" class="img-fluid">
-            </div>
+                {% comment %} <img src="{{carta.imagen.url}}" alt="" class="img-fluid"> {% endcomment %}
+                <a class="btn btn-outline-primary mb-3" href="{% url "listaCarta" %}" >
+                    Ver Carta
+                </a>
         </div>
         {% comment %} div o contenedor que contiene el Plato del dia {% endcomment %}
-        <div class="col-6">
-            {% for p in platoDia%}
-            <div class="col border shadow-sm m-1">
+        {%if platoDia %}
+        <div class="col-5 mi-div-plato-dia">
                 {% comment %} nombre del plato del dia {% endcomment %}
-                <h1>{{p.id_carta.nombre}}</h1>
+                <h1>{{platoDia.id_carta.nombre}}</h1>
                 {% comment %} descripcion del plato del dia (lleva huevos, tomate, etc) {% endcomment %}
-                <p>{{p.id_carta.descripcion}}</p>
+                <p>{{platoDia.id_carta.descripcion}}</p>
                 {% comment %} precio del plato del dia {% endcomment %}
-                <p>{{p.id_carta.precio}}</p>
+                <p>{{platoDia.id_carta.precio}}</p>
                 {% comment %} categoria del plato del dia (bebida, postre, principal){% endcomment %}
-                <p>{{p.id_carta.categoria.nombre}}</p>
+                {% comment %} <p>{{p.id_carta.categoria.nombre}}</p> {% endcomment %}
                 {% comment %} subcategoria del plato del dia (vinos, empanadas, etc){% endcomment %}
-                <p>{{p.id_carta.subCategoria.nombre}}</p>
+                <p>{{platoDia.id_carta.subCategoria.nombre}}</p>
                 {% comment %} imagen del plato del dia {% endcomment %}
-                <img src="{{p.id_carta.imagen.url}}" alt="" class="img-fluid">
-            </div>
-            {%endfor%}
+                {% comment %} <img src="{{platoDia.id_carta.imagen.url}}" alt="" class="img-fluid"> {% endcomment %}
+                <a class="btn btn-outline-primary mb-3" href="{% url "cartaDetalle" platoDia.id_carta.id %}" >
+                    Ir al plato
+                </a>
         </div>
+        {% endif %}
+        
     </div>
 
 
 {% endblock %}
+
+
+
+
+
+
+

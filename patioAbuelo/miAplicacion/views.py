@@ -15,9 +15,13 @@ def principal(request):
     cartaId = [x.pk for x in Carta.objects.all()]
     carta_aleratoria = random.choice(cartaId)
     carta = Carta.objects.get(id=carta_aleratoria)
-    platoDia = PlatoDia.objects.all()
-    context = {"carta": carta,
+    try: 
+        platoDia = PlatoDia.objects.get()
+        context = {"carta": carta,
                "platoDia":platoDia}
+    except:
+        context = {"carta": carta,
+               "platoDia":{}}
     return render(request, template_name="paginaPrincipal.html", context=context)
 
 # Login de ingreso ------------------------------------------------------------------------------------->
