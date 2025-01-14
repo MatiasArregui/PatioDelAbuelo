@@ -1,18 +1,80 @@
 {% extends "base.html" %}
-{% comment %} {% block estilos %}
+{% block estilos %}
 <style>
-    .plato:hover {
-        color: #C1121F; /* Cambia el color del texto */
-        opacity: 0.5;
+    .categoriasContainer {
+        display: flex;
+        align-items: center;
+        position: relative;
+        margin: 20px 0;
     }
 
-    .plato { display: none; /* Ocultar todos los platos por defecto */ 
-        cursor: pointer; /* Cambia el cursor a un puntero para indicar que es seleccionable */
-        }
+    .carousel {
+        overflow: hidden;
+        flex: 1;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .carousel-container {
+        display: flex;
+        transition: transform 0.5s ease;
+        padding: 10px;
+    }
+
+    .filter-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: #f0f0f0;
+        text-align: center;
+        margin: 0 10px;
+        text-decoration: none;
+        color: #000;
+        font-size: 14px;
+        font-weight: bold;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .filter-link:hover {
+        background-color: #4285f4;
+        color: #fff;
+        transform: scale(1.1);
+    }
+
+    .carousel-control {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 50%;
+        transition: background-color 0.3s;
+    }
+
+    .carousel-control:hover {
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .prev {
+        left: 10px;
+    }
+
+    .next {
+        right: 10px;
+    }
 </style>
 
 
-{% endblock %} {% endcomment %}
+{% endblock %}
 
 {% block content %}
 
@@ -23,12 +85,20 @@
 <a href="{% url 'cartaNuevo' %}" class="customButton">+</a>
 {% endif %}
 {% comment %} Aca voy a poner lo que seria la vista que habiamos hablado {% endcomment %}
-<nav class="categoriasContainer d-flex justify-content-between">
-    <a href="#" class="filter-link m-1" data-category="todas">Todas</a>
-    {% for subcategoria in subcategorias%}
-    <a href="#" class="filter-link m-1" data-category="{{subcategoria.nombre}}">{{subcategoria.nombre}}</a>
-    {% endfor %}
+<nav class="categoriasContainer container-fluid">
+    <div class="carousel">
+        <div class="carousel-container">
+            <a href="#" class="filter-link" data-category="todas">Todas</a>
+            {% for subcategoria in subcategorias %}
+            <a href="#" class="filter-link" data-category="{{ subcategoria.nombre }}">{{ subcategoria.nombre }}</a>
+            {% endfor %}
+        </div>
+    </div>
+    <button class="carousel-control prev" onclick="moveCarousel(-1)">&#10094;</button>
+    <button class="carousel-control next" onclick="moveCarousel(1)">&#10095;</button>
 </nav>
+
+
 
 
 {% comment %} En este apartado se itera las subcategorias y se van mostrando los platos segun la sub categoria perteneciente {% endcomment %}
@@ -87,9 +157,31 @@
             });
         });
     });
+    let currentIndex = 0;
+
+    function moveCarousel(direction) {
+        const container = document.querySelector('.carousel-container');
+        const items = document.querySelectorAll('.carousel-container .filter-link');
+        const itemWidth = items[0].clientWidth + 35.2; // Ancho del ítem + margen
+        const visibleWidth = document.querySelector('.carousel').clientWidth;
+        const totalWidth = itemWidth * items.length;
+
+        currentIndex += direction;
+
+        const maxIndex = Math.ceil((totalWidth - visibleWidth) / itemWidth);
+        if (currentIndex < 0) {
+            currentIndex = 0;
+        }
+        if (currentIndex > maxIndex) {
+            currentIndex = maxIndex;
+        }
+
+        const offset = currentIndex * itemWidth;
+
+        container.style.transform = `translateX(-${offset}px)`;
+    }
     
 </script>
 
 {% endblock %}
-
 
