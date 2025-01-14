@@ -17,85 +17,7 @@
 {% block content %}
 
 <h1 class="text-center mt-3">Lista Carta</h1>
-<form method="GET" class="d-none d-md-table-cell col-md-4">
-    <div class="input-group d-none">
-        <input type="text" class="form-control" name="q" value="{{ query }}" \
-            placeholder="Buscar en título o descripción...">
-        <button class="btn btn-primary text-light" type="submit">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-search" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-            </svg>
-        </button>
-    </div>
-</form>
-<table class="table table-light shadow-sm table-responsive d-none">
-    <thead class="bg-light">
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Precio</th>
-            <th scope="col">Control Stock</th>
-            <th scope="col">Stock</th>
-            <th scope="col">Categoria</th>
-            <th scope="col">Sub Categoria</th>
-            {% if perms.miAplicacion.change_carta %}
-            <th scope="col" class="d-flex justify-content-end">Action</th>
-            {% endif %}
-        </tr>
-    </thead>
-    <tbody>
-        {% for c in carta %}
-            <tr onclick="window.location.href='{% url 'cartaDetalle' c.id%}'">
-                <td>{{ c.id }}</td>
-                <td onclick="window.location.href='{% url 'cartaDetalle' c.id%}'">{{ c.nombre }}</td>
-                <td>{{ c.precio }}</td>
-                <td>{{ c.controlStock }}</td>
-                {% if not c.controlStock %}
-                    <td>-----</td>
-                {% else %}
-                    <td>{{ c.stock }}</td>
-                {% endif %}
-                <td>{{ c.categoria }}</td>
-                <td>{{ c.subCategoria }}</td>
-                {% if perms.miAplicacion.change_carta %}
-                <td class="d-flex justify-content-end gap-1">
-                    <button class="btn btn-sm btn-primary">
-                        <a href="{% url 'cartaModif' c.id %}" class="text-white text-decoration-none bg-primary">Modificar</a>
-                    </button>
-                    <button class="btn btn-sm btn-danger">
-                        <a href="{% url 'cartaBorrar' c.id %}" class="text-white text-decoration-none bg-danger">Eliminar</a>
-                    </button>
-                </td>
-                {% endif %}
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
 
-
-<div class="pagination justify-content-center d-none">
-    {% if page_obj.has_previous %}
-        <a class="btn btn-outline-primary mb-3" href="?page=1">
-            Primera
-        </a>
-        <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.previous_page_number }}">
-            Anterior
-        </a>
-    {% endif %}
-
-    <span class="current-page btn btn-outline-light disabled text-primary mb-3">
-        {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
-    </span>
-
-    {% if page_obj.has_next %}
-        <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.next_page_number }}">
-            Siguiente
-        </a>
-        <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.paginator.num_pages }}">
-            Última
-        </a>
-    {% endif %}
-</div>
 {% comment %} Boton que permite agregar otro plato a la carta {% endcomment %}
 {% if perms.miAplicacion.add_carta %}
 <a href="{% url 'cartaNuevo' %}" class="customButton">+</a>
@@ -107,13 +29,17 @@
     <a href="#" class="filter-link m-1" data-category="{{subcategoria.nombre}}">{{subcategoria.nombre}}</a>
     {% endfor %}
 </nav>
+
+
+{% comment %} En este apartado se itera las subcategorias y se van mostrando los platos segun la sub categoria perteneciente {% endcomment %}
 {% for subcategoria in subcategorias%}
-    {% comment %} <h1 class="m-4 text-danger">{{subcategoria.nombre}}</h1> {% endcomment %}
+    <h1 class="m-4 text-danger text-center plato" data-category="{{subcategoria.nombre}}">{{subcategoria.nombre}}</h1>
+    <hr class="plato" data-category="{{subcategoria.nombre}}"/>
     <div class="d-flex justify-content-between row">
     {% for plato in carta %}
         {% if plato.subCategoria.nombre == subcategoria.nombre %}
+            {% comment %} Aca se producen los contenedores de cada uno de los platos {% endcomment %}
             <div class="plato col-4 mb-2" data-category="{{subcategoria.nombre}}" onclick="window.location.href='{% url 'cartaDetalle' plato.id %}'">
-                
                 <div>
                     <h1>{{plato.nombre}}</h1>
                     <p>descripcion:{{plato.descripcion}}</p>
@@ -137,6 +63,9 @@
     {% endfor %}
     <div>
 {% endfor %}
+
+
+{% comment %} Scripts que actualiza los platos mostrados segun lo seleccionado {% endcomment %}
 <script>
     document.addEventListener('DOMContentLoaded', (event) => {
         const filterLinks = document.querySelectorAll('.filter-link');
