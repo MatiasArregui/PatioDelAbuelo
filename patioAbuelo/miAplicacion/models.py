@@ -71,7 +71,9 @@ class Factura(models.Model):
     vuelto = models.DecimalField(max_digits=15, decimal_places=2, default=0)
     anulado = models.BooleanField(default=False)
     cobrado = models.BooleanField(default=False)
-    id_cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    #Este set default elije al cliente cuyo id sea 3 (consumidor final) para llenar el espacio
+    # del cliente eliminado
+    id_cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT)
     id_orden = models.ManyToManyField("Orden", through="FacturaOrden")
     id_tipoPago = models.ManyToManyField(TipoPago, through="FacturaPago")
     
@@ -86,9 +88,9 @@ class Orden(models.Model):
     fechaModificacion = models.DateTimeField(auto_now=True)
     entregado = models.BooleanField(default=False)
     facturado = models.BooleanField(default=False)
-    id_mesa = models.ForeignKey(Mesa, on_delete=models.CASCADE)
+    id_mesa = models.ForeignKey(Mesa, on_delete=models.PROTECT)
     id_carta = models.ManyToManyField(Carta, through="CartaOrden")
-    id_mozo = models.ForeignKey(Mozo, on_delete=models.CASCADE)
+    id_mozo = models.ForeignKey(Mozo, on_delete=models.PROTECT)
     
     def __str__(self) -> str:
         return str(self.pk) + " " + self.id_mesa.nombre + " " + str(self.total) 
@@ -107,8 +109,8 @@ class Cierre(models.Model):
     
 # MODELO DE CARTA_ORDEN ----------------------------------------->
 class CartaOrden(models.Model):
-    id_carta = models.ForeignKey(Carta, on_delete=models.CASCADE)
-    id_orden = models.ForeignKey(Orden, on_delete=models.CASCADE)
+    id_carta = models.ForeignKey(Carta, on_delete=models.PROTECT)
+    id_orden = models.ForeignKey(Orden, on_delete=models.PROTECT)
     cantidad = models.IntegerField(default=0)
 
     def __str__(self) -> str:
@@ -116,16 +118,16 @@ class CartaOrden(models.Model):
 
 # MODELO DE FACTURA_ORDEN ----------------------------------------->
 class FacturaOrden(models.Model):
-    id_orden = models.ForeignKey(Orden, on_delete=models.CASCADE)
-    id_factura = models.ForeignKey(Factura, on_delete=models.CASCADE)
+    id_orden = models.ForeignKey(Orden, on_delete=models.PROTECT)
+    id_factura = models.ForeignKey(Factura, on_delete=models.PROTECT)
     
     def __str__(self) -> str:
         return str(self.pk)
     
 # MODELO DE FACTURA_PAGO ----------------------------------------->
 class FacturaPago(models.Model):
-    id_factura = models.ForeignKey(Factura, on_delete=models.CASCADE)
-    id_tipoPago = models.ForeignKey(TipoPago, on_delete=models.CASCADE)
+    id_factura = models.ForeignKey(Factura, on_delete=models.PROTECT)
+    id_tipoPago = models.ForeignKey(TipoPago, on_delete=models.PROTECT)
     total = models.DecimalField(max_digits=15, decimal_places=2, default=0)
     
 
@@ -134,8 +136,8 @@ class FacturaPago(models.Model):
     
 # MODELO DE FACTURA_CIERRE ----------------------------------------->
 class FacturaCierre(models.Model):
-    id_factura = models.ForeignKey(Factura, on_delete=models.CASCADE)
-    id_cierre = models.ForeignKey(Cierre, on_delete=models.CASCADE)
+    id_factura = models.ForeignKey(Factura, on_delete=models.PROTECT)
+    id_cierre = models.ForeignKey(Cierre, on_delete=models.PROTECT)
     
     def __str__(self) -> str:
         return str(self.pk)

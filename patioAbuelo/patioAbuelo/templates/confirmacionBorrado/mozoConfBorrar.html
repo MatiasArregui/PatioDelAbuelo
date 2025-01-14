@@ -9,5 +9,15 @@
         <button class="btn btn-primary" type="submit">Aceptar</button>
         <a class="btn btn-primary" href="{% url 'listaMozos' %}">Cancelar</a>
     </form>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    <button class="btn btn-sm btn-danger">
+        <a href="{% url "listaMozos" %}" class="text-white text-decoration-none bg-danger">Volver</a>
+    </button>
+    {% endif %}
 
 {% endblock %}

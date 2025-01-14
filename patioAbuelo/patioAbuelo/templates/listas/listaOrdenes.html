@@ -44,7 +44,7 @@
         </thead>
         <tbody>
             {% for o in ordenes %}
-            {% if not o.entregado %}
+            {% if o.entregado %}
               <tr onclick="window.location.href='{% url 'ordenDetalle' o.id%}'">
                 <td>{{o.id}}</td>
                 <td>{{o.id_mesa.nombre}}</td>

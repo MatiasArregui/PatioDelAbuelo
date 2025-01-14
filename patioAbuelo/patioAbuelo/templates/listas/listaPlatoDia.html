@@ -23,7 +23,7 @@
             {% endfor %}
         </tbody>
     </table>
-    {% if perms.miAplicacion.add_platoDia %}
+    {% if perms.miAplicacion.add_platoDia and platodia|length == 0 %}
     <a href={% url "platoDiaNuevo" %} class="customButton">+</a>
     {% endif %}
 

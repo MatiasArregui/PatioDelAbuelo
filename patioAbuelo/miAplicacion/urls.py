@@ -55,8 +55,8 @@ urlpatterns = [
     #Cierre ---------------------------------------------------------------------------------->
     path("cierre/", login_required(views.listaCierres.as_view()), name="listaCierres"),
     path('cierre/cierreNuevo/', login_required(views.cierreNuevo), name='cierreNuevo'),
-    path('cierre/cierreModif/<int:pk>/', login_required(views.cierreModif), name='cierreModif'),
-    path('cierre/cierreBorrar/<int:pk>/', login_required(views.cierreBorrar), name='cierreBorrar'),
+    # path('cierre/cierreModif/<int:pk>/', login_required(views.cierreModif), name='cierreModif'),
+    # path('cierre/cierreBorrar/<int:pk>/', login_required(views.cierreBorrar), name='cierreBorrar'),
     
     
 

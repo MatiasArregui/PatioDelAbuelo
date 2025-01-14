@@ -2,18 +2,29 @@
 
 {% block content %}
     <div class="row">
-        <div class="col">
-            <div class="col border shadow-sm m-1">
-                <h1>{{carta.nombre}}</h1>
-                <p>{{carta.descripcion}}</p>
-                <p>{{carta.precio}}</p>
-                <p>{{carta.categoria.nombre}}</p>
-                <p>{{carta.subCategoria.nombre}}</p>
-            
-                <img src="{{carta.imagen.url}}" alt="" class="img-fluid">
-            </div>
+        <div class="col-12 border shadow-sm m-1">
+            <h1>{{carta.nombre}}</h1>
+            <p>{{carta.descripcion}}</p>
+            <p>Precio: {{carta.precio}}</p>
+            <p>Categoría: {{carta.categoria.nombre}}, {{carta.subCategoria.nombre}}</p>
+        
+            <img src="{{carta.imagen.url}}" alt="" class="img-fluid">
         </div>
+        
+        <div class="col-12 d-flex justify-content-start gap-1">
+            {% if perms.miAplicacion.change_carta %}
+            <button class="btn btn-sm btn-primary">
+                <a href="{% url 'cartaModif' carta.id %}" class="text-white text-decoration-none bg-primary">Modificar</a>
+            </button>
+            <button class="btn btn-sm btn-danger">
+                <a href="{% url 'cartaBorrar' carta.id %}" class="text-white text-decoration-none bg-danger">Eliminar</a>
+            </button>
+            {% endif %}
+            <button class="btn btn-sm btn-danger">
+                <a href="{% url "listaCarta" %}" class="text-white text-decoration-none bg-danger">Volver</a>
+            </button>
+        </div>
+        
     </div>
-
 
 {% endblock %}

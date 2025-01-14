@@ -1,10 +1,11 @@
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
+from django.contrib import messages
 from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria, Categoria, CartaOrden, FacturaOrden, Cierre, FacturaCierre, PlatoDia
 from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSet, FacturaForm, FacturaOrdenFormSet, FacturaPagoFormSet, CierreForm,  FacturaCierreFormSet, LoginForm, PlatoDiaForm
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.db.models import ProtectedError
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 import random
 # from datetime import datetime, timedelta
@@ -118,11 +119,15 @@ def cartaNuevo(request):
 
 # Borrar plato ----------------------->
 def cartaBorrar(request, pk):
-    carta = Carta.objects.get(id=pk)
+    # carta = Carta.objects.get(id=pk)
+    carta= get_object_or_404(Carta, id=pk)
     
     if request.method == 'POST':
-        carta.delete()
-        return HttpResponseRedirect(reverse('listaCarta'))
+        try: 
+            carta.delete()
+            return HttpResponseRedirect(reverse('listaCarta'))
+        except ProtectedError:
+            messages.error(request, "No se puede eliminar el cliente porque tiene facturas relacionadas. Se recomienda volver atras")
     return render(request, './confirmacionBorrado/cartaConfBorrar.html', {'carta': carta})
 
 # MESAS VIEWS ----------------------------------->
@@ -158,8 +163,12 @@ def mesaNueva(request):
 def mesaBorrar(request, pk):
     mesa = Mesa.objects.get(id=pk)
     if request.method == 'POST':
-        mesa.delete()
-        return HttpResponseRedirect(reverse('listaMesas'))
+        try: 
+            mesa.delete()
+            return HttpResponseRedirect(reverse('listaMesas'))
+        except ProtectedError:
+            messages.error(request, "No se puede eliminar la mesa porque tiene facturas relacionadas. Se recomienda volver atras")
+        
     return render(request, './confirmacionBorrado/mesaConfBorrar.html', {'mesa': mesa})
 
 # CIENTES VIEWS ---------------------------------------------------------------------------------------------->
@@ -208,8 +217,11 @@ def ClienteNuevo(request):
 def ClienteBorrar(request, pk):
     cliente = Cliente.objects.get(id=pk)
     if request.method == 'POST':
-        cliente.delete()
-        return HttpResponseRedirect(reverse('listaClientes'))
+        try: 
+            cliente.delete()
+            return HttpResponseRedirect(reverse('listaClientes'))
+        except ProtectedError:
+            messages.error(request, "No se puede eliminar el cliente porque tiene facturas relacionadas. Se recomienda volver atras")
     return render(request, './confirmacionBorrado/clienteConfBorrar.html', {'cliente': cliente})
 
 # MOZO VIEWS ----------------------------------------------------------------------------------------->
@@ -246,8 +258,11 @@ def MozoNuevo(request):
 def MozoBorrar(request, pk):
     mozo = Mozo.objects.get(id=pk)
     if request.method == 'POST':
-        mozo.delete()
-        return HttpResponseRedirect(reverse('listaMozos'))
+        try: 
+            mozo.delete()
+            return HttpResponseRedirect(reverse('listaMozos'))
+        except ProtectedError:
+            messages.error(request, "No se puede eliminar el mozo porque tiene ordenes relacionadas. Se recomienda volver atras")
     return render(request, './confirmacionBorrado/mozoConfBorrar.html', {'mozo': mozo})
 
 # ORDEN VIEWS ---------------------------------------------------------------------------------------------->
@@ -450,11 +465,15 @@ def ordenNuevo(request):
 def ordenBorrar(request, pk):
     orden = Orden.objects.get(id=pk)
     if request.method == 'POST':
-        orden.delete()
-        mesa = orden.id_mesa
-        mesa.estado = False
-        mesa.save()
-        return HttpResponseRedirect(reverse('listaOrdenes'))
+        try: 
+            orden.delete()
+            mesa = orden.id_mesa
+            mesa.estado = False
+            mesa.save()
+            return HttpResponseRedirect(reverse('listaOrdenes'))
+        except ProtectedError:
+            messages.error(request, "No se puede eliminar la orden porque tiene facturas relacionadas. Se recomienda volver atras")
+
     return render(request, './confirmacionBorrado/ordenConfBorrar.html', {'orden': orden})
 
 # FACTURAS VIEWS ---------------------------------------------------------------------------------------------->
@@ -656,6 +675,7 @@ def facturaNuevo(request):
 # Borrar Factura ----------------------->
 def facturaBorrar(request, pk):
     factura = Factura.objects.get(id=pk)
+    
     if request.method == 'POST':
         factura.anulado = True
         factura.save()
@@ -684,20 +704,20 @@ class listaCierres(ListView):
         return context
 
 #Cierre modificar ---------------------------------->
-def cierreModif(request, pk):
-    cierre = Cierre.objects.get(id=pk)
-    if request.method == 'POST':
-        form = CierreForm(request.POST, instance=cierre)
-        formset = FacturaCierreFormSet(request.POST, instance=cierre)
-        if form.is_valid() and formset.is_valid():
-            cierre = form.save()
-            formset.instance = cierre
-            formset.save()
-            return HttpResponseRedirect(reverse('listaCierres'))
-    else:
-        form = CierreForm(instance=cierre)
-        formset = FacturaCierreFormSet(instance=cierre)
-    return render(request, './formularios/formularioCierre.html', {'form': form, 'formset': formset})
+# def cierreModif(request, pk):
+#     cierre = Cierre.objects.get(id=pk)
+#     if request.method == 'POST':
+#         form = CierreForm(request.POST, instance=cierre)
+#         formset = FacturaCierreFormSet(request.POST, instance=cierre)
+#         if form.is_valid() and formset.is_valid():
+#             cierre = form.save()
+#             formset.instance = cierre
+#             formset.save()
+#             return HttpResponseRedirect(reverse('listaCierres'))
+#     else:
+#         form = CierreForm(instance=cierre)
+#         formset = FacturaCierreFormSet(instance=cierre)
+#     return render(request, './formularios/formularioCierre.html', {'form': form, 'formset': formset})
 
 # Nuevo Cierre ------------------>
 def cierreNuevo(request):
@@ -740,12 +760,12 @@ def cierreNuevo(request):
     })
 
 #Cierre borrar ----------------------------------------------->
-def cierreBorrar(request, pk):
-    cierre = Cierre.objects.get(id=pk)
-    if request.method == 'POST':
-        cierre.delete()
-        return HttpResponseRedirect(reverse('listaCierres'))
-    return render(request, './confirmacionBorrado/cierreConfBorrar.html', {'cierre': cierre})
+# def cierreBorrar(request, pk):
+#     cierre = Cierre.objects.get(id=pk)
+#     if request.method == 'POST':
+#         cierre.delete()
+#         return HttpResponseRedirect(reverse('listaCierres'))
+#     return render(request, './confirmacionBorrado/cierreConfBorrar.html', {'cierre': cierre})
 
 # PLATO DIA VIEWS ----------------------------------------------------------------------------------------->
 #Listado Plato día ------------------------------------->
