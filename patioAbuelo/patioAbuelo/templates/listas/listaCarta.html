@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block estilos %}
 <style>
-    .categoriasContainer {
+    {% comment %} .categoriasContainer {
         display: flex;
         align-items: center;
         position: relative;
@@ -70,70 +70,76 @@
 
     .next {
         right: 10px;
-    }
+    } {% endcomment %}
+     .carrusel{
+        display:flex;
+        overflow-y: auto;
+     }
+     .elemento{
+        background-color: red;
+        width: auto;
+        height: auto;
+        border-radius: 10px;
+        padding: 3px;
+        margin: 5px;
+     }
 </style>
 
 
 {% endblock %}
 
 {% block content %}
-
+<div class="container">
 <h1 class="text-center mt-3">Lista Carta</h1>
-
+</div>
 {% comment %} Boton que permite agregar otro plato a la carta {% endcomment %}
 {% if perms.miAplicacion.add_carta %}
 <a href="{% url 'cartaNuevo' %}" class="customButton">+</a>
 {% endif %}
+
 {% comment %} Aca voy a poner lo que seria la vista que habiamos hablado {% endcomment %}
-<nav class="categoriasContainer container-fluid">
-    <div class="carousel">
-        <div class="carousel-container">
-            <a href="#" class="filter-link" data-category="todas">Todas</a>
-            {% for subcategoria in subcategorias %}
-            <a href="#" class="filter-link" data-category="{{ subcategoria.nombre }}">{{ subcategoria.nombre }}</a>
+    <nav class="carrusel">
+        <a href="#" class="filter-link elemento" data-category="todas">Todas</a>
+        {% for subcategoria in subcategorias %}
+            <a href="#" class="filter-link elemento" data-category="{{ subcategoria.nombre }}">{{ subcategoria.nombre }}</a>
+        {% endfor %}
+    </nav>
+
+
+<div class="container">
+    {% comment %} En este apartado se itera las subcategorias y se van mostrando los platos segun la sub categoria perteneciente {% endcomment %}
+    {% for subcategoria in subcategorias%}
+        <h1 class="m-4 text-danger text-center plato" data-category="{{subcategoria.nombre}}">{{subcategoria.nombre}}</h1>
+        <hr class="plato" data-category="{{subcategoria.nombre}}"/>
+        <div class="d-flex justify-content-between row">
+            {% for plato in carta %}
+                {% if plato.subCategoria.nombre == subcategoria.nombre %}
+                    {% comment %} Aca se producen los contenedores de cada uno de los platos {% endcomment %}
+                    <div class="plato col-6 col-sm-4 mb-2" data-category="{{subcategoria.nombre}}" onclick="window.location.href='{% url 'cartaDetalle' plato.id %}'">
+                        <div>
+                            <h1>{{plato.nombre}}</h1>
+                            <p>descripcion:{{plato.descripcion}}</p>
+                            <p>{{plato.precio}}</p>
+                            <p>{{plato.categoria.nombre}}</p>
+                            <p>{{plato.subCategoria.nombre}}</p>
+                            <img src="{{plato.imagen.url}}" alt="" class="img-fluid" onclick="window.location.href='{% url 'cartaDetalle' plato.id%}'">
+                        </div>
+                        {% if perms.miAplicacion.change_carta %}
+                            <div class="d-flex justify-content-center gap-1">
+                                <button class="btn btn-sm btn-primary">
+                                    <a href="{% url 'cartaModif' plato.id %}" class="text-white text-decoration-none bg-primary">Modificar</a>
+                                </button>
+                                <button class="btn btn-sm btn-danger">
+                                    <a href="{% url 'cartaBorrar' plato.id %}" class="text-white text-decoration-none bg-danger">Eliminar</a>
+                                </button>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif%}
             {% endfor %}
         </div>
-    </div>
-    <button class="carousel-control prev" onclick="moveCarousel(-1)">&#10094;</button>
-    <button class="carousel-control next" onclick="moveCarousel(1)">&#10095;</button>
-</nav>
-
-
-
-
-{% comment %} En este apartado se itera las subcategorias y se van mostrando los platos segun la sub categoria perteneciente {% endcomment %}
-{% for subcategoria in subcategorias%}
-    <h1 class="m-4 text-danger text-center plato" data-category="{{subcategoria.nombre}}">{{subcategoria.nombre}}</h1>
-    <hr class="plato" data-category="{{subcategoria.nombre}}"/>
-    <div class="d-flex justify-content-between row">
-    {% for plato in carta %}
-        {% if plato.subCategoria.nombre == subcategoria.nombre %}
-            {% comment %} Aca se producen los contenedores de cada uno de los platos {% endcomment %}
-            <div class="plato col-4 mb-2" data-category="{{subcategoria.nombre}}" onclick="window.location.href='{% url 'cartaDetalle' plato.id %}'">
-                <div>
-                    <h1>{{plato.nombre}}</h1>
-                    <p>descripcion:{{plato.descripcion}}</p>
-                    <p>{{plato.precio}}</p>
-                    <p>{{plato.categoria.nombre}}</p>
-                    <p>{{plato.subCategoria.nombre}}</p>
-                    <img src="{{plato.imagen.url}}" alt="" class="img-fluid" onclick="window.location.href='{% url 'cartaDetalle' plato.id%}'">
-                </div>
-                {% if perms.miAplicacion.change_carta %}
-                <div class="d-flex justify-content-center gap-1">
-                    <button class="btn btn-sm btn-primary">
-                        <a href="{% url 'cartaModif' plato.id %}" class="text-white text-decoration-none bg-primary">Modificar</a>
-                    </button>
-                    <button class="btn btn-sm btn-danger">
-                        <a href="{% url 'cartaBorrar' plato.id %}" class="text-white text-decoration-none bg-danger">Eliminar</a>
-                    </button>
-                </div>
-                {% endif %}
-            </div>
-        {% endif%}
     {% endfor %}
-    <div>
-{% endfor %}
-
+</div>
 
 {% comment %} Scripts que actualiza los platos mostrados segun lo seleccionado {% endcomment %}
 <script>
