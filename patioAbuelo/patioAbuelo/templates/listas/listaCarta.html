@@ -1,96 +1,130 @@
 {% extends "base.html" %}
 {% block estilos %}
 <style>
-    {% comment %} .categoriasContainer {
-        display: flex;
-        align-items: center;
-        position: relative;
-        margin: 20px 0;
-    }
-
-    .carousel {
-        overflow: hidden;
-        flex: 1;
-        border: 2px solid #ddd;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .carousel-container {
-        display: flex;
-        transition: transform 0.5s ease;
-        padding: 10px;
-    }
-
-    .filter-link {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        background-color: #f0f0f0;
-        text-align: center;
-        margin: 0 10px;
-        text-decoration: none;
-        color: #000;
-        font-size: 14px;
-        font-weight: bold;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: background-color 0.3s, transform 0.3s;
-    }
-
-    .filter-link:hover {
-        background-color: #4285f4;
-        color: #fff;
-        transform: scale(1.1);
-    }
-
-    .carousel-control {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background-color: rgba(0, 0, 0, 0.5);
-        color: #fff;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-        padding: 10px;
-        border-radius: 50%;
-        transition: background-color 0.3s;
-    }
-
-    .carousel-control:hover {
-        background-color: rgba(0, 0, 0, 0.7);
-    }
-
-    .prev {
-        left: 10px;
-    }
-
-    .next {
-        right: 10px;
-    } {% endcomment %}
-     .carrusel{
+    /* Estos estilos se aplican al nav en celular y tablet*/
+    .carrusel{
         display:flex;
         overflow-y: auto;
      }
-     .elemento{
-        background-color: red;
-        width: auto;
-        height: auto;
+     .elemento {
+        position: relative;
+        width: 150px;
+        height: 50px;
         border-radius: 10px;
         padding: 3px;
         margin: 5px;
-     }
+        text-decoration: none;
+        text-transform: capitalize;
+        font-weight: bold;
+        color: black;
+        display: flex;
+        align-items: center;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+    
+    .elemento::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        background-image: url("../../../media/logos_nav/beer-can.png");
+        background-color: red;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 80%;
+        opacity: 0.3; /* Ajusta el valor de opacidad según sea necesario */
+        z-index: -1;
+        
+    }
+    .elemento:hover { 
+        transform: scale(1.1); /* Aplica un pequeño zoom */ 
+        background-color: rgba(0, 0, 0, 0.1); /* Oscurece ligeramente el fondo al pasar el cursor */ 
+    }
+    /* Estos estilos se aplican al nav en PC*/
+    .carrusel_2 {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .elemento_2 {
+        position: relative;
+        width: 150px;
+        height: 50px;
+        border-radius: 10px;
+        padding: 3px;
+        margin: 2px;
+        text-decoration: none;
+        text-transform: capitalize;
+        font-weight: bold;
+        color: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+    
+    .elemento_2::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        background-image: url("../../../media/logos_nav/beer-can.png");
+        background-color: red;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 30%;
+        opacity: 0.3; /* Ajusta el valor de opacidad según sea necesario */
+        z-index: -1;
+    }
+    
+    .elemento_2:hover {
+        transform: scale(1.1); /* Aplica un pequeño zoom */
+        background-color: rgba(0, 0, 0, 0.1); /* Oscurece ligeramente el fondo al pasar el cursor */
+    }
+    
+
+
+     /* Imagen que va en el fondo del div que contiene el titulo */ 
+     .cont {
+        position: relative;
+        padding: 20px; /* Ajusta según sea necesario */
+        border-radius: 10px; /* Ajusta según sea necesario */
+        overflow: hidden; /* Asegura que el contenido no se desborde */
+        color: white;
+        /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);*/
+    }
+    
+    .cont::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("../../../media/estilos_h1/fondo_carta.jpg"); /* Reemplaza con la ruta de tu imagen */
+        background-size: cover;
+        background-position: center;
+        filter: blur(4px); /* Ajusta el valor del desenfoque según sea necesario */
+        z-index: -1;
+    }
+    .titulo{
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    }
+
 </style>
 
 
 {% endblock %}
 
 {% block content %}
-<div class="container">
-<h1 class="text-center mt-3">Lista Carta</h1>
+<div class="container-fluid cont">
+    <h1 class="text-center mt-3 titulo">Lista Carta</h1>
 </div>
 {% comment %} Boton que permite agregar otro plato a la carta {% endcomment %}
 {% if perms.miAplicacion.add_carta %}
@@ -98,10 +132,16 @@
 {% endif %}
 
 {% comment %} Aca voy a poner lo que seria la vista que habiamos hablado {% endcomment %}
-    <nav class="carrusel">
-        <a href="#" class="filter-link elemento" data-category="todas">Todas</a>
+    <nav class="carrusel d-flex d-xl-none">
+        <a href="#" class="filter-link elemento" data-category="todas">Platos</a>
         {% for subcategoria in subcategorias %}
             <a href="#" class="filter-link elemento" data-category="{{ subcategoria.nombre }}">{{ subcategoria.nombre }}</a>
+        {% endfor %}
+    </nav>
+    <nav class="carrusel_2 d-none d-xl-flex container">
+        <a href="#" class="filter-link elemento_2" data-category="todas">Platos</a>
+        {% for subcategoria in subcategorias %}
+            <a href="#" class="filter-link elemento_2" data-category="{{ subcategoria.nombre }}">{{ subcategoria.nombre }}</a>
         {% endfor %}
     </nav>
 
