@@ -116,7 +116,97 @@
     .titulo{
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
     }
-
+    /* Estilo a los contenedores de los elementos de carta*/
+    .plato {
+        background: #f8f9fa; /* Color de fondo claro */
+        margin-bottom: 10px;
+        border-radius: 10px; /* Esquinas redondeadas */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+        overflow: hidden; /* Evita que el contenido se desborde */
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transiciones suaves */
+    }
+    
+    .plato:hover {
+        transform: translateY(-5px); /* Efecto de elevación al pasar el cursor */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada al pasar el cursor */
+    }
+    
+    .plato h1 {
+        font-size: 1.5rem; /* Tamaño de fuente del título */
+        color: #343a40; /* Color del texto */
+        margin-bottom: 0.5rem; /* Margen inferior del título */
+    }
+    
+    .plato p {
+        font-size: 1rem; /* Tamaño de fuente del párrafo */
+        color: #6c757d; /* Color del texto */
+        margin-bottom: 0.5rem; /* Margen inferior del párrafo */
+    }
+    
+    .plato img {
+        width: 100%; /* Imagen a 100% del ancho del contenedor */
+        height: 200px; /* Altura fija */
+        object-fit: cover; /* Recorta y ajusta la imagen para llenar el área especificada */
+        border-radius: 10px; /* Esquinas redondeadas */
+        margin-bottom: 0.5rem; /* Margen inferior de la imagen */
+    }
+    
+    
+    .plato .btn {
+        display: inline-block;
+        font-size: 0.875rem; /* Tamaño de fuente del botón */
+        padding: 0.5rem 1rem; /* Relleno del botón */
+        border-radius: 5px; /* Esquinas redondeadas del botón */
+    }
+    
+    .plato .btn-primary {
+        background-color: #007bff; /* Color de fondo del botón primario */
+        border: none; /* Sin borde */
+    }
+    
+    .plato .btn-danger {
+        background-color: #dc3545; /* Color de fondo del botón de peligro */
+        border: none; /* Sin borde */
+    }
+    
+    .plato .btn a {
+        color: #fff; /* Color del texto del enlace */
+        text-decoration: none; /* Sin subrayado */
+    }
+    /* Estilo al h1 del titulo y subcategorias*/
+    .titulo_sub {
+        font-size: 2.5rem; /* Tamaño de fuente grande */
+        color: #dc3545; /* Color rojo */
+        text-align: center; /* Centra el texto */
+        margin: 2rem 0; /* Márgenes superior e inferior */
+        font-family: 'Arial', sans-serif; /* Fuente elegante */
+        font-weight: bold; /* Negrita para resaltar */
+        text-transform: capitalize; /* Capitaliza el texto */
+        position: relative; /* Relativo para el pseudo-elemento */
+        overflow: hidden; /* Oculta el contenido desbordado */
+    }
+    
+    .titulo_sub::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 4px;
+        background: #dc3545;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: title-underline 1s ease-in-out alternate;
+    }
+    
+    @keyframes title-underline {
+        from {
+            width: 0;
+        }
+        to {
+            width: 100%;
+        }
+    }
+    
 </style>
 
 
@@ -149,15 +239,14 @@
 <div class="container">
     {% comment %} En este apartado se itera las subcategorias y se van mostrando los platos segun la sub categoria perteneciente {% endcomment %}
     {% for subcategoria in subcategorias%}
-        <h1 class="m-4 text-danger text-center plato" data-category="{{subcategoria.nombre}}">{{subcategoria.nombre}}</h1>
-        <hr class="plato" data-category="{{subcategoria.nombre}}"/>
+        <h1 class="m-4 text-danger text-center plato titulo_sub" data-category="{{subcategoria.nombre}}">{{subcategoria.nombre}}</h1>
         <div class="d-flex justify-content-between row">
             {% for plato in carta %}
                 {% if plato.subCategoria.nombre == subcategoria.nombre %}
                     {% comment %} Aca se producen los contenedores de cada uno de los platos {% endcomment %}
-                    <div class="plato col-6 col-sm-4 mb-2" data-category="{{subcategoria.nombre}}" onclick="window.location.href='{% url 'cartaDetalle' plato.id %}'">
+                    <div class="plato col-6 col-sm-5 col-md-4 mx-auto" data-category="{{subcategoria.nombre}}" onclick="window.location.href='{% url 'cartaDetalle' plato.id %}'">
                         <div>
-                            <h1>{{plato.nombre}}</h1>
+                            <h1 class="titulo_plato">{{plato.nombre}}</h1>
                             <p>descripcion:{{plato.descripcion}}</p>
                             <p>{{plato.precio}}</p>
                             <p>{{plato.categoria.nombre}}</p>
@@ -226,6 +315,17 @@
 
         container.style.transform = `translateX(-${offset}px)`;
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const titulos = document.querySelectorAll('.titulo_plato');
+        titulos.forEach(titulo => {
+            const maxLength = 15; // Número máximo de caracteres antes de reducir el tamaño de la fuente
+            if (titulo.textContent.length > maxLength) {
+                titulo.style.fontSize = '18px'; // Ajusta el tamaño de la fuente si es necesario
+            }
+        });
+    });
+
     
 </script>
 
