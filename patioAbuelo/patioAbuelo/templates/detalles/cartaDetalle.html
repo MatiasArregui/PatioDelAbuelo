@@ -1,30 +1,101 @@
 {% extends "base.html" %}
-
+{% block estilos %}
+<style>
+    .titulo {
+        font-size: 2.5rem;
+        color: #343a40;
+        text-align: center;
+        margin-bottom: 1rem;
+        font-family: 'Arial', sans-serif;
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+    
+    .descripcion, .precio, .categoria {
+        font-size: 1rem;
+        color: #6c757d;
+        margin-bottom: 0.5rem;
+    }
+    
+    .img-fluid {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 1rem;
+    }
+    
+    .botones-container {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .btn {
+        display: inline-block;
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        margin: 0;
+    }
+    
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+    
+    .btn-primary:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+    }
+    
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+    }
+    
+    .btn-danger:hover {
+        background-color: #c82333;
+        transform: translateY(-2px);
+    }
+    
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        transform: translateY(-2px);
+    }
+    
+    .btn a {
+        color: #fff;
+        text-decoration: none;
+    }
+    
+    .w-100 {
+        width: 100%;
+    }
+    
+</style>
+{% endblock %}
 {% block content %}
-    <div class="row">
-        <div class="col-12 border shadow-sm m-1">
-            <h1>{{carta.nombre}}</h1>
-            <p>{{carta.descripcion}}</p>
-            <p>Precio: {{carta.precio}}</p>
-            <p>Categoría: {{carta.categoria.nombre}}, {{carta.subCategoria.nombre}}</p>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12 border shadow-sm p-4 mb-4 bg-white rounded">
+                <h1 class="titulo">{{carta.nombre}}</h1>
+                <p class="descripcion">{{carta.descripcion}}</p>
+                <p class="precio">Precio: {{carta.precio}}</p>
+                <p class="categoria">Categoría: {{carta.categoria.nombre}}, {{carta.subCategoria.nombre}}</p>
+                <img src="{{carta.imagen.url}}" alt="" class="img-fluid rounded">
+            </div>
         
-            <img src="{{carta.imagen.url}}" alt="" class="img-fluid">
+            <div class="col-12 d-flex justify-content-start gap-2 botones-container">
+                {% if perms.miAplicacion.change_carta %}
+                    <a href="{% url 'cartaModif' carta.id %}" class="btn btn-primary btn-sm text-white text-decoration-none w-100">Modificar</a>
+                    <a href="{% url 'cartaBorrar' carta.id %}" class="btn btn-danger btn-sm text-white text-decoration-none w-100">Eliminar</a>
+                {% endif %}
+                <a href="{% url 'listaCarta' %}" class="btn btn-secondary btn-sm text-white text-decoration-none w-100">Volver</a>
+            </div>
         </div>
-        
-        <div class="col-12 d-flex justify-content-start gap-1">
-            {% if perms.miAplicacion.change_carta %}
-            <button class="btn btn-sm btn-primary">
-                <a href="{% url 'cartaModif' carta.id %}" class="text-white text-decoration-none bg-primary">Modificar</a>
-            </button>
-            <button class="btn btn-sm btn-danger">
-                <a href="{% url 'cartaBorrar' carta.id %}" class="text-white text-decoration-none bg-danger">Eliminar</a>
-            </button>
-            {% endif %}
-            <button class="btn btn-sm btn-danger">
-                <a href="{% url "listaCarta" %}" class="text-white text-decoration-none bg-danger">Volver</a>
-            </button>
-        </div>
-        
     </div>
-
 {% endblock %}
