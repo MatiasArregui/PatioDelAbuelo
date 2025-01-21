@@ -119,7 +119,7 @@
     /* Estilo a los contenedores de los elementos de carta*/
     .plato {
         background: #f8f9fa; /* Color de fondo claro */
-        margin-bottom: 10px;
+        margin: 10px 4px 10px 4px;
         border-radius: 10px; /* Esquinas redondeadas */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
         overflow: hidden; /* Evita que el contenido se desborde */
@@ -132,7 +132,7 @@
     }
     
     .plato h1 {
-        font-size: 1.5rem; /* Tamaño de fuente del título */
+        font-size: 18px; /* Tamaño de fuente del título */
         color: #343a40; /* Color del texto */
         margin-bottom: 0.5rem; /* Margen inferior del título */
     }
@@ -150,7 +150,6 @@
         border-radius: 10px; /* Esquinas redondeadas */
         margin-bottom: 0.5rem; /* Margen inferior de la imagen */
     }
-    
     
     .plato .btn {
         display: inline-block;
@@ -206,6 +205,40 @@
             width: 100%;
         }
     }
+    /*Estilos de los botones del contenedor*/
+    .btn {
+        display: inline-block;
+        font-size: 0.875rem; /* Tamaño de fuente del botón */
+        padding: 0.5rem 1rem; /* Relleno del botón */
+        border-radius: 5px; /* Esquinas redondeadas */
+        transition: background-color 0.3s ease, transform 0.3s ease; /* Transición suave para el cambio de color y el efecto de elevación */
+    }
+    
+    .btn-primary {
+        background-color: #007bff; /* Color de fondo del botón primario */
+        border: none; /* Sin borde */
+    }
+    
+    .btn-primary:hover {
+        background-color: #0056b3; /* Color de fondo del botón primario al pasar el cursor */
+        transform: translateY(-2px); /* Efecto de elevación */
+    }
+    
+    .btn-danger {
+        background-color: #dc3545; /* Color de fondo del botón de peligro */
+        border: none; /* Sin borde */
+    }
+    
+    .btn-danger:hover {
+        background-color: #c82333; /* Color de fondo del botón de peligro al pasar el cursor */
+        transform: translateY(-2px); /* Efecto de elevación */
+    }
+    
+    .btn a {
+        color: #fff; /* Color del texto del enlace */
+        text-decoration: none; /* Sin subrayado */
+    }
+    
     
 </style>
 
@@ -244,25 +277,20 @@
             {% for plato in carta %}
                 {% if plato.subCategoria.nombre == subcategoria.nombre %}
                     {% comment %} Aca se producen los contenedores de cada uno de los platos {% endcomment %}
-                    <div class="plato col-6 col-sm-5 col-md-4 mx-auto" data-category="{{subcategoria.nombre}}" onclick="window.location.href='{% url 'cartaDetalle' plato.id %}'">
+                    <div class="plato col-5 col-md-3 col-lg-4 mx-lg-auto " data-category="{{subcategoria.nombre}}" onclick="window.location.href='{% url 'cartaDetalle' plato.id %}'">
                         <div>
                             <h1 class="titulo_plato">{{plato.nombre}}</h1>
-                            <p>descripcion:{{plato.descripcion}}</p>
-                            <p>{{plato.precio}}</p>
-                            <p>{{plato.categoria.nombre}}</p>
-                            <p>{{plato.subCategoria.nombre}}</p>
-                            <img src="{{plato.imagen.url}}" alt="" class="img-fluid" onclick="window.location.href='{% url 'cartaDetalle' plato.id%}'">
+                            <p class="descripcion_sub">{{plato.descripcion}}</p>
+                            <p>${{plato.precio}}</p>
+                            <img src="{{plato.imagen.url}}" alt="" class="img-fluid align-self-end" onclick="window.location.href='{% url 'cartaDetalle' plato.id%}'">
                         </div>
                         {% if perms.miAplicacion.change_carta %}
-                            <div class="d-flex justify-content-center gap-1">
-                                <button class="btn btn-sm btn-primary">
-                                    <a href="{% url 'cartaModif' plato.id %}" class="text-white text-decoration-none bg-primary">Modificar</a>
-                                </button>
-                                <button class="btn btn-sm btn-danger">
-                                    <a href="{% url 'cartaBorrar' plato.id %}" class="text-white text-decoration-none bg-danger">Eliminar</a>
-                                </button>
+                            <div class="d-flex justify-content-center gap-2">
+                                <a href="{% url 'cartaModif' plato.id %}" class="btn btn-primary btn-sm text-white text-decoration-none">Modificar</a>
+                                <a href="{% url 'cartaBorrar' plato.id %}" class="btn btn-danger btn-sm text-white text-decoration-none">Eliminar</a>
                             </div>
                         {% endif %}
+
                     </div>
                 {% endif%}
             {% endfor %}
@@ -322,6 +350,15 @@
             const maxLength = 15; // Número máximo de caracteres antes de reducir el tamaño de la fuente
             if (titulo.textContent.length > maxLength) {
                 titulo.style.fontSize = '18px'; // Ajusta el tamaño de la fuente si es necesario
+            }
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        const descripcion = document.querySelectorAll('.descripcion_sub');
+        descripcion.forEach(desc => {
+            const maxLength = 15; // Número máximo de caracteres antes de reducir el tamaño de la fuente
+            if (desc.textContent.length > maxLength) {
+                desc.style.fontSize = '10px'; // Ajusta el tamaño de la fuente si es necesario
             }
         });
     });
