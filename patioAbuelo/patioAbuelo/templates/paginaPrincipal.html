@@ -1,120 +1,78 @@
 {% extends "base.html" %}
 {% block estilos %}
 <style>
-    .mi-div-menu {
-        position: relative; /* Necesario para la superposición */
-        text-align:center;
-        height: 60vh; 
+    .mi-div-menu, .mi-div-plato-dia {
+        position: relative;
+        text-align: center;
+        height: 60vh;
+        color: #fff; /* Color del texto */
+        border-radius: 10px; /* Esquinas redondeadas */
+        overflow: hidden; /* Oculta cualquier contenido que se desborde */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    }
+    .mi-div-menu::before, .mi-div-plato-dia::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.6; /* Ajusta este valor para cambiar la opacidad */
+        z-index: 1; /* Coloca la imagen detrás del contenido */
+        filter: brightness(0.7); /* Oscurece ligeramente la imagen */
     }
     .mi-div-menu::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
         background-image: url('{{carta.imagen.url}}');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        opacity: 0.5; /* Ajusta este valor para cambiar la opacidad */
-        z-index: 1; /* Coloca la imagen detrás del contenido */
-    }
-    .mi-div-menu > * {
-        position: relative; /* Necesario para que el contenido esté encima de la imagen */
-        z-index: 2;
-    }
-
-
-
-    .mi-div-plato-dia {
-        position: relative; /* Necesario para la superposición */
-        text-align:center;
     }
     .mi-div-plato-dia::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
         background-image: url('{{platoDia.id_carta.imagen.url}}');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        opacity: 0.5; /* Ajusta este valor para cambiar la opacidad */
-        z-index: 1; /* Coloca la imagen detrás del contenido */
     }
-    .mi-div-plato-dia > * {
-        position: relative; /* Necesario para que el contenido esté encima de la imagen */
+    .mi-div-menu > *, .mi-div-plato-dia > * {
+        position: relative;
         z-index: 2;
     }
-    {% comment %} .mi-div-menu{ 
-        background-image: url('{{carta.imagen.url}}'); 
-        background-size: cover; 
-        background-position: center; 
-        background-repeat: no-repeat;
-        height: 320px;
-        color:white;
+    .btn-outline-primary {
+        color: #007bff;
+        border-color: #007bff;
+        transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
     }
-    .mi-div-plato-dia{ 
-        background-image: url('{{platoDia.id_carta.imagen.url}}'); 
-        background-size: cover; 
-        background-position: center; 
-        background-repeat: no-repeat;
-        height: 320px;
-    } {% endcomment %}
-        
-    </style>
+    .btn-outline-primary:hover {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+        transform: scale(1.05); /* Efecto de elevación */
+    }
+</style>
 {% endblock %}
 {% block content %}
 <div class="container-fluid align-content-center">
-    <div class="row d-flex justify-content-between">
-        {% comment %} div o contenedor en el que un Plato random aparece {% endcomment %}
+    <div class="row d-flex justify-content-center gap-2">
         <div class="col-5 mi-div-menu">
-                {% comment %} nombre del plato o menu {% endcomment %}
-                <h1>{{carta.nombre}}</h1>
-                {% comment %} descripcion del plato (lleva huevos, tomate, etc){% endcomment %}
-                <p>{{carta.descripcion}}</p>
-                {% comment %} precio del plato{% endcomment %}
-                <p>{{carta.precio}}</p>
-                {% comment %} categoria del plato (bebida, postre, principal){% endcomment %}
-                {% comment %} <p>{{carta.categoria.nombre}}</p> {% endcomment %}
-                {% comment %} subcategoria del plato (vinos, empanadas, etc){% endcomment %}
-                <p>{{carta.subCategoria.nombre}}</p>
-                {% comment %} imagen del plato {% endcomment %}
-                {% comment %} <img src="{{carta.imagen.url}}" alt="" class="img-fluid"> {% endcomment %}
-                <a class="btn btn-outline-primary mb-3" href="{% url "listaCarta" %}" >
-                    Ver Carta
-                </a>
+            <h1>{{carta.nombre}}</h1>
+            <p>{{carta.descripcion}}</p>
+            <p>${{carta.precio}}</p>
+            <p>{{carta.subCategoria.nombre}}</p>
+            <a class="btn btn-outline-primary mb-3" href="{% url "listaCarta" %}">Ver Carta</a>
         </div>
-        {% comment %} div o contenedor que contiene el Plato del dia {% endcomment %}
-        {%if platoDia %}
+        {% if platoDia %}
         <div class="col-5 mi-div-plato-dia">
-                {% comment %} nombre del plato del dia {% endcomment %}
-                <h1>{{platoDia.id_carta.nombre}}</h1>
-                {% comment %} descripcion del plato del dia (lleva huevos, tomate, etc) {% endcomment %}
-                <p>{{platoDia.id_carta.descripcion}}</p>
-                {% comment %} precio del plato del dia {% endcomment %}
-                <p>{{platoDia.id_carta.precio}}</p>
-                {% comment %} categoria del plato del dia (bebida, postre, principal){% endcomment %}
-                {% comment %} <p>{{p.id_carta.categoria.nombre}}</p> {% endcomment %}
-                {% comment %} subcategoria del plato del dia (vinos, empanadas, etc){% endcomment %}
-                <p>{{platoDia.id_carta.subCategoria.nombre}}</p>
-                {% comment %} imagen del plato del dia {% endcomment %}
-                {% comment %} <img src="{{platoDia.id_carta.imagen.url}}" alt="" class="img-fluid"> {% endcomment %}
-                <a class="btn btn-outline-primary mb-3" href="{% url "cartaDetalle" platoDia.id_carta.id %}" >
-                    Ir al plato
-                </a>
+            <h1>{{platoDia.id_carta.nombre}}</h1>
+            <p>{{platoDia.id_carta.descripcion}}</p>
+            <p>${{platoDia.id_carta.precio}}</p>
+            <p>{{platoDia.id_carta.subCategoria.nombre}}</p>
+            <a class="btn btn-outline-primary mb-3" href="{% url "cartaDetalle" platoDia.id_carta.id %}">Ir al plato</a>
         </div>
         {% endif %}
-        
     </div>
 </div>
-
-
 {% endblock %}
-
 
 
 

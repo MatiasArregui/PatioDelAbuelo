@@ -2,13 +2,15 @@
 {% block content %}
 
 
-<h3 class="display-4 my-3">Carta</h3>
-<form method="post" enctype="multipart/form-data" id="formulario">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn btn-primary mb-3" type="submit">Guardar</button>
-    <a class="btn btn-outline-primary mb-3" href="{% url 'listaCarta' %}">Cancelar</a>
-</form>
+<div class="container">
+    <h3 class="display-4 my-3">Carta</h3>
+    <form method="post" enctype="multipart/form-data" id="formulario">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary mb-3" type="submit">Guardar</button>
+        <a class="btn btn-outline-primary mb-3" href="{% url 'listaCarta' %}">Cancelar</a>
+    </form>
+</div>
 
 <script>
     // ACTUALIZAR LOS VALORES DEL PRIMER SELECT AL HACER CLICK EN EL INPUT DE PRECIO
