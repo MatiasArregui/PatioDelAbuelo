@@ -91,7 +91,7 @@
 
 
      /* Imagen que va en el fondo del div que contiene el titulo */ 
-     .cont {
+    .cont {
         position: relative;
         padding: 20px; /* Ajusta según sea necesario */
         border-radius: 10px; /* Ajusta según sea necesario */
@@ -257,9 +257,25 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
     
+    .botones-modal {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+    }
     .botones-modal a {
-        width: 100%;
+        width: 45%;
         text-align: center;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        color: white;
+    }
+    .btn-modificar {
+        background-color: #007bff;
+    }
+    .btn-eliminar {
+        background-color: #dc3545;
     }
     .modal-header {
         background-color: #f8f9fa; /* Color de fondo claro */
@@ -301,18 +317,15 @@
         display: inline-block;
         font-weight: bold;
     }
-    
-    
-    
-    
+
 </style>
 
 
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid cont">
-    <h1 class="text-center mt-3 titulo">Lista Carta</h1>
+<div class="container cont">
+    <h1 class="text-center mt-1 titulo">Lista Carta</h1>
 </div>
 {% comment %} Boton que permite agregar otro plato a la carta {% endcomment %}
 {% if perms.miAplicacion.add_carta %}
@@ -320,7 +333,7 @@
 {% endif %}
 
 {% comment %} Aca voy a poner lo que seria la vista que habiamos hablado {% endcomment %}
-    <nav class="carrusel d-flex d-xl-none">
+    <nav class="carrusel d-flex d-xl-none container">
         <a href="#" class="filter-link elemento" data-category="todas">Platos</a>
         {% for subcategoria in subcategorias %}
             <a href="#" class="filter-link elemento" data-category="{{ subcategoria.nombre }}">{{ subcategoria.nombre }}</a>
@@ -376,7 +389,7 @@
                         <img src="" alt="" class="modal-imagen img-fluid">
 
                     </div>
-                    <div class="modal-footer d-flex justify-content-center botones-modal">
+                    <div class="modal-footer botones-modal">
                         {% if perms.miAplicacion.change_carta %}
                             <a href="#" id="modal-modificar" class="btn btn-primary btn-sm text-white text-decoration-none">Modificar</a>
                             <a href="#" id="modal-eliminar" class="btn btn-danger btn-sm text-white text-decoration-none">Eliminar</a>

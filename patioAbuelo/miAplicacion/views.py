@@ -230,7 +230,6 @@ class listaMozos(ListView):
     model = Mozo
     template_name = "./listas/listamozos.html"
     context_object_name = 'mozos'
-    paginate_by = 2
     
 
 #Mozo modificar ---------------------------------->
