@@ -357,7 +357,11 @@
                     <div class="plato col-5 col-md-3 col-lg-4 mx-lg-auto" data-category="{{subcategoria.nombre}}" data-toggle="modal" data-target="#platoModal" data-nombre="{{plato.nombre}}" data-descripcion="{{plato.descripcion}}" data-precio="{{plato.precio}}" data-imagen="{{plato.imagen.url}}" class="plato" data-id="{{plato.id}}" data-url-modificar="{% url 'cartaModif' plato.id %}" data-url-eliminar="{% url 'cartaBorrar' plato.id %}">
                         <div>
                             <h1 class="titulo_plato">{{plato.nombre}}</h1>
-                            <p class="descripcion_sub">{{plato.descripcion}}</p>
+                            {% if plato.descripcion%}
+                                <p class="descripcion_sub">{{plato.descripcion}}</p>
+                            {% else %}
+                                <p class="descripcion_sub"></p>
+                            {% endif %}
                             <p>${{plato.precio}}</p>
                             <img src="{{plato.imagen.url}}" alt="" class="img-fluid align-self-end">
                         </div>
@@ -484,18 +488,25 @@
         var imagen = button.data('imagen');
         var urlModificar = button.data('url-modificar');
         var urlEliminar = button.data('url-eliminar');
-
+    
         // Actualiza el contenido del modal
         var modal = $(this);
         modal.find('.modal-titulo').text(nombre);
-        modal.find('.modal-descripcion').text(descripcion);
         modal.find('.modal-precio').text('Precio: $' + precio);
         modal.find('.modal-imagen').attr('src', imagen);
-
+    
+        // Muestra la descripción solo si no es None o está vacía
+        if (descripcion && descripcion !== 'None') {
+            modal.find('.modal-descripcion').text(descripcion).show();
+        } else {
+            modal.find('.modal-descripcion').hide();
+        }
+    
         // Actualiza los enlaces de los botones en el modal
         modal.find('#modal-modificar').attr('href', urlModificar);
         modal.find('#modal-eliminar').attr('href', urlEliminar);
     });
+    
 
     
 

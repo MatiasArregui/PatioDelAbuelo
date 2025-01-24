@@ -2,10 +2,6 @@
 {% extends "base.html" %}
 {% block estilos %}
 <style>
-  tbody tr:hover {
-      color: #C1121F; /* Cambia el color del texto */
-      opacity: 0.5;
-  }
   tbody tr {
       cursor: pointer; /* Cambia el cursor a un puntero para indicar que es seleccionable */
   }
@@ -159,13 +155,13 @@
             </thead>
             <tbody>
               {% for m in mozos %}
-                <tr onclick="openModal('{{ m.id }}', '{{ m.nombre }}', '{{ m.telefono }}', '/mozos/mozoModif/{{ m.id }}', '/mozos/mozoBorrar/{{ m.id }}')">
-                  <td>{{m.id}}</td>
-                  <td>{{m.nombre}}</td>
+                <tr>
+                  <td onclick="openModal('{{ m.nombre }}', '{{ m.telefono }}', '/mozos/mozoModif/{{ m.id }}', '/mozos/mozoBorrar/{{ m.id }}')">{{m.id}}</td>
+                  <td onclick="openModal('{{ m.nombre }}', '{{ m.telefono }}', '/mozos/mozoModif/{{ m.id }}', '/mozos/mozoBorrar/{{ m.id }}')">{{m.nombre}}</td>
                   {% if m.telefono %}
-                    <td>{{m.telefono}}</td>
+                    <td onclick="openModal('{{ m.nombre }}', '{{ m.telefono }}', '/mozos/mozoModif/{{ m.id }}', '/mozos/mozoBorrar/{{ m.id }}')">{{m.telefono}}</td>
                   {% else %}
-                    <td>-----</td>
+                    <td onclick="openModal('{{ m.nombre }}', '{{ m.telefono }}', '/mozos/mozoModif/{{ m.id }}', '/mozos/mozoBorrar/{{ m.id }}')">-----</td>
                   {% endif %}
                   <td class="d-flex justify-content-end gap-1">
                     <button class="btn btn-sm btn-primary"><a href="/mozos/mozoModif/{{ m.id }}" class="text-white text-decoration-none">Modificar</a></button>
@@ -187,7 +183,6 @@
             <span class="close" onclick="closeModal()">&times;</span>
           </div>
           <div class="modal-body">
-            <p class="modal-descripcion"><strong>ID:</strong> <span id="mozo-id"></span></p>
             <p class="modal-descripcion"><strong>Nombre:</strong> <span id="mozo-nombre"></span></p>
             <p class="modal-descripcion"><strong>Teléfono:</strong> <span id="mozo-telefono"></span></p>
             <div class="botones-modal">
@@ -201,14 +196,21 @@
   </div>
 
 <script>
-  function openModal(id, nombre, telefono, modificarUrl, eliminarUrl) {
-      document.getElementById('mozo-id').textContent = id;
-      document.getElementById('mozo-nombre').textContent = nombre;
-      document.getElementById('mozo-telefono').textContent = telefono;
-      document.getElementById('modificar-btn').href = modificarUrl;
-      document.getElementById('eliminar-btn').href = eliminarUrl;
-      document.getElementById('myModal').style.display = "block";
-  }
+  function openModal(nombre, telefono, modificarUrl, eliminarUrl) {
+    document.getElementById('mozo-nombre').textContent = nombre;
+
+    // Verifica si el teléfono es None o una cadena vacía, y muestra "--------" en su lugar
+    if (telefono && telefono !== 'None') {
+        document.getElementById('mozo-telefono').textContent = telefono;
+    } else {
+        document.getElementById('mozo-telefono').textContent = "--------";
+    }
+    document.getElementById('modificar-btn').href = modificarUrl;
+    document.getElementById('eliminar-btn').href = eliminarUrl;
+    document.getElementById('myModal').style.display = "block";
+}
+
+
 
   function closeModal() {
       document.getElementById('myModal').style.display = "none";

@@ -1,88 +1,318 @@
 {% extends "base.html" %}
 {% block estilos %}
 <style>
-    tbody tr:hover {
-        color: #C1121F; /* Cambia el color del texto */
-        opacity: 0.5;
-    }
     tbody tr {
         cursor: pointer; /* Cambia el cursor a un puntero para indicar que es seleccionable */
     }
+    .cont {
+      position: relative;
+      padding: 20px; /* Ajusta según sea necesario */
+      border-radius: 10px; /* Ajusta según sea necesario */
+      overflow: hidden; /* Asegura que el contenido no se desborde */
+      color: white;
+      /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);*/
+    }
+    
+    .cont::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("../../../media/estilos_h1/fondo_carta.jpg"); /* Reemplaza con la ruta de tu imagen */
+      background-size: cover;
+      background-position: center;
+      filter: blur(4px); /* Ajusta el valor del desenfoque según sea necesario */
+      z-index: -1;
+    }
+    .titulo{
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    .modal {
+      display: none; /* Ocultar por defecto */
+      position: fixed;
+      z-index: 99;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0,0,0);
+      background-color: rgba(0,0,0,0.4);
+    }
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      border-radius: 10px; /* Esquinas redondeadas */
+    }
+    .modal-header {
+      background-color: #f8f9fa; /* Color de fondo claro */
+      border-bottom: 1px solid #dee2e6; /* Borde inferior sutil */
+      display: flex;
+      justify-content: space-between; /* Asegura que los elementos se distribuyan adecuadamente */
+      align-items: center; /* Alinea los elementos verticalmente en el centro */
+      padding: 15px; /* Relleno */
+      border-top-left-radius: 10px; /* Esquinas redondeadas superiores */
+      border-top-right-radius: 10px; /* Esquinas redondeadas superiores */
+    }
+    .modal-title {
+      font-size: 1.75rem;
+      font-weight: bold;
+      color: #343a40; /* Color del título */
+      margin: 0; /* Sin margen */
+    }
+    .modal-titulo {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .modal-descripcion, .modal-precio {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .modal-imagen {
+      display: block;
+      margin: 0 auto;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .botones-modal {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+    .botones-modal a {
+      width: 45%;
+      text-align: center;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      color: white;
+      transition: background-color 0.3s ease, transform 0.3s ease; /* Transición suave para el cambio de color y el efecto de elevación */
+    }
+    .btn-modificar {
+      background-color: #007bff;
+    }
+    .btn-modificar:hover {
+      background-color: #0056b3; /* Color de fondo del botón primario al pasar el cursor */
+      transform: translateY(-2px); /* Efecto de elevación */
+      color: #fff; 
+    }
+    .btn-eliminar {
+      background-color: #dc3545;
+    }
+    .btn-eliminar:hover {
+      background-color: #c82333; /* Color de fondo del botón de peligro al pasar el cursor */
+      transform: translateY(-2px); /* Efecto de elevación */
+      color: #fff; 
+    }
+    .btn a {
+      color: #fff; /* Color del texto del enlace */
+      text-decoration: none; /* Sin subrayado */
+    }
+    .close {
+      padding: 5px 10px;
+      border: none;
+      background: transparent;
+      font-size: 1.5rem;
+      color: #343a40;
+      opacity: 0.8;
+      transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+    }
+    .close:hover {
+      color: #ff0000; /* Color rojo al pasar el cursor */
+      background-color: rgba(255, 0, 0, 0.1); /* Fondo ligeramente rojo al pasar el cursor */
+      transform: scale(1.1); /* Efecto de elevación */
+      opacity: 1;
+    }
+    .close span {
+      display: inline-block;
+      font-weight: bold;
+    }
+    /* barra de busqueda*/
+    .search-bar {
+        margin: 20px;
+      }
+    
+    .search-input {
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
+      border-right: none;
+      padding: 10px 15px;
+    }
+
+    .search-btn {
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+      background-color: #007bff;
+      border: none;
+      padding: 10px 15px;
+    }
+
+    .search-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .search-btn svg {
+      vertical-align: middle;
+    }
+
+    .input-group .form-control:focus {
+      box-shadow: none;
+      border-color: #007bff;
+    }
+
+    .input-group {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
+    }
+      
 </style>
 
 
 {% endblock %}
+
 {% block content %}
-<h1 class="text-center mt-3">Lista Clientes</h1>
-<form method="GET" class="d-none d-md-table-cell col-md-4">
-    <div class="input-group">
-        <input type="text" class="form-control" name="q" value="{{ query }}" \
-            placeholder="Buscar en título o descripción...">
-        <button class="btn btn-primary text-light" type="submit">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-search" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-            </svg>
-        </button>
-    </div>
-</form>
-<table class="table table-light shadow-sm table-responsive">
-    <thead class="bg-light">
-        <tr>
+<div class="container">
+    <h1 class="text-center mt-1 cont titulo">Lista Clientes</h1>
+    <form method="GET" class="search-bar col-md-4">
+        <div class="input-group">
+            <input type="text" class="form-control search-input" name="q" value="{{ query }}" \
+                placeholder="Buscar nombre...">
+            <button class="btn btn-primary search-btn" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                </svg>
+            </button>
+        </div>
+    </form>
+<div class="table-responsive">
+    <table class="table table-light shadow-sm  mt-2">
+        <thead class="bg-light">
+          <tr>
             <th scope="col">ID</th>
             <th scope="col">Nombre</th>
-            <th scope="col">Teléfono</th>
+            <th scope="col" class="d-none d-md-table-cell">Teléfono</th>
             <th scope="col">Dirección</th>
             {% if perms.miAplicacion.change_cliente %}
             <th scope="col" class="d-flex justify-content-end">Action</th>
             {% endif %}
-        </tr>
-    </thead>
-    <tbody>
-        {% for c in clientes %}
-            <tr onclick="window.location.href='{% url 'clienteDetalle' c.id%}'"> 
-                <td>{{ c.id }}</td>
-                <td>{{ c.nombre }}</td>
-                <td>{{ c.telefono|default_if_none:"-----" }}</td>
-                <td>{{ c.direccion|default_if_none:"-----" }}</td>
-                {% if perms.miAplicacion.change_cliente %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in clientes %}
+          <tr onclick="openModal('{{ c.nombre }}', '{{ c.telefono }}', '{{ c.direccion }}', '/clientes/clienteModif/{{ c.id }}', '/clientes/clienteBorrar/{{ c.id }}')">
+            <td>{{ c.id }}</td>
+            <td>{{ c.nombre }}</td>
+            <td class="d-none d-md-table-cell">{{ c.telefono|default_if_none:"-----" }}</td>
+            <td>{{ c.direccion|default_if_none:"-----" | truncatechars:6}}</td>
+            {% if perms.miAplicacion.change_cliente %}
                 <td class="d-flex justify-content-end gap-1">
-                    <button class="btn btn-sm btn-primary">
-                        <a href="/clientes/clienteModif/{{ c.id }}" class="text-white text-decoration-none">Modificar</a>
-                    </button>
-                    <button class="btn btn-sm btn-danger">
-                        <a href="/clientes/clienteBorrar/{{ c.id }}" class="text-white text-decoration-none">Eliminar</a>
-                    </button>
+                  <button class="btn btn-sm btn-primary">
+                    <a href="/clientes/clienteModif/{{ c.id }}" class="text-white text-decoration-none">Modificar</a>
+                  </button>
+                  <button class="btn btn-sm btn-danger">
+                    <a href="/clientes/clienteBorrar/{{ c.id }}" class="text-white text-decoration-none">Eliminar</a>
+                  </button>
                 </td>
-                {% endif %}
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-<div class="pagination justify-content-center">
-    {% if page_obj.has_previous %}
-        <a class="btn btn-outline-primary mb-3" href="?page=1">
-            Primera
-        </a>
-        <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.previous_page_number }}">
-            Anterior
-        </a>
-    {% endif %}
-
-    <span class="current-page btn btn-outline-light disabled text-primary mb-3">
-        {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
-    </span>
-
-    {% if page_obj.has_next %}
-        <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.next_page_number }}">
-            Siguiente
-        </a>
-        <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.paginator.num_pages }}">
-            Última
-        </a>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+</div>
+      <!-- Modal -->
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title">Detalles del Cliente</h2>
+            <span class="close" onclick="closeModal()">&times;</span>
+          </div>
+          <div class="modal-body">
+            <p class="modal-descripcion"><strong>Nombre:</strong> <span id="cliente-nombre"></span></p>
+            <p class="modal-descripcion"><strong>Teléfono:</strong> <span id="cliente-telefono"></span></p>
+            <p class="modal-descripcion"><strong>Dirección:</strong> <span id="cliente-direccion"></span></p>
+            <div class="botones-modal">
+              <a id="modificar-btn" href="#" class="btn btn-modificar">Modificar</a>
+              <a id="eliminar-btn" href="#" class="btn btn-eliminar">Eliminar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+    
+    <div class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+            <a class="btn btn-outline-primary mb-3" href="?page=1">
+                Primera
+            </a>
+            <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.previous_page_number }}">
+                Anterior
+            </a>
+        {% endif %}
+    
+        <span class="current-page btn btn-outline-light disabled text-primary mb-3">
+            {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+        </span>
+    
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.next_page_number }}">
+                Siguiente
+            </a>
+            <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.paginator.num_pages }}">
+                Última
+            </a>
+        {% endif %}
+    </div>
+    {% if perms.miAplicacion.add_cliente %}
+    <a href="{% url 'clienteNuevo' %}" class="customButton">+</a>
     {% endif %}
 </div>
-{% if perms.miAplicacion.add_cliente %}
-<a href="{% url 'clienteNuevo' %}" class="customButton">+</a>
-{% endif %}
+<script>
+    function openModal(nombre, telefono, direccion, modificarUrl, eliminarUrl) {
+      document.getElementById('cliente-nombre').textContent = nombre;
+  
+      // Verifica si el teléfono es None o una cadena vacía, y muestra "--------" en su lugar
+      if (telefono && telefono !== 'None') {
+          document.getElementById('cliente-telefono').textContent = telefono;
+      } else {
+          document.getElementById('cliente-telefono').textContent = "--------";
+      }
+  
+      // Verifica si la dirección es None o una cadena vacía, y muestra "--------" en su lugar
+      if (direccion && direccion !== 'None') {
+          document.getElementById('cliente-direccion').textContent = direccion;
+      } else {
+          document.getElementById('cliente-direccion').textContent = "--------";
+      }
+      document.getElementById('modificar-btn').href = modificarUrl;
+      document.getElementById('eliminar-btn').href = eliminarUrl;
+      document.getElementById('myModal').style.display = "block";
+    }
+  
+    function closeModal() {
+        document.getElementById('myModal').style.display = "none";
+    }
+  
+    // Cerrar el modal cuando se hace clic fuera de él
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('myModal')) {
+            document.getElementById('myModal').style.display = "none";
+        }
+    }
+  </script>
 {% endblock %}
+
+
+
+
+
+  
