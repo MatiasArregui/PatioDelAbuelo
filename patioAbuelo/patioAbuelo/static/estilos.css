@@ -64,21 +64,122 @@
 }
 
 /* Offcanvas Styles */
-.offcanvas-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.offcanvas {
+  background-color: white;
+  color: #fff; 
+  border-left: 2px solid #ff4757; 
 }
 
-.offcanvas-body {
-  padding: 1rem;
+.offcanvas .offcanvas-header {
+  border-bottom: 1px solid #ff4757; 
+}
+
+.offcanvas .offcanvas-body {
+  padding: 20px;
+}
+
+.offcanvas .navbar-nav .nav-item {
+  margin-bottom: 15px;
 }
 
 .nav-link {
-  font-size: 1rem;
-  margin: 0.5rem 0;
+  color: #ff4757; 
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: color 0.3s ease-in-out;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: rgba(255, 71, 87, 0.2);
 }
 
+.nav-link:hover {
+  color: #fff;
+  background-color: rgba(255, 71, 87, 0.4);
+}
+
+.nav-link:visited {
+  color: #ff4757; 
+}
+
+.btn-close {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  background-color: #ff4757;
+  border: none;
+  color: white; 
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-close::before,
+.btn-close::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60%;
+  height: 2px;
+  background-color: white; 
+}
+
+.btn-close::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.btn-close::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.btn-close:hover {
+  background-color: #d90429;
+  transform: scale(1.1); 
+}
+
+/* Boton cierre de sesion */
+
+.logout-btn {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+
+.logout-btn a {
+  color: white !important; 
+  text-decoration: none; 
+}
+
+.logout-btn a:hover {
+  color: white !important; 
+}
+
+.logout-btn:hover {
+  background-color: white;
+}
+
+.user-info {
+  background-color: rgba(0, 0, 0, 0.5); 
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white; 
+}
+
+.logout-info {
+  background-color: rgba(255, 0, 0, 0.7); 
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white; 
+}
 
   .nombre{
     text-align: center;
