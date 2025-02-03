@@ -135,8 +135,8 @@ def cartaBorrar(request, pk):
 class listaMesas(ListView):
     model = Mesa
     template_name = "./listas/listaMesas.html"
-    context_object_name = 'mesa'
-    paginate_by = 2
+    context_object_name = 'mesas'
+
 
 
 # Modificar Mesa --------->

@@ -347,34 +347,34 @@
     </nav>
 
 
-<div class="container">
+<div class="container mb-5">
     {% comment %} En este apartado se itera las subcategorias y se van mostrando los platos segun la sub categoria perteneciente {% endcomment %}
     {% for subcategoria in subcategorias%}
         <h1 class="m-4 text-danger text-center plato titulo_sub" data-category="{{subcategoria.nombre}}">{{subcategoria.nombre}}</h1>
-        <div class="d-flex justify-content-between row">
-            {% for plato in carta %}
-                {% if plato.subCategoria.nombre == subcategoria.nombre %}
-                    <div class="plato col-5 col-md-3 col-lg-4 mx-lg-auto" data-category="{{subcategoria.nombre}}" data-toggle="modal" data-target="#platoModal" data-nombre="{{plato.nombre}}" data-descripcion="{{plato.descripcion}}" data-precio="{{plato.precio}}" data-imagen="{{plato.imagen.url}}" class="plato" data-id="{{plato.id}}" data-url-modificar="{% url 'cartaModif' plato.id %}" data-url-eliminar="{% url 'cartaBorrar' plato.id %}">
-                        <div>
-                            <h1 class="titulo_plato">{{plato.nombre}}</h1>
-                            {% if plato.descripcion%}
-                                <p class="descripcion_sub">{{plato.descripcion}}</p>
-                            {% else %}
-                                <p class="descripcion_sub"></p>
-                            {% endif %}
-                            <p>${{plato.precio}}</p>
-                            <img src="{{plato.imagen.url}}" alt="" class="img-fluid align-self-end">
-                        </div>
-                        {% if perms.miAplicacion.change_carta %}
-                            <div class="d-flex justify-content-center gap-2">
-                                <a href="{% url 'cartaModif' plato.id %}" class="btn btn-primary btn-sm text-white text-decoration-none">Modificar</a>
-                                <a href="{% url 'cartaBorrar' plato.id %}" class="btn btn-danger btn-sm text-white text-decoration-none">Eliminar</a>
+            <div class="d-flex justify-content-between row">
+                {% for plato in carta %}
+                    {% if plato.subCategoria.nombre == subcategoria.nombre %}
+                        <div class="plato col-5 col-md-3 col-lg-4 mx-lg-auto" data-category="{{subcategoria.nombre}}" data-toggle="modal" data-target="#platoModal" data-nombre="{{plato.nombre}}" data-descripcion="{{plato.descripcion}}" data-precio="{{plato.precio}}" data-imagen="{{plato.imagen.url}}" class="plato" data-id="{{plato.id}}" data-url-modificar="{% url 'cartaModif' plato.id %}" data-url-eliminar="{% url 'cartaBorrar' plato.id %}">
+                            <div>
+                                <h1 class="titulo_plato">{{plato.nombre}}</h1>
+                                {% if plato.descripcion%}
+                                    <p class="descripcion_sub">{{plato.descripcion}}</p>
+                                {% else %}
+                                    <p class="descripcion_sub"></p>
+                                {% endif %}
+                                <p>${{plato.precio}}</p>
+                                <img src="{{plato.imagen.url}}" alt="" class="img-fluid align-self-end">
                             </div>
-                        {% endif %}
-                    </div>
-                {% endif %}
-            {% endfor %}
-        </div>
+                            {% if perms.miAplicacion.change_carta %}
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a href="{% url 'cartaModif' plato.id %}" class="btn btn-primary btn-sm text-white text-decoration-none">Modificar</a>
+                                    <a href="{% url 'cartaBorrar' plato.id %}" class="btn btn-danger btn-sm text-white text-decoration-none">Eliminar</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
     
          <!-- Modal -->
         <div class="modal fade" id="platoModal" tabindex="-1" role="dialog" aria-labelledby="platoModalLabel" aria-hidden="true">
