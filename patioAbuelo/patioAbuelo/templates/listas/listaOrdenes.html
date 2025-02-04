@@ -61,6 +61,62 @@
     .btn-limpiar:focus {
         box-shadow: 0 0 0 0.2rem rgba(255, 111, 97, 0.5);
     }
+
+    /*estilos divs*/
+    .contenedor-orden {
+        background-color: #f8f9fa; /* Color de fondo suave */
+        border: 1px solid #dee2e6; /* Borde sutil */
+        border-radius: 0.25rem; /* Esquinas redondeadas */
+        padding: 1rem; /* Espaciado interno */
+        margin-bottom: 1rem; /* Espaciado entre divs */
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra ligera */
+        transition: transform 0.2s ease-in-out; /* Transición suave */
+    }
+      
+    .contenedor-orden:hover {
+        transform: scale(1.02); /* Ligero aumento al pasar el mouse */
+      }
+      
+    .contenedor-orden h1 {
+        font-size: 1.5rem; /* Tamaño de fuente del título */
+        color: #343a40; /* Color del texto */
+        margin-bottom: 0.5rem; /* Espaciado debajo del título */
+      }
+      
+    .contenedor-orden p {
+        font-size: 1rem; /* Tamaño de fuente del párrafo */
+        color: #6c757d; /* Color del texto */
+        margin-bottom: 0.5rem; /* Espaciado debajo del párrafo */
+      }
+      
+    .contenedor-orden button {
+        font-size: 0.875rem; /* Tamaño de fuente del botón */
+        padding: 0.5rem 1rem; /* Espaciado interno del botón */
+        border: none; /* Sin borde */
+        border-radius: 0.25rem; /* Esquinas redondeadas */
+        transition: background-color 0.2s ease-in-out; /* Transición suave */
+      }
+      
+    .contenedor-orden button a {
+        color: white; /* Color del texto */
+      }
+      
+    .contenedor-orden button.btn-primary {
+        background-color: #007bff; /* Color de fondo del botón primario */
+      }
+      
+    .contenedor-orden button.btn-primary:hover {
+        background-color: #0056b3; /* Color de fondo del botón primario al pasar el mouse */
+      }
+      
+    .contenedor-orden button.btn-danger {
+        background-color: #dc3545; /* Color de fondo del botón de peligro */
+      }
+      
+    .contenedor-orden button.btn-danger:hover {
+        background-color: #c82333; /* Color de fondo del botón de peligro al pasar el mouse */
+      }
+      
 </style>
 
 
@@ -84,64 +140,25 @@
                 </button>
             </div>
         </form>
-        <table class="table table-light shadow-sm table-responsive">
-            <thead class="bg-light">
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">ID_mesa</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Observacion</th>
-                <th scope="col">Total</th>
+            {% for o in ordenes %}
+            {% if not o.entregado %}
+              <div onclick="window.location.href='{% url 'ordenDetalle' o.id%}'" class="contenedor-orden">
+                <h1>{{o.id_mesa.nombre}}</h1>
+                <p>{{o.fecha}}</p>
+                <p>{{o.observacion}}</p>
+                <p>{{o.total}}</p>
                 {% if perms.miAplicacion.change_orden %}
-                <th scope="col" class="d-flex justify-content-end">
-                Action
-                </th>
+                <div class="d-flex justify-content-end gap-1">
+                  <button class="btn btn-sm btn-primary"><a href="/ordenes/ordenModif/{{ o.id }}" class="text-white text-decoration-none">Modificar</a></button>
+                  <button class="btn btn-sm btn-danger"><a href="/ordenes/ordenBorrar/{{ o.id }}" class="text-white text-decoration-none">Eliminar</a></button>
+                </div>
                 {% endif %}
-              </tr>
-            </thead>
-            <tbody>
-                {% for o in ordenes %}
-                {% if not o.entregado %}
-                  <tr onclick="window.location.href='{% url 'ordenDetalle' o.id%}'">
-                    <td>{{o.id}}</td>
-                    <td>{{o.id_mesa.nombre}}</td>
-                    <td>{{o.fecha}}</td>
-                    <td>{{o.observacion}}</td>
-                    <td>{{o.total}}</td>
-                    {% if perms.miAplicacion.change_orden %}
-                    <td class="d-flex justify-content-end gap-1">
-                      <button class="btn btn-sm btn-primary"><a href="/ordenes/ordenModif/{{ o.id }}" class="text-white text-decoration-none">Modificar</a></button>
-                      <button class="btn btn-sm btn-danger"><a href="/ordenes/ordenBorrar/{{ o.id }}" class="text-white text-decoration-none">Eliminar</a></button>
-                    </td>
-                    {% endif %}
-                  </tr>
-                {% endif %}
-                {% endfor %}
-            </tbody>
-        </table>
-        <div class="pagination justify-content-center">
-          {% if page_obj.has_previous %}
-              <a class="btn btn-outline-primary mb-3" href="?page=1">
-                  Primera
-              </a>
-              <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.previous_page_number }}">
-                  Anterior
-              </a>
-          {% endif %}
-      
-          <span class="current-page btn btn-outline-light disabled text-primary mb-3">
-              {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
-          </span>
-      
-          {% if page_obj.has_next %}
-              <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.next_page_number }}">
-                  Siguiente
-              </a>
-              <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.paginator.num_pages }}">
-                  Última
-              </a>
-          {% endif %}
-      </div>
+              </div>
+            {% endif %}
+            {% endfor %}
+
+
+
       {% if perms.miAplicacion.add_orden %}
         <a href={% url "ordenNueva" %} class="customButton">+</a>
        {% endif %}

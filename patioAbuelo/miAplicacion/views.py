@@ -270,7 +270,6 @@ class listaOrdenes(ListView):
     model = Orden
     template_name = "./listas/listaOrdenes.html"
     context_object_name = 'ordenes'
-    paginate_by = 2
     
     def get_queryset(self):
         queryset = super().get_queryset()
