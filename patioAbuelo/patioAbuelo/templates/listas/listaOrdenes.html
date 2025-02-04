@@ -146,7 +146,14 @@
                 <h1>{{o.id_mesa.nombre}}</h1>
                 <p>{{o.fecha}}</p>
                 <p>{{o.observacion}}</p>
-                <p>{{o.total}}</p>
+                <hr>
+                <h6>Platos</h6>
+                {% for carta in cartaOrden %}
+                    {% if carta.id_orden.pk == o.id  %}
+                    <p>{{carta.id_carta.nombre}} {{carta.cantidad}}</p>
+                    {% endif %}
+                {% endfor %}
+                <p>Total: {{o.total}}</p>
                 {% if perms.miAplicacion.change_orden %}
                 <div class="d-flex justify-content-end gap-1">
                   <button class="btn btn-sm btn-primary"><a href="/ordenes/ordenModif/{{ o.id }}" class="text-white text-decoration-none">Modificar</a></button>

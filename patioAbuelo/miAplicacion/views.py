@@ -281,6 +281,10 @@ class listaOrdenes(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['query'] = self.request.GET.get('q', '')  # Enviar el valor de la búsqueda al contexto
+        # Aca obtenemos todas las carta orden para luego filtrar en el template los platos relacionados 
+        # a cada orden
+        context['cartaOrden'] = [{"id":x.pk, "id_carta":x.id_carta, "id_orden":x.id_orden, "cantidad":x.cantidad} for x in CartaOrden.objects.all()]
+        print([{"id":x.pk, "id_carta":x.id_carta, "id_orden":x.id_orden, "cantidad":x.cantidad} for x in CartaOrden.objects.all()])
         return context
 
 # # Modificar Orden --------->
