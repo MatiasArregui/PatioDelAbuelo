@@ -1,24 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-
-
-    <h3 class="display-4 my-3">Orden</h3>
-    <form method="post">
-        {% csrf_token %}
-        {{ orden_form.as_p }}
-        {{ formset.management_form }}
-        <div id="select_container" class="row">
-            {% for form in formset %}
-                <div class="col-4">{{ form.as_p }}</div>
-            {% endfor %}
-        </div>
-        <div class="col">
-            <button type="submit" class="btn btn-primary">Guardar</button>
-            <button class="btn btn-primary">
-                <a href={% url "listaOrdenes" %} class="text-decoration-none text-white">Cancelar</a>
-            </button>
-        </div>
-    </form>
+<div class="container mb-5">
+    
+    
+        <h3 class="display-4 my-3">Orden</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ orden_form.as_p }}
+            {{ formset.management_form }}
+            <div id="select_container" class="row">
+                {% for form in formset %}
+                    <div class="col-4">{{ form.as_p }}</div>
+                {% endfor %}
+            </div>
+            <div class="col mb-3">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button class="btn btn-primary">
+                    <a href={% url "listaOrdenes" %} class="text-decoration-none text-white">Cancelar</a>
+                </button>
+            </div>
+        </form>
+</div>
 
 
 <script>
