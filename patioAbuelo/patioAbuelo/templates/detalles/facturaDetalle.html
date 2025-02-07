@@ -1,20 +1,37 @@
 {% extends "base.html" %}
-
+{% block estilos%}
+<style>
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+        .print-section, .print-section * {
+            visibility: visible;
+        }
+        .print-section {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
 {% block content %}
 <div class="container mt-5 mb-5">
-    <div class="card shadow-sm border-0">
+    <div class="card shadow-sm border-0 mb-3 print-section">
         <div class="card-header bg-dark text-white">
             <h2 class="mb-0">Factura n° {{factura.id}}</h2>
         </div>
         <div class="card-body">
-            <p class="text-muted">Fecha: {{factura.fecha}}</p>
-            <p class="text-muted">Cliente: {{factura.id_cliente.nombre}}</p>
+            <p class="h5">Fecha: {{factura.fecha}}</p>
+            <p class="h5">Cliente: {{factura.id_cliente.nombre|title}}</p>
             <hr>
             {% for o in ordenes %}
                 <div class="mb-4">
-                    <h4 class="text-primary">Orden n° {{ o.id }}</h4>
+                    <h4 class="text-dark">Orden n° {{ o.id }}</h4>
                     <p><strong>Fecha:</strong> {{ o.fecha }}</p>
-                    <p><strong>Mesa:</strong> {{ o.id_mesa.nombre }}</p>
+                    <p><strong>Mesa:</strong> {{ o.id_mesa.nombre | title}}</p>
                     <p><strong>Mozo:</strong> {{ o.id_mozo.nombre }}</p>
                     <p class="text-muted">{{ o.observacion }}</p>
                     <h5 class="mt-3">Platos de la orden</h5>
@@ -37,12 +54,21 @@
                 </div>
             {% endfor %}
             <hr>
-            <p><strong>Total factura:</strong> ${{factura.total}}</p>
-            <p><strong>Total pagado:</strong> ${{factura.total_pago}}</p>
-            <p><strong>Vuelto:</strong> ${{factura.vuelto}}</p>
-            <!-- Botón de imprimir -->
-            <button class="btn btn-primary mt-3" onclick="window.print()">Imprimir Factura</button>
+            <div>
+                    <p class="h5"><strong>Total factura:</strong> ${{factura.total}}</p>
+                    <p class="h5"><strong>Total pagado:</strong> ${{factura.total_pago}}</p>
+                    <p class="h5"><strong>Vuelto:</strong> ${{factura.vuelto}}</p>
+            </div>
         </div>
     </div>
+    <!-- Botón de imprimir -->
+    <button class="btn btn-primary mt-3 mb-5" onclick="printFactura()">Imprimir Factura</button>
 </div>
+
+<script>
+function printFactura() {
+    window.print();
+}
+</script>
+
 {% endblock %}

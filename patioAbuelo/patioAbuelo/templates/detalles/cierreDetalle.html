@@ -1,46 +1,50 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-12">
-                <h1>Fecha: {{cierre.fecha }}</h1>
-                <h4>Facturas</h4>
-                <table class="table table-light shadow-sm table-responsive">
-                    <thead class="bg-light">
-                      <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Cliente</th>
-                        <th scope="col">Total Ordenes</th>    
-                        <th scope="col">Total Pagado</th> 
-                        <th scope="col">Vuelto</th>    
-                      </tr>
-                    </thead>
-                    <tbody>
-                        {% for f in facturas %}
-                        <tr>
-                          <td>{{f.id}}</td>
-                          <td>{{ f.fecha|date:"d-m-Y h:i A" }}</td>
-                          
-
-                          <td>{{f.id_cliente.nombre}}</td>
-                          <td>{{f.total}}</td>
-                          <td>{{f.total_pago}}</td>
-                          <td>{{f.vuelto}}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <p>Total de la suma de ordenes: {{cierre.total_ordenes}}</p>
-                <p>Total de la suma de facturas:{{cierre.total_facturas}}</p>
-                <p>Total de la suma de vuelto:{{cierre.vuelto}}</p>
-        </div>
-        <div class="col-12 d-flex justify-content-start gap-1">
-          <button class="btn btn-sm btn-danger">
-              <a href="{% url "listaCierres" %}" class="text-white text-decoration-none bg-danger">Volver</a>
-          </button>
+    <div class="container">
+      <div class="row mt-5 mb-5">
+          <div class="col-12">
+              <div class="card shadow-sm border-0">
+                  <div class="card-header bg-dark text-white">
+                      <h1 class="mb-0">Fecha: {{cierre.fecha}}</h1>
+                  </div>
+                  <div class="card-body">
+                      <h4 class="text-dark">Facturas</h4>
+                      <table class="table table-striped table-hover table-bordered mt-3">
+                          <thead class="thead-light">
+                            <tr>
+                              <th scope="col">N°</th>
+                              <th scope="col">Fecha</th>
+                              <th scope="col">Cliente</th>
+                              <th scope="col">Total Ordenes</th>
+                              <th scope="col">Total Pagado</th>
+                              <th scope="col">Vuelto</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                              {% for f in facturas %}
+                              <tr>
+                                <td>{{ f.id }}</td>
+                                <td>{{ f.fecha|date:"d-m-Y h:i A" }}</td>
+                                <td>{{ f.id_cliente.nombre }}</td>
+                                <td>${{ f.total }}</td>
+                                <td>${{ f.total_pago }}</td>
+                                <td>${{ f.vuelto }}</td>
+                              </tr>
+                              {% endfor %}
+                          </tbody>
+                      </table>
+                      <div class="totales mt-4">
+                          <p><strong>Total de la suma de ordenes:</strong> ${{cierre.total_ordenes}}</p>
+                          <p><strong>Total de la suma de facturas:</strong> ${{cierre.total_facturas}}</p>
+                          <p><strong>Total de la suma de vuelto:</strong> ${{cierre.vuelto}}</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-12 d-flex justify-content-start gap-2 mt-3">
+              <a href="{% url 'listaCierres' %}" class="btn btn-danger btn-sm text-white">Volver</a>
+          </div>
       </div>
-        
     </div>
-
 {% endblock %}

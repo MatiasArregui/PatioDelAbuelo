@@ -20,6 +20,9 @@
     .img-fluid {
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         margin-top: 1rem;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
     }
     
     .botones-container {
@@ -75,16 +78,34 @@
     .w-100 {
         width: 100%;
     }
-    
+
+    /* Estilo adicional para mejorar el diseño */
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .col-12 {
+        padding: 0;
+    }
+
+    .rounded {
+        border-radius: 0.25rem;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
 </style>
 {% endblock %}
 {% block content %}
-    <div class="container mt-5">
+    <div class="container mt-5 mb-5">
         <div class="row">
             <div class="col-12 border shadow-sm p-4 mb-4 bg-white rounded">
                 <h1 class="titulo">{{carta.nombre}}</h1>
                 <p class="descripcion">{{carta.descripcion}}</p>
-                <p class="precio">Precio: {{carta.precio}}</p>
+                <p class="precio">Precio: ${{carta.precio}}</p>
                 <p class="categoria">Categoría: {{carta.categoria.nombre}}, {{carta.subCategoria.nombre}}</p>
                 <img src="{{carta.imagen.url}}" alt="" class="img-fluid rounded">
             </div>

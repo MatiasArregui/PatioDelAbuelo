@@ -692,7 +692,7 @@ class listaCierres(ListView):
     model = Cierre
     template_name = "./listas/listaCierres.html"
     context_object_name = 'cierres'
-    paginate_by = 2
+    paginate_by = 10
     
     def get_queryset(self):
         queryset = super().get_queryset()
