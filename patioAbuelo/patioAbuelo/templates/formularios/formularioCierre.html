@@ -1,47 +1,49 @@
 {% extends "base.html" %}
 {% block content %}
-
-
-    <h3 class="display-4 my-3">Cierre</h3>
-    <table class="table table-light shadow-sm table-responsive">
-        <thead class="bg-light">
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Fecha</th>
-            <th scope="col">Cliente</th>
-            <th scope="col">Total Ordenes</th>    
-            <th scope="col">Total Pagado</th> 
-            <th scope="col">Vuelto</th>    
-          </tr>
-        </thead>
-        <tbody>
-            {% for f in facturas %}
-            <tr>
-              <td>{{f.id}}</td>
-              <td>{{f.fecha}}</td>
-              <td>{{f.id_cliente.nombre}}</td>
-              <td>{{f.total}}</td>
-              <td>{{f.total_pago}}</td>
-              <td>{{f.vuelto}}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <div id="select_container" class="row">
-            {% for form in formset %}
-                <div class="col-4">{{ form.as_p }}</div>
-            {% endfor %}
-        </div>
-        <div class="col">
-            <button type="submit" class="btn btn-primary">Guardar</button>
-            <button class="btn btn-primary">
-                <a href={% url "listaCierres" %} class="text-decoration-none text-white">Cancelar</a>
-            </button>
-        </div>
-    </form>
+<div class="container">
+    
+    
+        <h3 class="display-4 my-3">Cierre</h3>
+        <table class="table table-light shadow-sm table-responsive">
+            <thead class="bg-light">
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Total Ordenes</th>
+                <th scope="col">Total Pagado</th>
+                <th scope="col">Vuelto</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for f in facturas %}
+                <tr>
+                  <td>{{f.id}}</td>
+                  <td>{{f.fecha}}</td>
+                  <td>{{f.id_cliente.nombre}}</td>
+                  <td>{{f.total}}</td>
+                  <td>{{f.total_pago}}</td>
+                  <td>{{f.vuelto}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div id="select_container" class="row">
+                {% for form in formset %}
+                    <div class="col-4">{{ form.as_p }}</div>
+                {% endfor %}
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button class="btn btn-primary">
+                    <a href={% url "listaCierres" %} class="text-decoration-none text-white">Cancelar</a>
+                </button>
+            </div>
+        </form>
+</div>
     <script>
         const input_total_ordenes = document.getElementById("id_total_ordenes");
         const input_total_facturas = document.getElementById("id_total_facturas");

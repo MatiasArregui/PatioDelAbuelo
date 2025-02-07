@@ -1,51 +1,140 @@
 {% extends "base.html" %}
 {% block estilos %}
 <style>
-    tbody tr:hover {
-        color: #C1121F; /* Cambia el color del texto */
-        opacity: 0.5;
+  tbody tr {
+    cursor: pointer; /* Cambia el cursor a un puntero para indicar que es seleccionable */
+}
+.cont {
+  position: relative;
+  padding: 20px; /* Ajusta según sea necesario */
+  border-radius: 10px; /* Ajusta según sea necesario */
+  overflow: hidden; /* Asegura que el contenido no se desborde */
+  color: white;
+  /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);*/
+}
+
+.cont::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../../../media/estilos_h1/fondo_carta.jpg"); /* Reemplaza con la ruta de tu imagen */
+  background-size: cover;
+  background-position: center;
+  filter: blur(4px); /* Ajusta el valor del desenfoque según sea necesario */
+  z-index: -1;
+}
+.titulo{
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+}
+/* barra de busqueda*/
+    .search-bar {
+        margin: 20px;
+      }
+    
+    .search-input {
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
+      border-right: none;
+      padding: 10px 15px;
     }
-    tbody tr {
-        cursor: pointer; /* Cambia el cursor a un puntero para indicar que es seleccionable */
+
+    .search-btn {
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+      background-color: #007bff;
+      border: none;
+      padding: 10px 15px;
     }
+
+    .search-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .search-btn svg {
+      vertical-align: middle;
+    }
+
+    .input-group .form-control:focus {
+      box-shadow: none;
+      border-color: #007bff;
+    }
+
+    .input-group {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
+    }
+    .btn-limpiar {
+      border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-color: #ff3b2e;
+    border: none;
+    padding: 10px 15px;
+    color: white;
+  }
+  .btn-limpiar:hover {
+      background-color: #ff6f61;
+      color:white;
+      
+  }
+  .btn-limpiar:focus {
+      box-shadow: 0 0 0 0.2rem rgba(255, 111, 97, 0.5);
+  }
 </style>
 
 
 {% endblock %}
 {% block content %}
-
-<h1 class="text-center mt-3">Lista Facturas</h1>
-<form method="GET" class="d-none d-md-table-cell col-md-4">
-  <div class="input-group">
-      <input type="date" class="form-control" name="q" value="{{ query }}" \
-          placeholder="Buscar en título o descripción...">
-      <button class="btn btn-primary text-light" type="submit">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-search" viewBox="0 0 16 16">
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-          </svg>
+<div class="container">
+  
+  <h1 class="text-center mt-1 cont titulo">Lista Facturas</h1>
+  <form method="GET" class="search-bar col-md-4">
+    <div class="input-group">
+        <input type="date" class="form-control search-input" name="q" value="{{ query }}" \
+            placeholder="Buscar por fecha">
+        <button class="btn btn-primary text-light" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+            </svg>
+        </button>
+        <button class="btn btn-limpiar" type="reset" onclick="clearSearch()">
+          Limpiar
       </button>
-  </div>
-</form>
-  <table class="table table-light shadow-sm table-responsive">
-      <thead class="bg-light">
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Fecha</th>
-          <th scope="col">Cliente</th>
-          <th scope="col">Total</th>    
-          <th scope="col">Total Pagado</th> 
-          <th scope="col">Vuelto</th> 
-          <th scope="col">Cobrado</th> 
-          
-          <th scope="col" class="d-flex justify-content-end">
-            Action
-          </th>     
-        </tr>
-      </thead>
-      <tbody>
-          {% for f in facturas %}
-          {% if f.anulado == True%}
-            <tr class="table-danger" onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">
+    </div>
+  </form>
+    <table class="table table-light shadow-sm table-responsive">
+        <thead class="bg-light">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Total</th>
+            <th scope="col">Total Pagado</th>
+            <th scope="col">Vuelto</th>
+            <th scope="col">Cobrado</th>
+  
+            <th scope="col" class="d-flex justify-content-end">
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for f in facturas %}
+            {% if f.anulado == True%}
+              <tr class="table-danger" onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">
+                <td>{{f.id}}</td>
+                <td>{{f.fecha}}</td>
+                <td>{{f.id_cliente.nombre}}</td>
+                <td>{{f.total}}</td>
+                <td>{{f.total_pago}}</td>
+                <td>{{f.vuelto}}</td>
+                <td>{{f.cobrado}}</td>
+              </tr>
+            {%endif%}
+            {% if f.cobrado == True and f.anulado == False%}
+            <tr onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">
               <td>{{f.id}}</td>
               <td>{{f.fecha}}</td>
               <td>{{f.id_cliente.nombre}}</td>
@@ -53,68 +142,65 @@
               <td>{{f.total_pago}}</td>
               <td>{{f.vuelto}}</td>
               <td>{{f.cobrado}}</td>
+              {% if perms.miAplicacion.delete_factura and f.id not in facturaCierre %}
+              <td class="d-flex justify-content-end gap-1">
+                <button class="btn btn-sm btn-danger"><a href="/facturas/facturaBorrar/{{ f.id }}" class="text-white text-decoration-none">Anular</a></button>
+              </td>
+              {%endif%}
             </tr>
-          {%endif%}
-          {% if f.cobrado == True and f.anulado == False%}
-          <tr onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">
-            <td>{{f.id}}</td>
-            <td>{{f.fecha}}</td>
-            <td>{{f.id_cliente.nombre}}</td>
-            <td>{{f.total}}</td>
-            <td>{{f.total_pago}}</td>
-            <td>{{f.vuelto}}</td>
-            <td>{{f.cobrado}}</td>
-            {% if perms.miAplicacion.delete_factura %}
-            <td class="d-flex justify-content-end gap-1">
-              <button class="btn btn-sm btn-danger"><a href="/facturas/facturaBorrar/{{ f.id }}" class="text-white text-decoration-none">Anular</a></button>
-            </td>
             {%endif%}
-          </tr>
-          {%endif%}
-          {%if f.cobrado == False and f.anulado == False%}
-          <tr onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">
-            <td>{{f.id}}</td>
-            <td>{{f.fecha}}</td>
-            <td>{{f.id_cliente.nombre}}</td>
-            <td>{{f.total}}</td>
-            <td>{{f.total_pago}}</td>
-            <td>{{f.vuelto}}</td>
-            <td>{{f.cobrado}}</td>
-            <td class="d-flex justify-content-end gap-1">
-              <button class="btn btn-sm btn-primary"><a href="/facturas/facturaModif/{{ f.id }}" class="text-white text-decoration-none">Cobrar</a></button>
-              {% if perms.miAplicacion.delete_factura %}
-              <button class="btn btn-sm btn-danger"><a href="/facturas/facturaBorrar/{{ f.id }}" class="text-white text-decoration-none">Anular</a></button>
-              {% endif %}
-            </td>
-          </tr>
-          {%endif%}
-          {% endfor %}
-      </tbody>
-  </table>
-  <div class="pagination justify-content-center">
-    {% if page_obj.has_previous %}
-        <a class="btn btn-outline-primary mb-3" href="?page=1">
-            Primera
-        </a>
-        <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.previous_page_number }}">
-            Anterior
-        </a>
-    {% endif %}
-
-    <span class="current-page btn btn-outline-light disabled text-primary mb-3">
-        {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
-    </span>
-
-    {% if page_obj.has_next %}
-        <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.next_page_number }}">
-            Siguiente
-        </a>
-        <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.paginator.num_pages }}">
-            Última
-        </a>
-    {% endif %}
+            {%if f.cobrado == False and f.anulado == False%}
+            <tr onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">
+              <td>{{f.id}}</td>
+              <td>{{f.fecha}}</td>
+              <td>{{f.id_cliente.nombre}}</td>
+              <td>{{f.total}}</td>
+              <td>{{f.total_pago}}</td>
+              <td>{{f.vuelto}}</td>
+              <td>{{f.cobrado}}</td>
+              <td class="d-flex justify-content-end gap-1">
+                <button class="btn btn-sm btn-primary"><a href="/facturas/facturaModif/{{ f.id }}" class="text-white text-decoration-none">Cobrar</a></button>
+                {% if perms.miAplicacion.delete_factura and f.id not in facturaCierre %}
+                <button class="btn btn-sm btn-danger"><a href="/facturas/facturaBorrar/{{ f.id }}" class="text-white text-decoration-none">Anular</a></button>
+                {% endif %}
+              </td>
+            </tr>
+            {%endif%}
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+          <a class="btn btn-outline-primary mb-3" href="?page=1">
+              Primera
+          </a>
+          <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.previous_page_number }}">
+              Anterior
+          </a>
+      {% endif %}
+  
+      <span class="current-page btn btn-outline-light disabled text-primary mb-3">
+          {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+      </span>
+  
+      {% if page_obj.has_next %}
+          <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.next_page_number }}">
+              Siguiente
+          </a>
+          <a class="btn btn-outline-primary mb-3" href="?page={{ page_obj.paginator.num_pages }}">
+              Última
+          </a>
+      {% endif %}
+  </div>
+  {% if perms.miAplicacion.add_factura %}
+    <a href={% url "facturaNueva" %} class="customButton">+</a>
+  {% endif %}
 </div>
-{% if perms.miAplicacion.add_factura %}
-  <a href={% url "facturaNueva" %} class="customButton">+</a>
-{% endif %}
+<script>
+  
+  function clearSearch() {
+    document.querySelector('.search-input').value = '';
+    window.location.href = window.location.pathname;
+  }
+</script>
 {% endblock %}

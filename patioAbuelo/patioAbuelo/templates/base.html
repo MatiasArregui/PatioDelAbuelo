@@ -44,49 +44,49 @@
                     {% comment %} Ancla que lleva a la carta {% endcomment %}
                     {% if perms.miAplicacion.view_carta %}
                     <li class="nav-item">
-                        <a href="{% url "listaCarta"%}?uniqueParam=1" class="nav-link">Carta</a>
+                        <a href="{% url "listaCarta"%}" class="nav-link">Carta</a>
                     </li>
                     {% endif %}
                     {% comment %} Ancla que lleva a mozo {% endcomment %}
                     {% if perms.miAplicacion.view_mozo %}
                     <li class="nav-item">
-                        <a href="{% url "listaMozos"%}?uniqueParam=1" class="nav-link">Mozo</a>
+                        <a href="{% url "listaMozos"%}" class="nav-link">Mozo</a>
                     </li>
                     {% endif %}
                     {% comment %} Ancla que lleva a cliente {% endcomment %}
                     {% if perms.miAplicacion.view_cliente %}
                     <li class="nav-item">
-                        <a href="{% url "listaClientes" %}?uniqueParam=1" class="nav-link">Cliente</a>
+                        <a href="{% url "listaClientes" %}" class="nav-link">Cliente</a>
                     </li>
                     {% endif %}
                     {% comment %} Ancla que lleva a mesa{% endcomment %}
                     {% if perms.miAplicacion.view_mesa %}
                     <li class="nav-item">
-                        <a href="{% url "listaMesas"%}?uniqueParam=1" class="nav-link">Mesa</a>
+                        <a href="{% url "listaMesas"%}" class="nav-link">Mesa</a>
                     </li>
                     {% endif %}
                     {% comment %} Ancla que lleva a orden {% endcomment %}
                     {% if perms.miAplicacion.view_orden %}
                     <li class="nav-item">
-                        <a href="{% url "listaOrdenes"%}?uniqueParam=1" class="nav-link">Orden</a>
+                        <a href="{% url "listaOrdenes"%}" class="nav-link">Orden</a>
                     </li>
                     {% endif %}
                     {% comment %} Ancla que lleva a factura {% endcomment %}
                     {% if perms.miAplicacion.view_factura %}
                     <li class="nav-item">
-                        <a href="{% url "listaFacturas"%}?uniqueParam=1" class="nav-link">Factura</a>
+                        <a href="{% url "listaFacturas"%}" class="nav-link">Factura</a>
                     </li>
                     {% endif %}
                     {% comment %} Ancla que lleva a cierre {% endcomment %}
                     {% if perms.miAplicacion.view_cierre %}
                     <li class="nav-item">
-                        <a href="{% url "listaCierres"%}?uniqueParam=1" class="nav-link">Cierre</a>
+                        <a href="{% url "listaCierres"%}" class="nav-link">Cierre</a>
                     </li>
                     {% endif %}
                     {% comment %} Ancla que lleva a plato del dia {% endcomment %}
                     {% if perms.miAplicacion.view_platoDia %}
                     <li class="nav-item">
-                        <a href="{% url "listaPlatoDia"%}?uniqueParam=1" class="nav-link">Plato del dia</a>
+                        <a href="{% url "listaPlatoDia"%}" class="nav-link">Plato del dia</a>
                     </li>
                     {% endif %}
                     {% comment %} Ancla que cierra cesion {% endcomment %}

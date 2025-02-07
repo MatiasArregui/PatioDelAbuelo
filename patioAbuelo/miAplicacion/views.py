@@ -484,7 +484,7 @@ class listaFacturas(ListView):
     model = Factura
     template_name = "./listas/listafacturas.html"
     context_object_name = 'facturas'
-    paginate_by = 2
+    paginate_by = 12
     
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -496,6 +496,7 @@ class listaFacturas(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['query'] = self.request.GET.get('q', '')  # Enviar el valor de la búsqueda al contexto
+        context['facturaCierre'] = [x.id_factura.pk for x in FacturaCierre.objects.all()]
         return context
 
 
