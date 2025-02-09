@@ -1,30 +1,61 @@
 {% extends "base.html" %}
+{% block estilos%}
+<style>
+  .cont {
+    position: relative;
+    padding: 20px; /* Ajusta según sea necesario */
+    border-radius: 10px; /* Ajusta según sea necesario */
+    overflow: hidden; /* Asegura que el contenido no se desborde */
+    color: white;
+    /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);*/
+  }
+  
+  .cont::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../../../media/estilos_h1/platodia.jpg"); /* Reemplaza con la ruta de tu imagen */
+    background-size: cover;
+    background-position: center;
+    filter: blur(4px); /* Ajusta el valor del desenfoque según sea necesario */
+    z-index: -1;
+  }
+  .titulo{
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  }
+</style>
+{% endblock %}
 {% block content %}
-
-  <h1 class="text-center mt-3">Lista Plato del día</h1>
-    <table class="table table-light shadow-sm table-responsive">
-        <thead class="bg-light">
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col" class="d-flex justify-content-end">
-            Action
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-            {% for p in platodia %}
-              <tr>
-                <td>{{p.id_carta}}</td>
-                <td class="d-flex justify-content-end gap-1">
-                  <button class="btn btn-sm btn-primary"><a href="/platodia/platoDiaModif/{{ p.id }}" class="text-white text-decoration-none">Modificar</a></button>
-                  <button class="btn btn-sm btn-danger"><a href="/platodia/platoDiaBorrar/{{ p.id }}" class="text-white text-decoration-none">Eliminar</a></button>
-                </td>
-              </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% if perms.miAplicacion.add_platoDia and platodia|length == 0 %}
-    <a href={% url "platoDiaNuevo" %} class="customButton">+</a>
-    {% endif %}
+<div class="container mb-5">
+  
+    <h1 class="text-center mt-1 cont titulo">Lista Plato del día</h1>
+      <table class="table table-light shadow-sm table-responsive">
+          <thead class="bg-light">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col" class="d-flex justify-content-end">
+              Action
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for p in platodia %}
+                <tr>
+                  <td>{{p.id_carta}}</td>
+                  <td class="d-flex justify-content-end gap-1">
+                    <button class="btn btn-sm btn-primary"><a href="/platodia/platoDiaModif/{{ p.id }}" class="text-white text-decoration-none">Modificar</a></button>
+                    <button class="btn btn-sm btn-danger"><a href="/platodia/platoDiaBorrar/{{ p.id }}" class="text-white text-decoration-none">Eliminar</a></button>
+                  </td>
+                </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+      {% if perms.miAplicacion.add_platoDia and platodia|length == 0 %}
+      <a href={% url "platoDiaNuevo" %} class="customButton">+</a>
+      {% endif %}
+</div>
 
 {% endblock %}
