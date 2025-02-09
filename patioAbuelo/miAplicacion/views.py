@@ -127,7 +127,7 @@ def cartaBorrar(request, pk):
             carta.delete()
             return HttpResponseRedirect(reverse('listaCarta'))
         except ProtectedError:
-            messages.error(request, "No se puede eliminar el cliente porque tiene facturas relacionadas. Se recomienda volver atras")
+            messages.error(request, "No se puede eliminar el plato porque tiene ordenes relacionadas. Se recomienda volver atras")
     return render(request, './confirmacionBorrado/cartaConfBorrar.html', {'carta': carta})
 
 # MESAS VIEWS ----------------------------------->
