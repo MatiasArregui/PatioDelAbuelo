@@ -167,7 +167,7 @@ def mesaBorrar(request, pk):
             mesa.delete()
             return HttpResponseRedirect(reverse('listaMesas'))
         except ProtectedError:
-            messages.error(request, "No se puede eliminar la mesa porque tiene facturas relacionadas. Se recomienda volver atras")
+            messages.error(request, "No se puede eliminar la mesa porque tiene ordenes relacionadas. Se recomienda volver atras")
         
     return render(request, './confirmacionBorrado/mesaConfBorrar.html', {'mesa': mesa})
 
@@ -285,6 +285,8 @@ class listaOrdenes(ListView):
         # a cada orden
         context['cartaOrden'] = [{"id":x.pk, "id_carta":x.id_carta, "id_orden":x.id_orden, "cantidad":x.cantidad} for x in CartaOrden.objects.all()]
         print([{"id":x.pk, "id_carta":x.id_carta, "id_orden":x.id_orden, "cantidad":x.cantidad} for x in CartaOrden.objects.all()])
+        context["facturaOrden"] = [x.id_orden.pk for x in FacturaOrden.objects.all()]
+        print([x.pk for x in FacturaOrden.objects.all()])
         return context
 
 # # Modificar Orden --------->
