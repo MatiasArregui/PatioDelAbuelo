@@ -251,7 +251,7 @@
                 <img src="../../../media/logos_nav/mesa.png" width="40" height="40" class="bg-white rounded" alt="" onclick="openModal('{{ mesa.nombre }}', '{{ mesa.estado }}', '/mesas/mesaModif/{{ mesa.id }}', '/mesas/mesaBorrar/{{ mesa.id }}')">
                 
                 <div onclick="openModal('{{ mesa.nombre }}', '{{ mesa.estado }}', '/mesas/mesaModif/{{ mesa.id }}', '/mesas/mesaBorrar/{{ mesa.id }}')">
-                    <h1 class="titulo_plato">{{ mesa.nombre }}</h1>
+                    <h1 class="titulo_plato">{{ mesa.nombre | title}}</h1>
                     <p class="descripcion_sub text-white">{% if mesa.estado == False %}Desocupado{% else %}Ocupado{% endif %}</p>
                 </div>
                 {% if perms.miAplicacion.change_mesa %}

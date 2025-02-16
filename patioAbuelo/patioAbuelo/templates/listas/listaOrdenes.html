@@ -268,6 +268,9 @@
     <div onclick="openOrderModal('{{ o.id_mesa.nombre }}', '{{ o.fecha }}', '{{ o.observacion }}', '{{ o.total }}', '{{ o.id }}', [{% for carta in cartaOrden %}{% if carta.id_orden.pk == o.id %}'{{ carta.id_carta.nombre }} {{ carta.cantidad }}',{% endif %}{% endfor %}])" class="contenedor-orden">
       <h1>{{o.id_mesa.nombre}}</h1>
       <p>{{o.fecha}}</p>
+      {% if o.entregado %}
+        <p>En mesa</p>
+      {% endif %}
       <p>{{o.observacion}}</p>
       <hr>
       <h6>Platos</h6>
@@ -297,8 +300,8 @@
         <div class="modal-body">
             <p class="modal-descripcion"><strong>Mesa:</strong> <span id="orden-mesa"></span></p>
             <p class="modal-descripcion"><strong>Fecha:</strong> <span id="orden-fecha"></span></p>
-            <p class="modal-descripcion"><strong>Observación:</strong> <span id="orden-observacion"></span></p>
-            <h6>Platos</h6>
+            <p class="modal-descripcion"><strong>Observación:</strong><span id="orden-observacion"></span></p>
+            <h6><strong>Platos</strong></h6>
             <div id="orden-platos"></div>
             <p class="modal-descripcion"><strong>Total:</strong> <span id="orden-total"></span></p>
             <div class="botones-modal">

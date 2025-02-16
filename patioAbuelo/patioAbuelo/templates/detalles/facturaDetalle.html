@@ -61,14 +61,11 @@
             </div>
         </div>
     </div>
-    <!-- Botón de imprimir -->
-    <button class="btn btn-primary mt-3 mb-5" onclick="printFactura()">Imprimir Factura</button>
+    <div class="col-12 d-flex justify-content-start gap-2 mt-3 mb-3">
+        <a href="{% url 'listaFacturas' %}" class="btn btn-danger btn-sm text-white">Volver</a>
+        <button class="btn btn-primary btn-sm text-white" onclick="window.print()">Imprimir factura</button>
+    </div>
+    
 </div>
-
-<script>
-function printFactura() {
-    window.print();
-}
-</script>
 
 {% endblock %}
