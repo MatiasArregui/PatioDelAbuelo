@@ -206,6 +206,15 @@
         transform: translateY(-2px); /* Efecto de elevación */
         color: #fff; 
     }
+    .btn-imprimir {
+        background-color:rgb(0, 255, 157);
+    }
+    
+    .btn-imprimir:hover {
+        background-color: rgb(6, 206, 129); /* Color de fondo al pasar el cursor */
+        transform: translateY(-2px); /* Efecto de elevación */
+        color: #fff; 
+    }
     
     .btn-eliminar {
         background-color: #dc3545;
@@ -292,34 +301,31 @@
 
 <!-- Modal -->
 <div id="orderModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2 class="modal-title">Detalles de la Orden</h2>
-            <span class="close" onclick="closeOrderModal()">&times;</span>
-        </div>
-        <div class="modal-body">
-            <p class="modal-descripcion"><strong>Mesa:</strong> <span id="orden-mesa"></span></p>
-            <p class="modal-descripcion"><strong>Fecha:</strong> <span id="orden-fecha"></span></p>
-            <p class="modal-descripcion"><strong>Observación:</strong><span id="orden-observacion"></span></p>
-            <h6><strong>Platos</strong></h6>
-            <div id="orden-platos"></div>
-            <p class="modal-descripcion"><strong>Total:</strong> <span id="orden-total"></span></p>
-            <div class="botones-modal">
-                <a id="orden-modificar-btn" href="#" class="btn btn-modificar">Modificar</a>
-                <a id="orden-eliminar-btn" href="#" class="btn btn-eliminar">Eliminar</a>
-            </div>
-        </div>
-    </div>
+  <div class="modal-content">
+      <div class="modal-header" id="printable-area-header">
+          <h2 class="modal-title">Detalles de la Orden</h2>
+          <span class="close" onclick="closeOrderModal()">&times;</span>
+      </div>
+      <div class="modal-body" id="printable-area-body">
+          <p class="modal-descripcion"><strong>Mesa:</strong> <span id="orden-mesa"></span></p>
+          <p class="modal-descripcion"><strong>Fecha:</strong> <span id="orden-fecha"></span></p>
+          <p class="modal-descripcion"><strong>Observación:</strong><span id="orden-observacion"></span></p>
+          <h6><strong>Platos</strong></h6>
+          <div id="orden-platos"></div>
+          <p class="modal-descripcion"><strong>Total:</strong> <span id="orden-total"></span></p>
+      </div>
+      <div class="botones-modal">
+          <a id="orden-modificar-btn" href="#" class="btn btn-modificar m-1">Modificar</a>
+          <a id="orden-eliminar-btn" href="#" class="btn btn-eliminar m-1">Eliminar</a>
+          <a class="btn btn-imprimir m-1" href="#" onclick="printOrderDetails()">Imprimir</a>
+      </div>
+  </div>
 </div>
-
-        
-
 
       {% if perms.miAplicacion.add_orden %}
         <a href={% url "ordenNueva" %} class="customButton">+</a>
        {% endif %}
   </div>
-
 
   <script>
     function clearSearch() {
@@ -366,13 +372,21 @@
             setTimeout(() => { modal.style.display = "none"; }, 300);
         }
     }
-    
+
+    function printOrderDetails() {
+      const printableHeader = document.getElementById('printable-area-header').outerHTML;
+      const printableBody = document.getElementById('printable-area-body').outerHTML;
+      const printContent = printableHeader + printableBody;
+      const originalContent = document.body.innerHTML;
+
+      document.body.innerHTML = printContent;
+      window.print();
+      document.body.innerHTML = originalContent;
+      location.reload();
+  }
   </script>
   
 {% endblock %}
-
-
-
 
 
 

@@ -62,7 +62,7 @@ class CartaForm(forms.ModelForm):
     #         # print(categoria_id)
     #         # Filtrar el queryset del campo 'precio' basado en el valor de 'categoria'
     #         self.fields['subCategoria'].queryset = SubCategoria.objects.filter(id_categoria=categoria_id)
-    
+
 class CartaOrdenForm(forms.ModelForm):
     class Meta:
         model = CartaOrden
@@ -149,9 +149,9 @@ class CierreForm(forms.ModelForm):
         model = Cierre
         fields = ('total_ordenes', "total_facturas", 'vuelto')
         widgets = {
-            'total_ordenes': forms.NumberInput(attrs={'class': 'form-control'}),
-            'total_facturas': forms.NumberInput(attrs={'class': 'form-control'}),
-            'vuelto': forms.NumberInput(attrs={'class': 'form-control'}),
+            'total_ordenes': forms.NumberInput(attrs={'class': 'form-control', "readonly":True}),
+            'total_facturas': forms.NumberInput(attrs={'class': 'form-control', "readonly":True}),
+            'vuelto': forms.NumberInput(attrs={'class': 'form-control', "readonly":True}),
         }
         labels = {"total_ordenes":"Total Ordenes",
                   "total_facturas":"Total Facturas",
