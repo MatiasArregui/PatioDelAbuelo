@@ -317,6 +317,10 @@
         display: inline-block;
         font-weight: bold;
     }
+    .light-red-bg {
+        background-color: #ffcccc; /* Color rojo claro */
+      }
+      
 
 </style>
 
@@ -354,13 +358,17 @@
             <div class="d-flex justify-content-between row">
                 {% for plato in carta %}
                     {% if plato.subCategoria.nombre == subcategoria.nombre %}
-                        <div class="plato col-5 col-md-3 col-lg-4 mx-lg-auto" data-category="{{subcategoria.nombre}}" data-toggle="modal" data-target="#platoModal" data-nombre="{{plato.nombre}}" data-descripcion="{{plato.descripcion}}" data-precio="{{plato.precio}}" data-imagen="{{plato.imagen.url}}" class="plato" data-id="{{plato.id}}" data-url-modificar="{% url 'cartaModif' plato.id %}" data-url-eliminar="{% url 'cartaBorrar' plato.id %}">
+                        {% if plato.controlStock and plato.stock < 10%}
+                        <div class="plato col-5 col-md-3 col-lg-4 mx-lg-auto light-red-bg" data-category="{{subcategoria.nombre}}" data-toggle="modal" data-target="#platoModal" data-nombre="{{plato.nombre}}" data-descripcion="{{plato.descripcion}}" data-precio="{{plato.precio}}" data-imagen="{{plato.imagen.url}}" class="plato" data-id="{{plato.id}}" data-url-modificar="{% url 'cartaModif' plato.id %}" data-url-eliminar="{% url 'cartaBorrar' plato.id %}" data-controlstock="{{plato.controlStock}}" data-stock="{{plato.stock}}">
                             <div>
                                 <h1 class="titulo_plato">{{plato.nombre}}</h1>
                                 {% if plato.descripcion%}
                                     <p class="descripcion_sub">{{plato.descripcion}}</p>
                                 {% else %}
                                     <p class="descripcion_sub"></p>
+                                {% endif %}
+                                {% if plato.controlStock%}
+                                    <p class="descripcion_sub">Stock: {{plato.stock}}</p>
                                 {% endif %}
                                 <p>${{plato.precio}}</p>
                                 <img src="{{plato.imagen.url}}" alt="" class="img-fluid align-self-end">
@@ -372,36 +380,60 @@
                                 </div>
                             {% endif %}
                         </div>
+                        {% else %}
+                            <div class="plato col-5 col-md-3 col-lg-4 mx-lg-auto" data-category="{{subcategoria.nombre}}" data-toggle="modal" data-target="#platoModal" data-nombre="{{plato.nombre}}" data-descripcion="{{plato.descripcion}}" data-precio="{{plato.precio}}" data-imagen="{{plato.imagen.url}}" class="plato" data-id="{{plato.id}}" data-url-modificar="{% url 'cartaModif' plato.id %}" data-url-eliminar="{% url 'cartaBorrar' plato.id %}" data-controlstock="{{plato.controlStock}}" data-stock="{{plato.stock}}">
+                                <div>
+                                    <h1 class="titulo_plato">{{plato.nombre}}</h1>
+                                    {% if plato.descripcion%}
+                                        <p class="descripcion_sub">{{plato.descripcion}}</p>
+                                    {% else %}
+                                        <p class="descripcion_sub"></p>
+                                    {% endif %}
+                                    {% if plato.controlStock%}
+                                        <p class="descripcion_sub">Stock: {{plato.stock}}</p>
+                                    {% endif %}
+                                    <p>${{plato.precio}}</p>
+                                    <img src="{{plato.imagen.url}}" alt="" class="img-fluid align-self-end">
+                                </div>
+                                {% if perms.miAplicacion.change_carta %}
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a href="{% url 'cartaModif' plato.id %}" class="btn btn-primary btn-sm text-white text-decoration-none mb-2">Modificar</a>
+                                        <a href="{% url 'cartaBorrar' plato.id %}" class="btn btn-danger btn-sm text-white text-decoration-none mb-2">Eliminar</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
             </div>
     
-         <!-- Modal -->
-        <div class="modal fade" id="platoModal" tabindex="-1" role="dialog" aria-labelledby="platoModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="platoModalLabel">Detalles del Plato</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <h1 class="modal-titulo"></h1>
-                        <p class="modal-descripcion"></p>
-                        <p class="modal-precio"></p>
-                        <img src="" alt="" class="modal-imagen img-fluid">
-
-                    </div>
-                    <div class="modal-footer botones-modal">
-                        {% if perms.miAplicacion.change_carta %}
-                            <a href="#" id="modal-modificar" class="btn btn-primary btn-sm text-white text-decoration-none">Modificar</a>
-                            <a href="#" id="modal-eliminar" class="btn btn-danger btn-sm text-white text-decoration-none">Eliminar</a>
-                        {% endif %}
+            <div class="modal fade" id="platoModal" tabindex="-1" role="dialog" aria-labelledby="platoModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="platoModalLabel">Detalles del Plato</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="modal-titulo"></h1>
+                            <p class="modal-descripcion"></p>
+                            <p class="modal-precio"></p>
+                            <p class="modal-stock"></p> <!-- Añadido para mostrar el stock -->
+                            <img src="" alt="" class="modal-imagen img-fluid">
+                        </div>
+                        <div class="modal-footer botones-modal">
+                            {% if perms.miAplicacion.change_carta %}
+                                <a href="#" id="modal-modificar" class="btn btn-primary btn-sm text-white text-decoration-none">Modificar</a>
+                                <a href="#" id="modal-eliminar" class="btn btn-danger btn-sm text-white text-decoration-none">Eliminar</a>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            
+            
         
     {% endfor %}
 </div>
@@ -488,6 +520,8 @@
         var imagen = button.data('imagen');
         var urlModificar = button.data('url-modificar');
         var urlEliminar = button.data('url-eliminar');
+        var controlStock = button.data('controlstock'); // Extrae el valor de controlStock
+        var stock = button.data('stock'); // Extrae el valor del stock
     
         // Actualiza el contenido del modal
         var modal = $(this);
@@ -502,19 +536,19 @@
             modal.find('.modal-descripcion').hide();
         }
     
+        // Muestra el stock solo si controlStock es True
+        if (controlStock === true || controlStock === 'True') { // Comprobar si es true o cadena 'True'
+            modal.find('.modal-stock').text('Stock: ' + stock).show();
+        } else {
+            modal.find('.modal-stock').hide();
+        }
+    
         // Actualiza los enlaces de los botones en el modal
         modal.find('#modal-modificar').attr('href', urlModificar);
         modal.find('#modal-eliminar').attr('href', urlEliminar);
     });
     
-
     
-
-    
-    
-
-    
-
     
 </script>
 
