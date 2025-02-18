@@ -8,6 +8,7 @@ from django.core.paginator import Paginator
 from django.db.models import ProtectedError
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 import random
+import os
 # from datetime import datetime, timedelta
 # import pytz
 
@@ -27,11 +28,12 @@ def principal(request):
 
 # Login de ingreso ------------------------------------------------------------------------------------->
 class LoginIngreso(LoginView):
-    template_name ="./registration/login.html"
+    template_name = os.path.join("registration", "login.html")
     authentication_form = LoginForm
 
     def get_success_url(self):
         return reverse_lazy("paginaPrincipal")
+
 
 # PLATO VIEWS ------------------------------------------------------------------------------>
 # Listado plato --------------------------->
@@ -60,7 +62,7 @@ class LoginIngreso(LoginView):
 #         return context
 class listaCarta(ListView):
     model = Carta
-    template_name = "./listas/listaCarta.html"
+    template_name = os.path.join("listas", "listaCarta.html")
     context_object_name = 'carta'
     #Sacamos la paginacion para que nos permita usar los datos presentes en el template
     # paginate_by = 7
@@ -99,7 +101,7 @@ def cartaModificar(request, pk):
             return HttpResponseRedirect(reverse('listaCarta'))
     else:
         form = CartaForm(instance=carta)
-    return render(request, './formularios/formularioCarta.html', {'form': form, 'carta': carta, "opcion1":opcion1, "opcion2":opcion2, "opcion3":opcion3, "categorias":categorias})
+    return render(request, os.path.join("formularios", "formularioCarta.html"), {'form': form, 'carta': carta, "opcion1":opcion1, "opcion2":opcion2, "opcion3":opcion3, "categorias":categorias})
 
 # Nuevo plato ------------------>
 def cartaNuevo(request):
@@ -115,7 +117,7 @@ def cartaNuevo(request):
             return HttpResponseRedirect(reverse('listaCarta'))
     else:
         form = CartaForm()
-    return render(request, './formularios/formularioCarta.html', {'form': form, "opcion1":opcion1, "opcion2":opcion2, "opcion3":opcion3, "categorias":categorias})
+    return render(request, os.path.join("formularios", "formularioCarta.html"), {'form': form, "opcion1":opcion1, "opcion2":opcion2, "opcion3":opcion3, "categorias":categorias})
 
 # Borrar plato ----------------------->
 def cartaBorrar(request, pk):
@@ -128,13 +130,13 @@ def cartaBorrar(request, pk):
             return HttpResponseRedirect(reverse('listaCarta'))
         except ProtectedError:
             messages.error(request, "No se puede eliminar el plato porque tiene ordenes relacionadas. Se recomienda volver atras")
-    return render(request, './confirmacionBorrado/cartaConfBorrar.html', {'carta': carta})
+    return render(request, os.path.join("confirmacionBorrado", "cartaConfBorrar.html"), {'carta': carta})
 
 # MESAS VIEWS ----------------------------------->
 # Listado Mesa ------->
 class listaMesas(ListView):
     model = Mesa
-    template_name = "./listas/listaMesas.html"
+    template_name = os.path.join("listas", "listaMesas.html")
     context_object_name = 'mesas'
 
 
@@ -149,7 +151,7 @@ def mesaModificar(request, pk):
         mesa.nombre = nombre
         mesa.save()
         return HttpResponseRedirect(reverse('listaMesas'))
-    return render(request, "./formularios/formularioMesas.html", context=context)
+    return render(request, os.path.join("formularios", "formularioMesas.html"), context=context)
 # Nueva Mesa --------->
 def mesaNueva(request):
     if request.method == 'POST':
@@ -157,7 +159,7 @@ def mesaNueva(request):
 
         Mesa.objects.create(nombre=nombre,)
         return HttpResponseRedirect(reverse('listaMesas'))
-    return render(request, "./formularios/formularioMesas.html")
+    return render(request, os.path.join("formularios", "formularioMesas.html"))
 
 # Borrar Mesa ----------------------->
 def mesaBorrar(request, pk):
@@ -169,13 +171,13 @@ def mesaBorrar(request, pk):
         except ProtectedError:
             messages.error(request, "No se puede eliminar la mesa porque tiene ordenes relacionadas. Se recomienda volver atras")
         
-    return render(request, './confirmacionBorrado/mesaConfBorrar.html', {'mesa': mesa})
+    return render(request, os.path.join("confirmacionBorrado", "mesaConfBorrar.html"), {'mesa': mesa})
 
 # CIENTES VIEWS ---------------------------------------------------------------------------------------------->
 # Listado Cliente -------
 class listaClientes(ListView):
     model = Cliente
-    template_name = "./listas/listaclientes.html"
+    template_name = os.path.join("listas", "listaclientes.html")
     context_object_name = 'clientes'
     paginate_by = 2
     
@@ -200,7 +202,7 @@ def ClienteModif(request, pk):
             return HttpResponseRedirect(reverse('listaClientes'))
     else:
         form = ClienteForm(instance=cliente)
-    return render(request, './formularios/formularioClientes.html', {'form': form, 'mozo': cliente})
+    return render(request, os.path.join("formularios", "formularioClientes.html"), {'form': form, 'mozo': cliente})
 #
 # Nuevo Cliente ------------------>
 def ClienteNuevo(request):
@@ -211,7 +213,7 @@ def ClienteNuevo(request):
             return HttpResponseRedirect(reverse('listaClientes'))
     else:
         form = ClienteForm()
-    return render(request, './formularios/formularioClientes.html', {'form': form})
+    return render(request, os.path.join("formularios", "formularioClientes.html"), {'form': form})
 
 # Borrar Cliente ----------------------->
 def ClienteBorrar(request, pk):
@@ -222,13 +224,13 @@ def ClienteBorrar(request, pk):
             return HttpResponseRedirect(reverse('listaClientes'))
         except ProtectedError:
             messages.error(request, "No se puede eliminar el cliente porque tiene facturas relacionadas. Se recomienda volver atras")
-    return render(request, './confirmacionBorrado/clienteConfBorrar.html', {'cliente': cliente})
+    return render(request, os.path.join("confirmacionBorrado", "clienteConfBorrar.html"), {'cliente': cliente})
 
 # MOZO VIEWS ----------------------------------------------------------------------------------------->
 #Listado Mozos ------------------------------------->
 class listaMozos(ListView):
     model = Mozo
-    template_name = "./listas/listamozos.html"
+    template_name = os.path.join("listas", "listamozos.html")
     context_object_name = 'mozos'
     
 
@@ -242,7 +244,7 @@ def MozoModif(request, pk):
             return HttpResponseRedirect(reverse('listaMozos'))
     else:
         form = MozoForm(instance=mozo)
-    return render(request, './formularios/formularioMozos.html', {'form': form, 'mozo': mozo})
+    return render(request, os.path.join("formularios", "formularioMozos.html"), {'form': form, 'mozo': mozo})
 # Mozo nuevo -------------------------------------------->
 def MozoNuevo(request):
     if request.method == 'POST':
@@ -252,7 +254,7 @@ def MozoNuevo(request):
             return HttpResponseRedirect(reverse('listaMozos'))
     else:
         form = MozoForm()
-    return render(request, './formularios/formularioMozos.html', {'form': form})
+    return render(request, os.path.join("formularios", "formularioMozos.html"), {'form': form})
 #Mozo borrar ----------------------------------------------->
 def MozoBorrar(request, pk):
     mozo = Mozo.objects.get(id=pk)
@@ -262,13 +264,13 @@ def MozoBorrar(request, pk):
             return HttpResponseRedirect(reverse('listaMozos'))
         except ProtectedError:
             messages.error(request, "No se puede eliminar el mozo porque tiene ordenes relacionadas. Se recomienda volver atras")
-    return render(request, './confirmacionBorrado/mozoConfBorrar.html', {'mozo': mozo})
+    return render(request, os.path.join("confirmacionBorrado", "mozoConfBorrar.html"), {'mozo': mozo})
 
 # ORDEN VIEWS ---------------------------------------------------------------------------------------------->
 # Listado Orden ------->
 class listaOrdenes(ListView):
     model = Orden
-    template_name = "./listas/listaOrdenes.html"
+    template_name = os.path.join("listas", "listaOrdenes.html")
     context_object_name = 'ordenes'
     
     def get_queryset(self):
@@ -419,7 +421,7 @@ def ordenModificar(request, pk):
         orden_form = OrdenForm(instance=orden)
         formset = CartaOrdenFormSet(instance=orden)
 
-    return render(request, "./formularios/formularioOrdenes.html", {
+    return render(request,os.path.join("formularios", "formularioOrdenes.html"), {
         'orden_form': orden_form,
         'formset': formset,
         "platos":platos,
@@ -458,7 +460,7 @@ def ordenNuevo(request):
         orden_form = OrdenForm()
         formset = CartaOrdenFormSet()
 
-    return render(request, "./formularios/formularioOrdenes.html", {
+    return render(request,os.path.join("formularios", "formularioOrdenes.html"), {
         'orden_form': orden_form,
         'formset': formset,
         "platos":platos,
@@ -478,13 +480,13 @@ def ordenBorrar(request, pk):
         except ProtectedError:
             messages.error(request, "No se puede eliminar la orden porque tiene facturas relacionadas. Se recomienda volver atras")
 
-    return render(request, './confirmacionBorrado/ordenConfBorrar.html', {'orden': orden})
+    return render(request, os.path.join("confirmacionBorrado", "ordenConfBorrar.html"), {'orden': orden})
 
 # FACTURAS VIEWS ---------------------------------------------------------------------------------------------->
 # Factura Orden ------->
 class listaFacturas(ListView):
     model = Factura
-    template_name = "./listas/listafacturas.html"
+    template_name = os.path.join("listas", "listafacturas.html")
     context_object_name = 'facturas'
     paginate_by = 12
     
@@ -614,7 +616,7 @@ def facturaModificar(request, pk):
         formset_orden = FacturaOrdenFormSet(instance=factura)
         formset_pago = FacturaPagoFormSet(instance=factura)
     
-    return render(request, "./formularios/formularioFacturas.html", {
+    return render(request, os.path.join("formularios", "formularioFacturas.html"), {
         'factura_form': factura_form,
         'formset_orden': formset_orden,
         'formset_pago': formset_pago,
@@ -669,7 +671,7 @@ def facturaNuevo(request):
         formset_orden = FacturaOrdenFormSet()
         formset_pago = FacturaPagoFormSet()
 
-    return render(request, "./formularios/formularioFacturas.html", {
+    return render(request, os.path.join("formularios", "formularioFacturas.html"), {
         'factura_form': factura_form,
         'formset_orden': formset_orden,
         'formset_pago': formset_pago,
@@ -685,14 +687,14 @@ def facturaBorrar(request, pk):
         factura.anulado = True
         factura.save()
         return HttpResponseRedirect(reverse('listaFacturas'))
-    return render(request, './confirmacionBorrado/facturaConfBorrar.html', {'factura': factura})
+    return render(request, os.path.join("confirmacionBorrado", "facturaConfBorrar.html"), {'factura': factura})
 
 
 # CIERRE VIEWS ----------------------------------------------------------------------------------------->
 #Listado Cierres ------------------------------------->
 class listaCierres(ListView):
     model = Cierre
-    template_name = "./listas/listaCierres.html"
+    template_name = os.path.join("listas", "listaCierres.html")
     context_object_name = 'cierres'
     paginate_by = 10
     
@@ -757,7 +759,7 @@ def cierreNuevo(request):
         form = CierreForm()
         # formset = FacturaCierreFormSet()
 
-    return render(request, "./formularios/formularioCierre.html", {
+    return render(request, os.path.join("formularios", "formularioCierre.html"), {
         'form': form,
         "facturas":facturas,
         "facturas_js":facturas_js,
@@ -776,7 +778,7 @@ def cierreNuevo(request):
 #Listado Plato día ------------------------------------->
 class listaPlatoDia(ListView):
     model = PlatoDia
-    template_name = "./listas/listaplatodia.html"
+    template_name = os.path.join("listas", "listaplatodia.html")
     context_object_name = 'platodia'
     
 
@@ -790,7 +792,7 @@ def PlatoDiaModif(request, pk):
             return HttpResponseRedirect(reverse('listaPlatoDia'))
     else:
         form = PlatoDiaForm(instance=platoDia)
-    return render(request, './formularios/formularioPlatoDia.html', {'form': form, 'platodia': platoDia})
+    return render(request,os.path.join("formularios", "formularioPlatoDia.html"), {'form': form, 'platodia': platoDia})
 # Plato día nuevo -------------------------------------------->
 def PlatoDiaNuevo(request):
     if request.method == 'POST':
@@ -800,36 +802,36 @@ def PlatoDiaNuevo(request):
             return HttpResponseRedirect(reverse('listaPlatoDia'))
     else:
         form = PlatoDiaForm()
-    return render(request, './formularios/formularioPlatoDia.html', {'form': form})
+    return render(request, os.path.join("formularios", "formularioPlatoDia.html"), {'form': form})
 #Plato dia borrar ----------------------------------------------->
 def PlatoDiaBorrar(request, pk):
     platoDia = PlatoDia.objects.get(id=pk)
     if request.method == 'POST':
         platoDia.delete()
         return HttpResponseRedirect(reverse('listaPlatoDia'))
-    return render(request, './confirmacionBorrado/platoDiaConfBorrar.html', {'platodia': platoDia})
+    return render(request, os.path.join("confirmacionBorrado", "platoDiaConfBorrar.html"), {'platodia': platoDia})
 
 # DETALLES --------------------------------------------------------------------->
 #Detalle Carta ----------------->
 def cartaDetalle(request, pk):
     carta = Carta.objects.get(id=pk)
     context = {"carta": carta}
-    return render(request, "./detalles/cartaDetalle.html", context=context)
+    return render(request, os.path.join("detalles", "cartaDetalle.html"), context=context)
 #Detalle Mozo ----------------->
 def mozoDetalle(request, pk):
     mozo = Mozo.objects.get(id=pk)
     context = {"mozo": mozo}
-    return render(request, "./detalles/mozoDetalle.html", context=context)
+    return render(request, os.path.join("detalles", "mozoDetalle.html"), context=context)
 #Detalle Cliente ----------------->
 def clienteDetalle(request, pk):
     cliente = Cliente.objects.get(id=pk)
     context = {"cliente": cliente}
-    return render(request, "./detalles/clienteDetalle.html", context=context)
+    return render(request, os.path.join("detalles", "clienteDetalle.html"), context=context)
 #Detalle Mesa ----------------->
 def mesaDetalle(request, pk):
     mesa = Mesa.objects.get(id=pk)
     context = {"mesa": mesa}
-    return render(request, "./detalles/mesaDetalle.html", context=context)
+    return render(request, os.path.join("detalles", "mesaDetalle.html"), context=context)
 #Detalle Cierre ----------------->
 def cierreDetalle(request, pk):
     # cierre = Cierre.objects.get(id=1)
@@ -842,14 +844,14 @@ def cierreDetalle(request, pk):
     facturas = [x for x in Factura.objects.all() if x.pk in facturaCierreId]
     print(facturas)
     context = {"cierre": cierre, "facturas":facturas}
-    return render(request, "./detalles/cierreDetalle.html", context=context)
+    return render(request, os.path.join("detalles", "cierreDetalle.html"), context=context)
 #Detalle Orden ----------------->
 def ordenDetalle(request, pk):
     orden = Orden.objects.get(id=pk)
     facturaOrdenId = [x.id_carta.pk for x in CartaOrden.objects.filter(id_orden=orden.pk)]
     carta = [x for x in Carta.objects.all() if x.pk in facturaOrdenId]
     context = {"orden": orden, "carta":carta}
-    return render(request, "./detalles/ordenDetalle.html", context=context)
+    return render(request, os.path.join("detalles", "ordenDetalle.html"), context=context)
 #Detalle Orden ----------------->
 def facturaDetalle(request, pk):
     factura = Factura.objects.get(id=pk)
@@ -863,4 +865,4 @@ def facturaDetalle(request, pk):
     platos = [x for x in Carta.objects.all() if x.pk in cartaOrdenId]
     print(platos)
     context = {"ordenes": ordenes, "platos": platos, "factura": factura}
-    return render(request, "./detalles/facturaDetalle.html", context=context)
+    return render(request, os.path.join("detalles", "facturaDetalle.html"), context=context)
