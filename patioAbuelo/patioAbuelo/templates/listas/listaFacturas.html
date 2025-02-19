@@ -90,7 +90,7 @@
 <div class="container">
   
   <h1 class="text-center mt-1 cont titulo">Lista Facturas</h1>
-  <form method="GET" class="search-bar col-md-4">
+  <form method="GET" class="search-bar col-10 col-md-6 col-lg-4">
     <div class="input-group">
         <input type="date" class="form-control search-input" name="q" value="{{ query }}" \
             placeholder="Buscar por fecha">
@@ -104,10 +104,11 @@
       </button>
     </div>
   </form>
-    <table class="table table-light shadow-sm table-responsive">
+
+    <table class="table table-light shadow-sm table-responsive d-none d-md-block">
         <thead class="bg-light">
           <tr>
-            <th scope="col">ID</th>
+            <th scope="col">N°</th>
             <th scope="col">Fecha</th>
             <th scope="col">Cliente</th>
             <th scope="col">Total</th>
@@ -125,7 +126,7 @@
             {% if f.anulado == True%}
               <tr class="table-danger" onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">
                 <td>{{f.id}}</td>
-                <td>{{f.fecha}}</td>
+                <td>{{f.fecha | truncatechars:1}}</td>
                 <td>{{f.id_cliente.nombre}}</td>
                 <td>{{f.total}}</td>
                 <td>{{f.total_pago}}</td>
@@ -169,6 +170,65 @@
             {% endfor %}
         </tbody>
     </table>
+    <table class="table table-light shadow-sm table-responsive d-block d-md-none">
+        <thead class="bg-light">
+          <tr>
+            <th scope="col">N°</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Total</th>
+            <th scope="col">Cobrado</th>
+  
+            <th scope="col" class="d-flex justify-content-end">
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for f in facturas %}
+            {% if f.anulado == True%}
+              <tr class="table-danger" onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">
+                <td>{{f.id}}</td>
+                <td>{{f.fecha}}</td>
+                <td>{{f.id_cliente.nombre}}</td>
+                <td>{{f.total}}</td>
+                <td>{{f.cobrado}}</td>
+              </tr>
+            {%endif%}
+            {% if f.cobrado == True and f.anulado == False%}
+            <tr onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">
+              <td>{{f.id}}</td>
+              <td>{{f.fecha}}</td>
+              <td>{{f.id_cliente.nombre}}</td>
+              <td>{{f.total}}</td>
+              <td>{{f.cobrado}}</td>
+              {% if perms.miAplicacion.delete_factura and f.id not in facturaCierre %}
+              <td class="d-flex justify-content-end gap-1">
+                <button class="btn btn-sm btn-danger"><a href="/facturas/facturaBorrar/{{ f.id }}" class="text-white text-decoration-none">Anular</a></button>
+              </td>
+              {%endif%}
+            </tr>
+            {%endif%}
+            {%if f.cobrado == False and f.anulado == False%}
+            <tr onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">
+              <td>{{f.id}}</td>
+              <td>{{f.fecha}}</td>
+              <td>{{f.id_cliente.nombre}}</td>
+              <td>{{f.total}}</td>
+              <td>{{f.cobrado}}</td>
+              <td class="d-flex justify-content-end gap-1">
+                <button class="btn btn-sm btn-primary"><a href="/facturas/facturaModif/{{ f.id }}" class="text-white text-decoration-none">Cobrar</a></button>
+                {% if perms.miAplicacion.delete_factura and f.id not in facturaCierre %}
+                <button class="btn btn-sm btn-danger"><a href="/facturas/facturaBorrar/{{ f.id }}" class="text-white text-decoration-none">Anular</a></button>
+                {% endif %}
+              </td>
+            </tr>
+            {%endif%}
+            {% endfor %}
+        </tbody>
+    </table>
+
+
     <div class="pagination justify-content-center">
       {% if page_obj.has_previous %}
           <a class="btn btn-outline-primary mb-3" href="?page=1">
