@@ -135,261 +135,250 @@
         background-color: #c82333; /* Color de fondo del botón de peligro al pasar el mouse */
       }
     
-
-      .modal {
-        display: none; /* Ocultar por defecto */
-        position: fixed;
-        z-index: 99;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0,0,0,0.4); /* Fondo semitransparente */
-    }
-    
-    .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-        border-radius: 10px; /* Esquinas redondeadas */
-    }
-    
-    .modal-header {
-        background-color: #f8f9fa; /* Color de fondo claro */
-        border-bottom: 1px solid #dee2e6; /* Borde inferior sutil */
-        display: flex;
-        justify-content: space-between; /* Asegura que los elementos se distribuyan adecuadamente */
-        align-items: center; /* Alinea los elementos verticalmente en el centro */
-        padding: 15px; /* Relleno */
-        border-top-left-radius: 10px; /* Esquinas redondeadas superiores */
-        border-top-right-radius: 10px; /* Esquinas redondeadas superiores */
-    }
-    
-    .modal-title {
-        font-size: 1.75rem;
-        font-weight: bold;
-        color: #343a40; /* Color del título */
-        margin: 0; /* Sin margen */
-    }
-    
-    .modal-descripcion {
-        font-size: 1.2rem;
-        margin-bottom: 0.5rem;
-    }
-    
-    .botones-modal {
-        display: flex;
-        justify-content: space-around;
-        margin-top: 20px;
-    }
-    
-    .botones-modal a {
-        width: 45%;
-        text-align: center;
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        text-decoration: none;
-        color: white;
-        transition: background-color 0.3s ease, transform 0.3s ease; /* Transición suave */
-    }
-    
-    .btn-modificar {
-        background-color: #007bff;
-    }
-    
-    .btn-modificar:hover {
-        background-color: #0056b3; /* Color de fondo al pasar el cursor */
+      /* Estilos de la ventana modal */
+      .modal-titulo {
+          font-size: 2rem;
+          font-weight: bold;
+          margin-bottom: 1rem;
+          text-align: center;
+      }
+      
+      .modal-descripcion, .modal-precio {
+          font-size: 1.2rem;
+          margin-bottom: 0.5rem;
+      }
+      
+      .modal-imagen {
+          display: block;
+          margin: 0 auto;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .botones-modal {
+          display: flex;
+          justify-content: space-around;
+          margin-top: 20px;
+      }
+      .botones-modal a {
+          width: 45%;
+          text-align: center;
+          padding: 10px;
+          border: none;
+          border-radius: 5px;
+          text-decoration: none;
+          color: white;
+      }
+      .btn-modificar {
+          background-color: #007bff;
+      }
+      .btn-modificar:hover {
+        background-color: #0056b3; /* Color de fondo del botón primario al pasar el cursor */
+        color:white;
         transform: translateY(-2px); /* Efecto de elevación */
-        color: #fff; 
     }
-    .btn-imprimir {
-        background-color:rgb(0, 255, 157);
-    }
-    
-    .btn-imprimir:hover {
-        background-color: rgb(6, 206, 129); /* Color de fondo al pasar el cursor */
+      .btn-eliminar {
+          background-color: #dc3545;
+      }
+      .btn-eliminar:hover {
+        background-color: #c82333; /* Color de fondo del botón de peligro al pasar el cursor */
+        color:white;
         transform: translateY(-2px); /* Efecto de elevación */
-        color: #fff; 
     }
-    
-    .btn-eliminar {
-        background-color: #dc3545;
-    }
-    
-    .btn-eliminar:hover {
-        background-color: #c82333; /* Color de fondo al pasar el cursor */
+      .btn-imprimir {
+          background-color:rgb(2, 255, 108);
+      }
+      .btn-imprimir:hover {
+        background-color: rgb(6, 179, 78); /* Color de fondo del botón de peligro al pasar el cursor */
+        color:white;
         transform: translateY(-2px); /* Efecto de elevación */
-        color: #fff; 
     }
-    
-    .btn a {
-        color: #fff; /* Color del texto del enlace */
-        text-decoration: none; /* Sin subrayado */
-    }
-    
-    .close {
-        padding: 5px 10px;
-        border: none;
-        background: transparent;
-        font-size: 1.5rem;
-        color: #343a40;
-        opacity: 0.8;
-        transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
-        cursor: pointer;
-    }
-    
-    .close:hover {
-        color: #ff0000; /* Color rojo al pasar el cursor */
-        background-color: rgba(255, 0, 0, 0.1); /* Fondo ligeramente rojo al pasar el cursor */
-        transform: scale(1.1); /* Efecto de elevación */
-        opacity: 1;
-    }
-    
+      .modal-header {
+          background-color: #f8f9fa; /* Color de fondo claro */
+          border-bottom: 1px solid #dee2e6; /* Borde inferior sutil */
+          display: flex;
+          justify-content: space-between; /* Asegura que los elementos se distribuyan adecuadamente */
+          align-items: center; /* Alinea los elementos verticalmente en el centro */
+          padding: 15px; /* Relleno */
+          border-top-left-radius: 10px; /* Esquinas redondeadas superiores */
+          border-top-right-radius: 10px; /* Esquinas redondeadas superiores */
+      }
+      
+      .modal-title {
+          font-size: 1.75rem;
+          font-weight: bold;
+          color: #343a40; /* Color del título */
+          margin: 0; /* Sin margen */
+      }
+      
+      .close {
+          padding: 5px 10px;
+          border: none;
+          background: transparent;
+          font-size: 1.5rem;
+          color: #343a40;
+          opacity: 0.8;
+          transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+          cursor: pointer;
+      }
+      
+      .close:hover {
+          color: #ff0000; /* Color rojo al pasar el cursor */
+          background-color: rgba(255, 0, 0, 0.1); /* Fondo ligeramente rojo al pasar el cursor */
+          transform: scale(1.1); /* Efecto de elevación */
+          opacity: 1;
+      }
+      
+      .close span {
+          display: inline-block;
+          font-weight: bold;
+      }
+      .light-red-bg {
+          background-color: #ffcccc; /* Color rojo claro */
+      }
+      
+      
 </style>
 
 
 {% endblock %}
 
-
-{% block content %}
-  <div class="container mb-5">
+  <!-- Tu contenido aquí -->
+  {% block content %}
+    <div class="container mb-5">
       <h1 class="text-center mt-1 cont titulo">Lista Ordenes</h1>
       <form method="GET" class="search-bar col-10 col-md-6 col-lg-4">
-            <div class="input-group">
-                <input type="date" class="form-control search-input" name="q" value="{{ query }}" \
-                placeholder="Buscar por fecha">
-                <button class="btn btn-primary search-btn" type="submit">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-search" viewBox="0 0 16 16">
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                </svg>
-                </button>
-                <button class="btn btn-limpiar" type="reset" onclick="clearSearch()">
-                    Limpiar
-                </button>
-            </div>
-        </form>
-        {% for o in ordenes %}
-{% if o.id not in facturaOrden %}
-    <div onclick="openOrderModal('{{ o.id_mesa.nombre }}', '{{ o.fecha }}', '{{ o.observacion }}', '{{ o.total }}', '{{ o.id }}', [{% for carta in cartaOrden %}{% if carta.id_orden.pk == o.id %}'{{ carta.id_carta.nombre }} {{ carta.cantidad }}',{% endif %}{% endfor %}])" class="contenedor-orden">
-      <h1>{{o.id_mesa.nombre}}</h1>
-      <p>{{o.fecha}}</p>
-      {% if o.entregado %}
-        <p>En mesa</p>
-      {% endif %}
-      <p>{{o.observacion}}</p>
-      <hr>
-      <h6>Platos</h6>
-      {% for carta in cartaOrden %}
-          {% if carta.id_orden.pk == o.id  %}
-              <p>{{carta.id_carta.nombre}} {{carta.cantidad}}</p>
-          {% endif %}
-      {% endfor %}
-      <p>Total: {{o.total}}</p>
-          {% if perms.miAplicacion.change_orden %}
+        <div class="input-group">
+          <input type="date" class="form-control search-input" name="q" value="{{ query }}" placeholder="Buscar por fecha">
+          <button class="btn btn-primary search-btn" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-search" viewBox="0 0 16 16">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+            </svg>
+          </button>
+          <button class="btn btn-limpiar" type="reset" onclick="clearSearch()">
+            Limpiar
+          </button>
+        </div>
+      </form>
+      {% for o in ordenes %}
+        {% if o.id not in facturaOrden %}
+          <div data-toggle="modal" data-target="#orderModal" data-id="{{ o.id }}" data-mesa="{{ o.id_mesa.nombre }}" data-fecha="{{ o.fecha }}" data-observacion="{{ o.observacion }}" data-total="{{ o.total }}" data-platos="[{% for carta in cartaOrden %}{% if carta.id_orden.pk == o.id %}'{{ carta.id_carta.nombre }} {{ carta.cantidad }}',{% endif %}{% endfor %}]" data-url-modificar="{% url 'ordenModificar' o.id %}" data-url-eliminar="{% url 'ordenBorrar' o.id %}" class="contenedor-orden">
+            <h1>{{o.id_mesa.nombre}}</h1>
+            <p>{{o.fecha}}</p>
+            {% if o.entregado %}
+              <p>En mesa</p>
+            {% endif %}
+            <p>{{o.observacion}}</p>
+            <hr>
+            <h6>Platos</h6>
+            {% for carta in cartaOrden %}
+              {% if carta.id_orden.pk == o.id %}
+                <p>{{carta.id_carta.nombre}} {{carta.cantidad}}</p>
+              {% endif %}
+            {% endfor %}
+            <p>Total: {{o.total}}</p>
+            {% if perms.miAplicacion.change_orden %}
               <div class="d-flex justify-content-end gap-1">
                 <button class="btn btn-sm btn-primary"><a href="/ordenes/ordenModif/{{ o.id }}" class="text-white text-decoration-none">Modificar</a></button>
                 <button class="btn btn-sm btn-danger"><a href="/ordenes/ordenBorrar/{{ o.id }}" class="text-white text-decoration-none">Eliminar</a></button>
               </div>
-          {% endif %}
-    </div>
-{% endif %}
-{% endfor %}
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
 
+     <!-- Modal -->
 <!-- Modal -->
-<div id="orderModal" class="modal">
-  <div class="modal-content">
+<div id="orderModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
       <div class="modal-header" id="printable-area-header">
-          <h2 class="modal-title">Detalles de la Orden</h2>
-          <span class="close" onclick="closeOrderModal()">&times;</span>
+        <h5 class="modal-title" id="orderModalLabel">Detalles de la Orden</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
       <div class="modal-body" id="printable-area-body">
-          <p class="modal-descripcion"><strong>Mesa:</strong> <span id="orden-mesa"></span></p>
-          <p class="modal-descripcion"><strong>Fecha:</strong> <span id="orden-fecha"></span></p>
-          <p class="modal-descripcion"><strong>Observación:</strong><span id="orden-observacion"></span></p>
-          <h6><strong>Platos</strong></h6>
-          <div id="orden-platos"></div>
-          <p class="modal-descripcion"><strong>Total:</strong> <span id="orden-total"></span></p>
+        <p class="modal-descripcion"><strong>Mesa:</strong> <span id="orden-mesa"></span></p>
+        <p class="modal-descripcion"><strong>Fecha:</strong> <span id="orden-fecha"></span></p>
+        <p class="modal-descripcion"><strong>Observación:</strong> <span id="orden-observacion"></span></p>
+        <h6><strong>Platos</strong></h6>
+        <div id="orden-platos"></div>
+        <p class="modal-descripcion"><strong>Total:</strong> <span id="orden-total"></span></p>
       </div>
-      <div class="botones-modal">
+      <div class="modal-footer botones-modal">
+        {% if perms.miAplicacion.add_orden %}
           <a id="orden-modificar-btn" href="#" class="btn btn-modificar m-1">Modificar</a>
           <a id="orden-eliminar-btn" href="#" class="btn btn-eliminar m-1">Eliminar</a>
-          <a class="btn btn-imprimir m-1" href="#" onclick="printOrderDetails()">Imprimir</a>
+        {% endif %}
+        <a class="btn btn-imprimir m-1" href="#" onclick="printOrderDetails()">Imprimir</a>
       </div>
+    </div>
   </div>
 </div>
 
+
+
       {% if perms.miAplicacion.add_orden %}
         <a href={% url "ordenNueva" %} class="customButton">+</a>
-       {% endif %}
-  </div>
+      {% endif %}
+    </div>
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
     function clearSearch() {
       document.querySelector('.search-input').value = '';
       window.location.href = window.location.pathname;
     }
-
-    function openOrderModal(mesa, fecha, observacion, total, id, platos) {
-        document.getElementById('orden-mesa').textContent = mesa;
-        document.getElementById('orden-fecha').textContent = fecha;
-        document.getElementById('orden-observacion').textContent = observacion;
-        document.getElementById('orden-total').textContent = total;
     
-        // Obtener los platos correspondientes a la orden
-        const platosContainer = document.getElementById('orden-platos');
-        platosContainer.innerHTML = '';  // Limpiar el contenido previo
+    $('#orderModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget); // Botón que activó el modal
+      var mesa = button.data('mesa');
+      var fecha = button.data('fecha');
+      var observacion = button.data('observacion');
+      var total = button.data('total');
+      var platos = button.data('platos');
+      var urlModificar = button.data('url-modificar');
+      var urlEliminar = button.data('url-eliminar');
     
-        // Agregar cada plato al contenedor
-        platos.forEach(plato => {
-            let platoElement = document.createElement('p');
-            platoElement.textContent = plato;
-            platosContainer.appendChild(platoElement);
-        });
+      // Actualiza el contenido del modal
+      var modal = $(this);
+      modal.find('#orden-mesa').text(mesa);
+      modal.find('#orden-fecha').text(fecha);
+      modal.find('#orden-observacion').text(observacion);
+      modal.find('#orden-total').text(total);
     
-        document.getElementById('orden-modificar-btn').href = `/ordenes/ordenModif/${id}`;
-        document.getElementById('orden-eliminar-btn').href = `/ordenes/ordenBorrar/${id}`;
+      // Obtener los platos correspondientes a la orden
+      const platosContainer = modal.find('#orden-platos');
+      platosContainer.empty();
     
-        const modal = document.getElementById('orderModal');
-        modal.style.display = "block";
-        modal.style.opacity = 0;
-        setTimeout(() => { modal.style.opacity = 1; }, 10);
-    }
+      // Limpiar y formatear los datos de los platos
+      var platosArray = platos.replace(/[\[\]']/g, "").split(',');
     
-    function closeOrderModal() {
-        const modal = document.getElementById('orderModal');
-        modal.style.opacity = 0;
-        setTimeout(() => { modal.style.display = "none"; }, 300);
-    }
+      // Agregar cada plato al contenedor
+      platosArray.forEach(plato => {
+        let platoElement = document.createElement('p');
+        platoElement.textContent = plato.trim();
+        platosContainer.append(platoElement);
+      });
     
-    window.onclick = function(event) {
-        const modal = document.getElementById('orderModal');
-        if (event.target == modal) {
-            modal.style.opacity = 0;
-            setTimeout(() => { modal.style.display = "none"; }, 300);
-        }
-    }
-
+      // Actualiza los enlaces de los botones en el modal
+      modal.find('#orden-modificar-btn').attr('href', urlModificar);
+      modal.find('#orden-eliminar-btn').attr('href', urlEliminar);
+    });
+    
     function printOrderDetails() {
       const printableHeader = document.getElementById('printable-area-header').outerHTML;
       const printableBody = document.getElementById('printable-area-body').outerHTML;
       const printContent = printableHeader + printableBody;
       const originalContent = document.body.innerHTML;
-
+    
       document.body.innerHTML = printContent;
       window.print();
       document.body.innerHTML = originalContent;
       location.reload();
-  }
-  </script>
-  
-{% endblock %}
+    }
+    </script>
+    
 
-
-
-
-
-
+  {% endblock %}

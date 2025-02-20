@@ -853,16 +853,33 @@ def ordenDetalle(request, pk):
     context = {"orden": orden, "carta":carta}
     return render(request, os.path.join("detalles", "ordenDetalle.html"), context=context)
 #Detalle Orden ----------------->
+# def facturaDetalle(request, pk):
+#     factura = Factura.objects.get(id=pk)
+#     print(pk)
+#     platos = [{"id":x.pk, "nombre":x.nombre, "precio":x.precio} for x in Carta.objects.all()]
+#     ordenFacturaId = [x.id_orden.pk for x in FacturaOrden.objects.filter(id_factura=factura.pk)]
+#     print(ordenFacturaId)
+#     cartaOrdenId =[{"id_carta":x.id_carta.pk, "id_orden":x.id_orden.pk} for x in CartaOrden.objects.all() if x.id_orden.pk in ordenFacturaId]
+#     print(cartaOrdenId)
+#     ordenes = [x for x in Orden.objects.all() if x.pk in ordenFacturaId]
+#     print(ordenes)
+    
+    
+#     context = {"ordenes": ordenes, "platos": platos, "factura": factura, "cartaOrden":cartaOrdenId}
+#     return render(request, os.path.join("detalles", "facturaDetalle.html"), context=context)
 def facturaDetalle(request, pk):
     factura = Factura.objects.get(id=pk)
     print(factura)
-    ordenFacturaId = [x.id_orden.pk for x in FacturaOrden.objects.filter(id_factura=factura.pk)]
-    print(ordenFacturaId)
-    ordenes = [x for x in Orden.objects.all() if x.pk in ordenFacturaId]
+    facturaOrdenes = [x.id_orden.pk for x in FacturaOrden.objects.filter(id_factura=pk)]
+    print(facturaOrdenes)
+    ordenes = [x for x in Orden.objects.all() if x.pk in facturaOrdenes]
     print(ordenes)
-    cartaOrdenId =[x.pk for x in CartaOrden.objects.all()]
-    print(cartaOrdenId)
-    platos = [x for x in Carta.objects.all() if x.pk in cartaOrdenId]
-    print(platos)
-    context = {"ordenes": ordenes, "platos": platos, "factura": factura}
+    datos_ordenes = []
+    for orden in ordenes:
+        platosId = [x.id_carta.pk for x in CartaOrden.objects.filter(id_orden=orden.pk)]
+        platos = [{"nombre": x.id_carta.nombre, "precio":x.id_carta.precio, "cantidad":x.cantidad} for x in CartaOrden.objects.filter(id_orden=orden.pk)]
+        datos_ordenes.append({"orden":orden, "platos":platos})
+    print(datos_ordenes)
+    context= {"factura":factura, "datos_ordenes": datos_ordenes}
     return render(request, os.path.join("detalles", "facturaDetalle.html"), context=context)
+    
