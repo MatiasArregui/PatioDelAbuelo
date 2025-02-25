@@ -61,7 +61,8 @@
 <div class="container-fluid align-content-center mt-4">
     <div class="row d-flex justify-content-center gap-2">
         <div class="col-5 mi-div-menu">
-            <h1>{{carta.nombre}}</h1>
+            <h1>Carta</h1>
+            <h2>{{carta.nombre}}</h2>
             <p>{{carta.descripcion}}</p>
             <p>${{carta.precio}}</p>
             <p>{{carta.subCategoria.nombre}}</p>
@@ -69,7 +70,8 @@
         </div>
         {% if platoDia %}
         <div class="col-5 mi-div-plato-dia">
-            <h1>{{platoDia.id_carta.nombre}}</h1>
+            <h1>Plato del día</h1>
+            <h2>{{platoDia.id_carta.nombre}}</h2>
             <p>{{platoDia.id_carta.descripcion}}</p>
             <p>${{platoDia.id_carta.precio}}</p>
             <p>{{platoDia.id_carta.subCategoria.nombre}}</p>
