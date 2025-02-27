@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        <p>{{orden.id}}</p>
+        <p>{{orden.id_mesa.nombre}}</p>
+        <p>{{orden.id_mozo.nombre}}</p>
+        <p>{{orden.fecha}}</p>
+        <p>{{orden.observacion}}</p>
+        <h4>Platos</h4>
+        <table class="table table-light shadow-sm table-responsive">
+            <thead class="bg-light">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">Sub Categoria</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in cartaOrden %}
+                    <tr>
+                        <td>{{ c.id_carta.id }}</td>
+                        <td>{{ c.id_carta.nombre }}</td>
+                        <td>{{ c.id_carta.precio }}</td>
+                        <td>{{ c.id_carta.categoria }}</td>
+                        <td>{{ c.id_carta.subCategoria }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>{{orden.total}}</p>
+    </div>
+</div>
+
+{% endblock %}

@@ -18,6 +18,7 @@ urlpatterns = [
     
     #Ordenes -------------------------------------------------------------------------------->
     path("ordenes/", login_required(views.listaOrdenes.as_view()), name="listaOrdenes"),
+    path("ordenes/imprimirComanda/<int:pk>/", login_required(views.ordenComanda), name="ordenComanda"),
     path("ordenes/ordenNueva/", login_required(views.ordenNuevo), name="ordenNueva"),
     path("ordenes/ordenModif/<int:pk>/", login_required(views.ordenModificar), name="ordenModificar"),
     path("ordenes/ordenBorrar/<int:pk>/", login_required(views.ordenBorrar), name="ordenBorrar"),

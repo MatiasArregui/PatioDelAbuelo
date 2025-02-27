@@ -9,6 +9,8 @@ from django.db.models import ProtectedError
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 import random
 import os
+from django.shortcuts import render, redirect
+from escpos.printer import Network
 # from datetime import datetime, timedelta
 # import pytz
 
@@ -883,3 +885,81 @@ def facturaDetalle(request, pk):
     context= {"factura":factura, "datos_ordenes": datos_ordenes}
     return render(request, os.path.join("detalles", "facturaDetalle.html"), context=context)
     
+def ordenComandaSegure(request, pk):
+    orden = Orden.objects.get(id=pk)
+    cartaOrden = [x for x in CartaOrden.objects.filter(id_orden=orden.pk)]
+    
+    context = {"orden": orden, "cartaOrden":cartaOrden}
+    # return render(request, os.path.join("detalles", "ordenDetalle.html"), context=context)
+    # Conectar a la impresora
+    # p = Network("192.168.130.100")
+    # # Imprimir encabezado
+    # p.set(align='center', bold=True)
+    # p.text(f"Orden n° {orden['id']}\n")
+    print((f"Orden n° {orden.pk}\n"))
+    print(f"Fecha: {orden.fecha.strftime('%d-%m-%Y %H:%M')}\n")
+
+    print((f"Mozo {orden.id_mozo.nombre.capitalize()}\n"))
+    print((f"{orden.id_mesa.nombre.capitalize()}\n"))
+    # p.set(align='left')
+    # p.text(f"Fecha: {orden['fecha']}\n")
+    # p.text(f"Mozo: {orden['id_mozo']['nombre']}\n")
+    # p.text(f"Mesa: {orden['id_mesa']['nombre']}\n")
+    # p.text("--------------------------------\n")
+    # Imprimir órdenes
+    for plato in cartaOrden:
+        print(f"plato: {plato.id_carta.nombre} cantidad: {plato.cantidad}")
+        
+    # for plato in cartaOrden:
+    #     p.set(align='left', bold=True)
+    #     p.text(f"Orden n° {o['id']}\n")
+    #     p.set(align='left')
+    #     p.text(f"Fecha: {o['fecha']}\n")
+    #     p.text(f"Mesa: {o['id_mesa']['nombre']}\n")
+    #     p.text(f"Mozo: {o['id_mozo']['nombre']}\n")
+    #     p.text(f"Observación: {o['observacion']}\n")
+    #     p.text("Platos:\n")
+    #     for plato in o['platos']:
+    #         p.text(f" - {plato['nombre']}: ${plato['precio']}\n")
+    #     p.text("--------------------------------\n")
+
+    #     # Imprimir totales
+    #     p.set(align='left', bold=True)
+    #     p.text(f"Total factura: ${factura['total']}\n")
+    #     p.text(f"Total pagado: ${factura['total_pago']}\n")
+    #     p.text(f"Vuelto: ${factura['vuelto']}\n")
+
+    #     # Cortar papel
+    #     p.cut()
+    #     p.close()
+
+        # return redirect('factura')
+
+    return render(request, 'ordenComanda.html', context=context)
+
+
+def ordenComanda(request, pk):
+    orden = Orden.objects.get(id=pk)
+    cartaOrden = [x for x in CartaOrden.objects.filter(id_orden=orden.pk)]
+    
+    context = {"orden": orden, "cartaOrden":cartaOrden}
+    # conecta a la impresora por el IP
+    p = Network("192.168.130.100")
+    # esto va arriba
+    p.set(align='center', bold=True)
+    p.text(f"Orden n° {orden.pk}\n")
+    p.text(f"Fecha: {orden.fecha.strftime('%d-%m-%Y %H:%M')}\n")
+    p.text(f"Mozo: {orden.id_mozo.nombre.capitalize()}\n")
+    p.text(f"Mesa: {orden.id_mesa.nombre.capitalize()}\n")
+    p.text("--------------------------------\n")
+    # Imprime los platos
+    for plato in cartaOrden:
+        p.set(align='left', bold=True)
+        p.text(f"plato: {plato.id_carta.nombre} cantidad: {plato.cantidad}\n")
+    p.text("--------------------------------\n")
+    # Corta el papel y cierra
+    p.cut()
+    p.close()
+    return render(request, 'ordenComanda.html', context=context)
+
+
