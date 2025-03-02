@@ -10,7 +10,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 import random
 import os
 from django.shortcuts import render, redirect
-from escpos.printer import Network
+from escpos.printer import Network, Usb
 # from datetime import datetime, timedelta
 # import pytz
 
@@ -944,7 +944,8 @@ def ordenComanda(request, pk):
     
     context = {"orden": orden, "cartaOrden":cartaOrden}
     # conecta a la impresora por el IP
-    p = Network("192.168.130.100")
+    p = Network("192.168.100.100", 9100)
+    # p = Usb(0x04b8, 0x0202)
     # esto va arriba
     p.set(align='center', bold=True)
     p.text(f"Orden n° {orden.pk}\n")
@@ -952,9 +953,10 @@ def ordenComanda(request, pk):
     p.text(f"Mozo: {orden.id_mozo.nombre.capitalize()}\n")
     p.text(f"Mesa: {orden.id_mesa.nombre.capitalize()}\n")
     p.text("--------------------------------\n")
+    p.text(f"Mesa: {orden.observacion}\n")
     # Imprime los platos
     for plato in cartaOrden:
-        p.set(align='left', bold=True)
+        p.set(align='center', bold=True)
         p.text(f"plato: {plato.id_carta.nombre} cantidad: {plato.cantidad}\n")
     p.text("--------------------------------\n")
     # Corta el papel y cierra
