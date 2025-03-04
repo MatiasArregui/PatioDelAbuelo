@@ -55,13 +55,12 @@
         </div>
         <form method="post" class="row">
             {% csrf_token %}
-            <div class="col-4">
-                <label for="nombre" class="form-label">Nombre:</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ mesa.nombre }}" required><br>
+            {{ form.as_p }}
             <div class="col">
                 <button type="submit" class="btn btn-primary mb-3">Guardar</button>
                 <a href={% url "listaMesas" %} class="btn btn-danger mb-3">Cancelar</a>
             </div>
+
         </form>
     </div>
 {% endblock %}

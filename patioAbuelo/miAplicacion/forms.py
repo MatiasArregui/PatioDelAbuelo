@@ -1,5 +1,5 @@
 from django import forms
-from .models import Mozo, Cliente, Carta, Categoria, SubCategoria, CartaOrden, Orden, Factura, FacturaOrden, FacturaPago, Cierre, FacturaCierre, PlatoDia
+from .models import Mozo, Cliente, Carta, Categoria, SubCategoria, CartaOrden, Orden, Factura, FacturaOrden, FacturaPago, Cierre, FacturaCierre, PlatoDia, Mesa
 from django.forms import inlineformset_factory
 from django.contrib.auth.forms import AuthenticationForm
 
@@ -27,6 +27,16 @@ class ClienteForm(forms.ModelForm):
             "nombre": "Nombre",
             "telefono": "Teléfono",
             "direccion": "Dirección",
+        }
+class MesaForm(forms.ModelForm):
+    class Meta:
+        model = Mesa
+        fields = ("nombre",)
+        widgets = {
+            "nombre": forms.TextInput(attrs={"class": "form-control"}),
+        }
+        labels= {
+            "nombre": "Nombre",
         }
 
 class CartaForm(forms.ModelForm):

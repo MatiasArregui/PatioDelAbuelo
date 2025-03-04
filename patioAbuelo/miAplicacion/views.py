@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 from django.contrib import messages
 from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria, Categoria, CartaOrden, FacturaOrden, Cierre, FacturaCierre, PlatoDia
-from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSet, FacturaForm, FacturaOrdenFormSet, FacturaPagoFormSet, CierreForm,  FacturaCierreFormSet, LoginForm, PlatoDiaForm
+from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSet, FacturaForm, FacturaOrdenFormSet, FacturaPagoFormSet, CierreForm,  FacturaCierreFormSet, LoginForm, PlatoDiaForm, MesaForm
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator
@@ -144,22 +144,24 @@ class listaMesas(ListView):
 # Modificar Mesa --------->
 def mesaModificar(request, pk):
     mesa = Mesa.objects.get(id=pk)
-    context = {'mesa': mesa}
     if request.method == 'POST':
-        nombre = request.POST.get('nombre')
-
-        mesa.nombre = nombre
-        mesa.save()
-        return HttpResponseRedirect(reverse('listaMesas'))
-    return render(request, os.path.join("formularios", "formularioMesas.html"), context=context)
+        form = MesaForm(request.POST, instance=mesa)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('listaMesas'))
+    else:
+        form = MesaForm(instance=mesa)
+    return render(request, os.path.join("formularios", "formularioMesas.html"),  {'form': form, 'mesa': mesa})
 # Nueva Mesa --------->
 def mesaNueva(request):
     if request.method == 'POST':
-        nombre = request.POST.get('nombre')
-
-        Mesa.objects.create(nombre=nombre,)
-        return HttpResponseRedirect(reverse('listaMesas'))
-    return render(request, os.path.join("formularios", "formularioMesas.html"))
+        form = MesaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('listaMesas'))
+    else:
+        form = MesaForm()
+    return render(request, os.path.join("formularios", "formularioMesas.html"), {'form': form})
 
 # Borrar Mesa ----------------------->
 def mesaBorrar(request, pk):
@@ -179,7 +181,7 @@ class listaClientes(ListView):
     model = Cliente
     template_name = os.path.join("listas", "listaclientes.html")
     context_object_name = 'clientes'
-    paginate_by = 2
+    paginate_by = 12
     
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -202,7 +204,7 @@ def ClienteModif(request, pk):
             return HttpResponseRedirect(reverse('listaClientes'))
     else:
         form = ClienteForm(instance=cliente)
-    return render(request, os.path.join("formularios", "formularioClientes.html"), {'form': form, 'mozo': cliente})
+    return render(request, os.path.join("formularios", "formularioClientes.html"), {'form': form, 'cliente': cliente})
 #
 # Nuevo Cliente ------------------>
 def ClienteNuevo(request):
