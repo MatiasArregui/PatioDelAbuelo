@@ -35,16 +35,16 @@
       <table class="table table-light shadow-sm table-responsive">
           <thead class="bg-light">
             <tr>
-              <th scope="col">ID</th>
+              <th scope="col">Nombre</th>
               <th scope="col" class="d-flex justify-content-end">
-              Action
+              Accion
               </th>
             </tr>
           </thead>
           <tbody>
               {% for p in platodia %}
                 <tr>
-                  <td>{{p.id_carta}}</td>
+                  <td>{{p.id_carta.nombre}}</td>
                   <td class="d-flex justify-content-end gap-1">
                     <button class="btn btn-sm btn-primary"><a href="/platodia/platoDiaModif/{{ p.id }}" class="text-white text-decoration-none">Modificar</a></button>
                     <button class="btn btn-sm btn-danger"><a href="/platodia/platoDiaBorrar/{{ p.id }}" class="text-white text-decoration-none">Eliminar</a></button>

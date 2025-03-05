@@ -106,9 +106,7 @@
         <table class="table table-light shadow-sm table-responsive">
             <thead class="bg-light">
               <tr>
-                <th scope="col">ID</th>
                 <th scope="col">Fecha</th>
-                <th scope="col">Total Ordenes</th>
                 <th scope="col">Total Facturas</th>
                 <th scope="col">Vuelto</th>
               </tr>
@@ -116,9 +114,7 @@
             <tbody>
                 {% for c in page_obj %}
                   <tr onclick="window.location.href='{% url 'cierreDetalle' c.id%}'">
-                    <td>{{c.id}}</td>
                     <td>{{c.fecha}}</td>
-                    <td>{{c.total_ordenes}}</td>
                     <td>{{c.total_facturas}}</td>
                     <td>{{c.vuelto}}</td>
                   </tr>

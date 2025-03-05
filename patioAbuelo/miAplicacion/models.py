@@ -28,7 +28,10 @@ class Carta(models.Model):
     subCategoria = models.ForeignKey(SubCategoria, on_delete=models.CASCADE)
     
     def __str__(self) -> str:
-        return self.nombre + " " + str(self.precio)
+        if self.controlStock:
+            return self.nombre + " " + f"Categoria: {self.subCategoria.nombre}"
+        else:
+            return self.nombre
     
 
 # MODELO DE MESA -----------------------------------------> 
@@ -110,7 +113,7 @@ class Cierre(models.Model):
 # MODELO DE CARTA_ORDEN ----------------------------------------->
 class CartaOrden(models.Model):
     id_carta = models.ForeignKey(Carta, on_delete=models.PROTECT)
-    id_orden = models.ForeignKey(Orden, on_delete=models.PROTECT)
+    id_orden = models.ForeignKey(Orden, on_delete=models.CASCADE)
     cantidad = models.IntegerField(default=0)
 
     def __str__(self) -> str:
