@@ -81,6 +81,10 @@ class CartaOrdenForm(forms.ModelForm):
             "id_carta": forms.Select(attrs={"class": "form-control carta"}),
             "cantidad": forms.NumberInput(attrs={"class": "form-control cant"}),
         }
+        labels = {
+            "id_carta": "Plato",
+            "cantidad": "Cantidad",
+        }
 
 
 class OrdenForm(forms.ModelForm):
@@ -97,6 +101,9 @@ class OrdenForm(forms.ModelForm):
         labels = {
             "id_mesa": "Mesa",
             "id_mozo": "Mozo",
+            "observacion": "Observación",
+            "total": "Total",
+            "entregado": "En mesa",
         }
 
 CartaOrdenFormSet = inlineformset_factory(Orden, CartaOrden, form=CartaOrdenForm, extra=6)

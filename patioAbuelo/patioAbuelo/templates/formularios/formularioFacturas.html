@@ -62,13 +62,29 @@
         {{ formset_orden.management_form }}
         <div id="select_container" class="row">
             {% for form in formset_orden %}
-                <div class="col-12 col-md-4">{{ form.as_p }}</div>
+            <div class="col-6 col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="form-group">
+                            {{ form.as_p }}
+                        </div>
+                    </div>
+                </div>
+            </div>
             {% endfor %}
         </div>
         <div id="pago_container" class="row">
         {{ formset_pago.management_form }}
         {% for form in formset_pago %}
-                <div class="col-4">{{ form.as_p }}</div>
+        <div class="col-6 col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="form-group">
+                        {{ form.as_p }}
+                    </div>
+                </div>
+            </div>
+        </div>
         {% endfor %}
         </div>
         <hr>
