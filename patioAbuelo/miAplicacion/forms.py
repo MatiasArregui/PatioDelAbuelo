@@ -35,9 +35,18 @@ class MesaForm(forms.ModelForm):
         widgets = {
             "nombre": forms.TextInput(attrs={"class": "form-control"}),
         }
-        labels= {
+        labels = {
             "nombre": "Nombre",
         }
+
+    def clean_nombre(self):
+        nombre = self.cleaned_data.get("nombre")
+        # Excluir la instancia actual al verificar duplicados
+        if Mesa.objects.filter(nombre__iexact=nombre).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError("Ya existe una mesa con este nombre. Por favor, elige otro.")
+        return nombre
+
+
 
 class CartaForm(forms.ModelForm):
     class Meta:
