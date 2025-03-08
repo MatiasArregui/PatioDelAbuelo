@@ -290,7 +290,7 @@
         display: flex;
         flex-direction: column; /* Organiza el contenido en columna */
         justify-content: space-between; /* Mantiene los botones en el fondo */
-        padding: 20px;
+        padding: 10px;
     }
     
     /* Fondo difuminado para cada contenedor */
@@ -319,13 +319,36 @@
     /* Botones estilizados */
     .platos a.btn {
         border-radius: 8px; /* Bordes redondeados para botones */
-        font-size: 10px; /* Texto en mayúsculas para destacar */
+        font-size: 12px; /* Texto en mayúsculas para destacar */
         transition: all 0.3s ease; /* Suaviza la transición al interactuar */
     }
     
     .platos a.btn:hover {
         transform: scale(1.05); /* Efecto de zoom en el hover */
         opacity: 0.9; /* Ajusta la transparencia al interactuar */
+    }
+    .titulo_plato{
+        font-size: 14px;
+    }
+    .btn-modificar {
+        background-color: #007bff;
+    }
+    .btn-modificar:hover {
+      background-color: #0056b3; /* Color de fondo del botón primario al pasar el cursor */
+      transform: translateY(-2px); /* Efecto de elevación */
+      color: #fff; 
+    }
+    .btn-eliminar {
+      background-color: #dc3545;
+    }
+    .btn-eliminar:hover {
+      background-color: #c82333; /* Color de fondo del botón de peligro al pasar el cursor */
+      transform: translateY(-2px); /* Efecto de elevación */
+      color: #fff; 
+    }
+    .btn a {
+      color: #fff; /* Color del texto del enlace */
+      text-decoration: none; /* Sin subrayado */
     }
     
     
@@ -492,7 +515,7 @@
                         {% if plato.controlStock and plato.stock < 10%}
                         <div class="plato platos col-5 col-md-5 col-lg-5  " style="--background-url: url('{{ plato.imagen.url }}');"  data-category="{{subcategoria.nombre}}" data-toggle="modal" data-target="#platoModal" data-nombre="{{plato.nombre}}" data-descripcion="{{plato.descripcion}}" data-precio="{{plato.precio}}" data-imagen="{{plato.imagen.url}}" class="plato" data-id="{{plato.id}}" data-url-modificar="{% url 'cartaModif' plato.id %}" data-url-eliminar="{% url 'cartaBorrar' plato.id %}" data-controlstock="{{plato.controlStock}}" data-stock="{{plato.stock}}">
                             <div>
-                                <h3 class="titulo_plato">{{plato.nombre}}</h3>
+                                <h3 class="titulo_plato"><b>{{plato.nombre}}</b></h3>
                                 {% if plato.descripcion%}
                                     <p class="descripcion_sub">{{plato.descripcion}}</p>
                                 {% else %}
@@ -505,7 +528,7 @@
                                 
                             </div>
                             {% if perms.miAplicacion.change_carta %}
-                                <div class="d-flex justify-md-content-center justify-content-start gap-2">
+                                <div class="d-flex justify-md-content-center justify-content-start">
                                     <a href="{% url 'cartaModif' plato.id %}" class="btn btn-primary btn-sm text-white text-decoration-none mb-2">Modificar</a>
                                     <a href="{% url 'cartaBorrar' plato.id %}" class="btn btn-danger btn-sm text-white text-decoration-none mb-2">Eliminar</a>
                                 </div>
@@ -514,7 +537,7 @@
                         {% else %}
                             <div class="plato platos col-5 col-md-5 col-lg-5  " style="--background-url: url('{{ plato.imagen.url }}');" data-category="{{subcategoria.nombre}}" data-toggle="modal" data-target="#platoModal" data-nombre="{{plato.nombre}}" data-descripcion="{{plato.descripcion}}" data-precio="{{plato.precio}}" data-imagen="{{plato.imagen.url}}" class="plato" data-id="{{plato.id}}" data-url-modificar="{% url 'cartaModif' plato.id %}" data-url-eliminar="{% url 'cartaBorrar' plato.id %}" data-controlstock="{{plato.controlStock}}" data-stock="{{plato.stock}}">
                                 <div>
-                                    <h3 class="titulo_plato">{{plato.nombre}}</h3>
+                                    <h3 class="titulo_plato"><b>{{plato.nombre}}</b></h3>
                                     {% if plato.descripcion%}
                                         <p class="descripcion_sub">{{plato.descripcion}}</p>
                                     {% else %}
@@ -527,7 +550,7 @@
                                     
                                 </div>
                                 {% if perms.miAplicacion.change_carta %}
-                                    <div class="d-flex justify-md-content-center justify-content-start gap-2">
+                                    <div class="d-flex justify-md-content-center justify-content-start">
                                         <a href="{% url 'cartaModif' plato.id %}" class="btn btn-primary p-md-2 btn-sm text-white text-decoration-none mb-2">Modificar</a>
                                         <a href="{% url 'cartaBorrar' plato.id %}" class="btn btn-danger p-md-2 btn-sm text-white text-decoration-none mb-2">Eliminar</a>
                                     </div>
@@ -620,15 +643,7 @@
         container.style.transform = `translateX(-${offset}px)`;
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const titulos = document.querySelectorAll('.titulo_plato');
-        titulos.forEach(titulo => {
-            const maxLength = 15; // Número máximo de caracteres antes de reducir el tamaño de la fuente
-            if (titulo.textContent.length > maxLength) {
-                titulo.style.fontSize = '18px'; // Ajusta el tamaño de la fuente si es necesario
-            }
-        });
-    });
+    
     document.addEventListener('DOMContentLoaded', function () {
         const descripcion = document.querySelectorAll('.descripcion_sub');
         descripcion.forEach(desc => {
