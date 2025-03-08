@@ -1,256 +1,170 @@
 {% extends "base.html" %}
 {% block estilos %}
 <style>
-    /* Estos estilos se aplican al nav en celular y tablet*/
-    .carrusel{
-        display:flex;
-        overflow-y: auto;
-     }
-     .elemento {
-        position: relative;
-        width: 150px;
-        height: 50px;
-        border-radius: 10px;
-        padding: 3px;
-        margin: 5px;
-        text-decoration: none;
-        text-transform: capitalize;
-        font-weight: bold;
-        color: black;
-        display: flex;
-        align-items: center;
-        transition: transform 0.3s ease, background-color 0.3s ease;
-    }
-    
-    .elemento::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border-radius: 10px;
-        border: 1px solid;
-        background-color: white;
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: 80%;
-        opacity: 0.3; /* Ajusta el valor de opacidad según sea necesario */
-        z-index: -1;
-        
-    }
-    .elemento:nth-child(1)::before {
-        background-image: url("../../../media/logos_nav/menu.png");
-    }
-    .elemento:nth-child(2)::before {
-        background-image: url("../../../media/logos_nav/wine-bottle.png");
-    }
-    .elemento:nth-child(3)::before {
-        background-image: url("../../../media/logos_nav/wine_blanco.png");
-    }
-    .elemento:nth-child(4)::before {
-        background-image: url("../../../media/logos_nav/wine_rosado.png");
-    }
-    .elemento:nth-child(5)::before {
-        background-image: url("../../../media/logos_nav/beer-can.png");
-    }
-    .elemento:nth-child(6)::before {
-        background-image: url("../../../media/logos_nav/beer.png");
-    }
-    .elemento:nth-child(7)::before {
-        background-image: url("../../../media/logos_nav/bottle.png");
-    }
-    .elemento:nth-child(8)::before {
-        background-image: url("../../../media/logos_nav/soda.png");
-    }
-    .elemento:nth-child(9)::before {
-        background-image: url("../../../media/logos_nav/water.png");
-        background-size: 80%;
-    }
-    .elemento:nth-child(10)::before {
-        background-image: url("../../../media/logos_nav/agua.png");
-    }
-    .elemento:nth-child(11)::before {
-        background-image: url("../../../media/logos_nav/otros.png");
-    }
-    .elemento:nth-child(12)::before {
-        background-image: url("../../../media/logos_nav/chocolate.png");
-    }
-    .elemento:nth-child(13)::before {
-        background-image: url("../../../media/logos_nav/fork.png");
-    }
-    .elemento:nth-child(14)::before {
-        background-image: url("../../../media/logos_nav/salad.png");
-    }
-    .elemento:nth-child(15)::before {
-        background-image: url("../../../media/logos_nav/milanesa.png");
-    }
-    .elemento:nth-child(16)::before {
-        background-image: url("../../../media/logos_nav/fideos.png");
-    }
-    .elemento:nth-child(17)::before {
-        background-image: url("../../../media/logos_nav/lomos.png");
-        background-size: 80%;
-    }
-    .elemento:nth-child(18)::before {
-        background-image: url("../../../media/logos_nav/fish.png");
-    }
-    .elemento:nth-child(19)::before {
-        background-image: url("../../../media/logos_nav/empanada.png");
-    }
-    .elemento:nth-child(20)::before {
-        background-image: url("../../../media/logos_nav/pizzas.png");
-    }
-    .elemento:nth-child(21)::before {
-        background-image: url("../../../media/logos_nav/sandwich.png");
-    }
-    .elemento:nth-child(22)::before {
-        background-image: url("../../../media/logos_nav/burger.png");
-    }
-    .elemento:hover { 
-        transform: scale(1); /* Aplica un pequeño zoom */ 
-        background-color: rgba(0, 0, 0, 0.1); /* Oscurece ligeramente el fondo al pasar el cursor */ 
-        color: black; /* Cambia el color del texto a blanco al pasar el cursor */
-    }
-    .elemento:hover::before {
-        background-size: 100%; /* Aumenta el tamaño de la imagen de fondo al pasar el cursor */
-    }
-    /* Estos estilos se aplican al nav en PC*/
-    .carrusel_2 {
-        display: flex;
-        flex-wrap: wrap;
-    }
-    
-    .elemento_2 {
-        position: relative;
-        width: 150px;
-        height: 50px;
-        border-radius: 10px;
-        padding: 3px;
-        margin: 2px;
-        text-decoration: none;
-        text-transform: capitalize;
-        font-weight: bold;
-        color: black;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: transform 0.3s ease, background-color 0.3s ease;
-    }
-    
-    .elemento_2::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: 1px solid;
-        border-radius: 10px;
-        background-color: white;
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: 30%;
-        opacity: 0.3; /* Ajusta el valor de opacidad según sea necesario */
-        z-index: -1;
-    }
-    .elemento_2:nth-child(1)::before {
-        background-image: url("../../../media/logos_nav/menu.png");
-        background-size: 60%;
-    }
-    .elemento_2:nth-child(2)::before {
-        background-image: url("../../../media/logos_nav/wine-bottle.png");
-        background-size: 60%;
-    }
-    .elemento_2:nth-child(3)::before {
-        background-image: url("../../../media/logos_nav/wine_blanco.png");
-        background-size: 60%;
-    }
-    .elemento_2:nth-child(4)::before {
-        background-image: url("../../../media/logos_nav/wine_rosado.png");
-        background-size: 60%;
-    }
-    .elemento_2:nth-child(5)::before {
-        background-image: url("../../../media/logos_nav/beer-can.png");
-        background-size: 60%;
-    }
-    .elemento_2:nth-child(6)::before {
-        background-image: url("../../../media/logos_nav/beer.png");
-        background-size: 60%;
-    }
-    .elemento_2:nth-child(7)::before {
-        background-image: url("../../../media/logos_nav/bottle.png");
-        background-size: 60%;
-    }
-    .elemento_2:nth-child(8)::before {
-        background-image: url("../../../media/logos_nav/soda.png");
-        background-size: 60%;
-    }
-    .elemento_2:nth-child(9)::before {
-        background-image: url("../../../media/logos_nav/water.png");
-        background-size: 60%;
-    }
-    .elemento_2:nth-child(10)::before {
-        background-image: url("../../../media/logos_nav/agua.png");
-        background-size: 60%;
-    }
-    .elemento_2:nth-child(11)::before {
-        background-image: url("../../../media/logos_nav/otros.png");
-        background-size: 60%;
-    }
-    .elemento_2:nth-child(12)::before {
-        background-image: url("../../../media/logos_nav/chocolate.png");
-        background-size: 60%;
-    }
-    .elemento_2:nth-child(13)::before {
-        background-image: url("../../../media/logos_nav/fork.png");
-        background-size: 60%;
-    }
-    .elemento_2:nth-child(14)::before {
-        background-image: url("../../../media/logos_nav/salad.png");
-        background-size: 60%;
-    }
-    .elemento_2:nth-child(15)::before {
-        background-image: url("../../../media/logos_nav/milanesa.png");
-        background-size: 60%;
-    }
-    .elemento_2:nth-child(16)::before {
-        background-image: url("../../../media/logos_nav/fideos.png");
-        background-size: 60%;
-    }
-    .elemento_2:nth-child(17)::before {
-        background-image: url("../../../media/logos_nav/lomos.png");
-        background-size: 60%;
-    }
-    .elemento_2:nth-child(18)::before {
-        background-image: url("../../../media/logos_nav/fish.png");
-        background-size: 60%;
-    }
-    .elemento_2:nth-child(19)::before {
-        background-image: url("../../../media/logos_nav/empanada.png");
-        background-size: 60%;
-    }
-    .elemento_2:nth-child(20)::before {
-        background-image: url("../../../media/logos_nav/pizzas.png");
-        background-size: 60%;
-    }
-    .elemento_2:nth-child(21)::before {
-        background-image: url("../../../media/logos_nav/sandwich.png");
-        background-size: 60%;
-    }
-    .elemento_2:nth-child(22)::before {
-        background-image: url("../../../media/logos_nav/burger.png");
-        background-size: 60%;
-    }
+/* Estilos aplicados al nav en celular y tablet */
+.carrusel {
+    display: flex;
+    overflow-x: auto; /* Asegura desplazamiento horizontal */
+    scroll-behavior: smooth; /* Suaviza el desplazamiento */
+    gap: 10px; /* Espaciado uniforme entre elementos */
+    padding: 10px 0; /* Espaciado interno para una mejor apariencia */
+}
 
-    .elemento_2:hover { 
-        transform: scale(1); /* Aplica un pequeño zoom */ 
-        background-color: rgba(0, 0, 0, 0.1); /* Oscurece ligeramente el fondo al pasar el cursor */ 
-        color: black; /* Cambia el color del texto a blanco al pasar el cursor */
-    }
-    .elemento_2:hover::before {
-        background-size: 100%; /* Aumenta el tamaño de la imagen de fondo al pasar el cursor */
-    }
+/* Estilo de cada elemento dentro del carrusel */
+.elemento {
+    position: relative;
+    flex: 0 0 150px; /* Fija el ancho de cada elemento */
+    height: 50px; /* Fija la altura de cada elemento */
+    border-radius: 10px;
+    padding: 5px; /* Espaciado interno */
+    margin: 0 5px; /* Espaciado externo */
+    text-decoration: none;
+    text-transform: capitalize;
+    font-weight: bold;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centra el texto horizontal y verticalmente */
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.5); /* Fondo ligeramente visible */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+/* Fondo aplicado a los elementos */
+.elemento::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Bordes sutiles */
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 80%; /* Tamaño uniforme para los íconos */
+    opacity: 0.3;
+    z-index: -1; /* Coloca el fondo detrás del contenido */
+}
+
+/* Íconos específicos para cada elemento */
+.elemento:nth-child(1)::before { background-image: url("../../../media/logos_nav/menu.png"); }
+.elemento:nth-child(2)::before { background-image: url("../../../media/logos_nav/wine-bottle.png"); }
+.elemento:nth-child(3)::before { background-image: url("../../../media/logos_nav/wine_blanco.png"); }
+.elemento:nth-child(4)::before { background-image: url("../../../media/logos_nav/wine_rosado.png"); }
+.elemento:nth-child(5)::before { background-image: url("../../../media/logos_nav/beer-can.png"); }
+.elemento:nth-child(6)::before { background-image: url("../../../media/logos_nav/beer.png"); }
+.elemento:nth-child(7)::before { background-image: url("../../../media/logos_nav/bottle.png"); }
+.elemento:nth-child(8)::before { background-image: url("../../../media/logos_nav/soda.png"); }
+.elemento:nth-child(9)::before { background-image: url("../../../media/logos_nav/water.png"); background-size: 80%; }
+.elemento:nth-child(10)::before { background-image: url("../../../media/logos_nav/agua.png"); }
+.elemento:nth-child(11)::before { background-image: url("../../../media/logos_nav/otros.png"); }
+.elemento:nth-child(12)::before { background-image: url("../../../media/logos_nav/chocolate.png"); }
+.elemento:nth-child(13)::before { background-image: url("../../../media/logos_nav/fork.png"); }
+.elemento:nth-child(14)::before { background-image: url("../../../media/logos_nav/salad.png"); }
+.elemento:nth-child(15)::before { background-image: url("../../../media/logos_nav/milanesa.png"); }
+.elemento:nth-child(16)::before { background-image: url("../../../media/logos_nav/fideos.png"); }
+.elemento:nth-child(17)::before { background-image: url("../../../media/logos_nav/lomos.png"); background-size: 80%; }
+.elemento:nth-child(18)::before { background-image: url("../../../media/logos_nav/fish.png"); }
+.elemento:nth-child(19)::before { background-image: url("../../../media/logos_nav/empanada.png"); }
+.elemento:nth-child(20)::before { background-image: url("../../../media/logos_nav/pizzas.png"); }
+.elemento:nth-child(21)::before { background-image: url("../../../media/logos_nav/sandwich.png"); }
+.elemento:nth-child(22)::before { background-image: url("../../../media/logos_nav/burger.png"); }
+
+/* Interacción al pasar el cursor */
+.elemento:hover {
+    transform: scale(1.05); /* Efecto sutil de zoom */
+    background-color: rgba(0, 0, 0, 0.1); /* Fondo más oscuro */
+    color: black; /* Contraste constante */
+}
+
+.elemento:hover::before {
+    background-size: 100%; /* Amplía el ícono ligeramente */
+}
+
+/* Estilos para el nav en PC */
+.carrusel_2 {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en filas */
+    gap: 10px; /* Espaciado uniforme entre los elementos */
+    justify-content: center; /* Centra los elementos en el nav */
+    padding: 10px 0; /* Espaciado interno */
+}
+
+/* Estilos de los elementos dentro del carrusel */
+.elemento_2 {
+    position: relative;
+    flex: 0 0 150px; /* Tamaño fijo de ancho para los elementos */
+    height: 50px; /* Altura fija */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 5px; /* Espaciado interno */
+    margin: 5px; /* Márgenes uniformes */
+    text-decoration: none;
+    text-transform: capitalize; /* Primeras letras en mayúscula */
+    font-weight: bold;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centra el texto en el elemento */
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.5); /* Fondo semitransparente */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+/* Fondo de los elementos */
+.elemento_2::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Bordes sutiles */
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 60%; /* Tamaño uniforme para las imágenes */
+    opacity: 0.3;
+    z-index: -1; /* Asegura que el fondo esté detrás del contenido */
+}
+
+/* Íconos específicos para cada elemento */
+.elemento_2:nth-child(1)::before { background-image: url("../../../media/logos_nav/menu.png"); }
+.elemento_2:nth-child(2)::before { background-image: url("../../../media/logos_nav/wine-bottle.png"); }
+.elemento_2:nth-child(3)::before { background-image: url("../../../media/logos_nav/wine_blanco.png"); }
+.elemento_2:nth-child(4)::before { background-image: url("../../../media/logos_nav/wine_rosado.png"); }
+.elemento_2:nth-child(5)::before { background-image: url("../../../media/logos_nav/beer-can.png"); }
+.elemento_2:nth-child(6)::before { background-image: url("../../../media/logos_nav/beer.png"); }
+.elemento_2:nth-child(7)::before { background-image: url("../../../media/logos_nav/bottle.png"); }
+.elemento_2:nth-child(8)::before { background-image: url("../../../media/logos_nav/soda.png"); }
+.elemento_2:nth-child(9)::before { background-image: url("../../../media/logos_nav/water.png"); }
+.elemento_2:nth-child(10)::before { background-image: url("../../../media/logos_nav/agua.png"); }
+.elemento_2:nth-child(11)::before { background-image: url("../../../media/logos_nav/otros.png"); }
+.elemento_2:nth-child(12)::before { background-image: url("../../../media/logos_nav/chocolate.png"); }
+.elemento_2:nth-child(13)::before { background-image: url("../../../media/logos_nav/fork.png"); }
+.elemento_2:nth-child(14)::before { background-image: url("../../../media/logos_nav/salad.png"); }
+.elemento_2:nth-child(15)::before { background-image: url("../../../media/logos_nav/milanesa.png"); }
+.elemento_2:nth-child(16)::before { background-image: url("../../../media/logos_nav/fideos.png"); }
+.elemento_2:nth-child(17)::before { background-image: url("../../../media/logos_nav/lomos.png"); }
+.elemento_2:nth-child(18)::before { background-image: url("../../../media/logos_nav/fish.png"); }
+.elemento_2:nth-child(19)::before { background-image: url("../../../media/logos_nav/empanada.png"); }
+.elemento_2:nth-child(20)::before { background-image: url("../../../media/logos_nav/pizzas.png"); }
+.elemento_2:nth-child(21)::before { background-image: url("../../../media/logos_nav/sandwich.png"); }
+.elemento_2:nth-child(22)::before { background-image: url("../../../media/logos_nav/burger.png"); }
+
+/* Efectos al pasar el cursor sobre los elementos */
+.elemento_2:hover {
+    transform: scale(1.05); /* Efecto sutil de zoom */
+    background-color: rgba(0, 0, 0, 0.1); /* Fondo más oscuro al interactuar */
+    color: black; /* Mantén el contraste del texto */
+}
+
+.elemento_2:hover::before {
+    background-size: 100%; /* Amplía ligeramente el fondo */
+}
+
 
 
 /* Contenedor con tamaño fijo */
