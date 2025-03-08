@@ -280,61 +280,61 @@
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
     }
     /* Estilo a los contenedores de los elementos de carta*/
-    .plato {
-        background: #f8f9fa; /* Color de fondo claro */
-        margin: 10px 4px 10px 4px;
-        border-radius: 10px; /* Esquinas redondeadas */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-        overflow: hidden; /* Evita que el contenido se desborde */
-        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transiciones suaves */
+    .platos {
+        position: relative; /* Necesario para posicionar correctamente el pseudo-elemento */
+        overflow: hidden; /* Evita que elementos sobresalgan */
+        border-radius: 15px; /* Bordes redondeados */
+        margin-bottom: 20px; /* Separación entre los contenedores */
+        background: rgba(255, 255, 255, 0.8); /* Fondo blanco con algo de transparencia */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave para resaltar */
+        display: flex;
+        flex-direction: column; /* Organiza el contenido en columna */
+        justify-content: space-between; /* Mantiene los botones en el fondo */
+        padding: 20px;
     }
     
-    .plato:hover {
-        transform: translateY(-5px); /* Efecto de elevación al pasar el cursor */
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada al pasar el cursor */
+    /* Fondo difuminado para cada contenedor */
+    .platos::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: var(--background-url); /* Usa la variable dinámica para imágenes */
+        background-size: cover;
+        background-position: center;
+         /* Aumenta el desenfoque para más efecto */
+        z-index: -1; /* Envía al fondo del contenedor */
+         /* Translucidez para que el fondo no sea demasiado invasivo */
     }
     
-    .plato h1 {
-        font-size: 18px; /* Tamaño de fuente del título */
-        color: #343a40; /* Color del texto */
-        margin-bottom: 0.5rem; /* Margen inferior del título */
+    /* Asegura que los botones queden al final del contenedor */
+    .platos .d-flex {
+        margin-top: auto; /* Empuja los botones hacia el fondo del contenedor */
+        gap: 10px; /* Espaciado entre botones */
+        justify-content: center; /* Centra los botones horizontalmente */
     }
     
-    .plato p {
-        font-size: 1rem; /* Tamaño de fuente del párrafo */
-        color: #6c757d; /* Color del texto */
-        margin-bottom: 0.5rem; /* Margen inferior del párrafo */
+    /* Botones estilizados */
+    .platos a.btn {
+        border-radius: 8px; /* Bordes redondeados para botones */
+        font-size: 10px; /* Texto en mayúsculas para destacar */
+        transition: all 0.3s ease; /* Suaviza la transición al interactuar */
     }
     
-    .plato img {
-        width: 100%; /* Imagen a 100% del ancho del contenedor */
-        height: 200px; /* Altura fija */
-        object-fit: cover; /* Recorta y ajusta la imagen para llenar el área especificada */
-        border-radius: 10px; /* Esquinas redondeadas */
-        margin-bottom: 0.5rem; /* Margen inferior de la imagen */
+    .platos a.btn:hover {
+        transform: scale(1.05); /* Efecto de zoom en el hover */
+        opacity: 0.9; /* Ajusta la transparencia al interactuar */
     }
     
-    .plato .btn {
-        display: inline-block;
-        font-size: 0.875rem; /* Tamaño de fuente del botón */
-        padding: 0.5rem 1rem; /* Relleno del botón */
-        border-radius: 5px; /* Esquinas redondeadas del botón */
-    }
     
-    .plato .btn-primary {
-        background-color: #007bff; /* Color de fondo del botón primario */
-        border: none; /* Sin borde */
-    }
     
-    .plato .btn-danger {
-        background-color: #dc3545; /* Color de fondo del botón de peligro */
-        border: none; /* Sin borde */
-    }
+
+    /*Estilos de los botones del contenedor*/
     
-    .plato .btn a {
-        color: #fff; /* Color del texto del enlace */
-        text-decoration: none; /* Sin subrayado */
-    }
+    
+ 
     /* Estilo al h1 del titulo y subcategorias*/
     .titulo_sub {
         font-size: 2.5rem; /* Tamaño de fuente grande */
@@ -368,39 +368,7 @@
             width: 100%;
         }
     }
-    /*Estilos de los botones del contenedor*/
-    .btn {
-        display: inline-block;
-        font-size: 0.875rem; /* Tamaño de fuente del botón */
-        padding: 0.5rem 1rem; /* Relleno del botón */
-        border-radius: 5px; /* Esquinas redondeadas */
-        transition: background-color 0.3s ease, transform 0.3s ease; /* Transición suave para el cambio de color y el efecto de elevación */
-    }
     
-    .btn-primary {
-        background-color: #007bff; /* Color de fondo del botón primario */
-        border: none; /* Sin borde */
-    }
-    
-    .btn-primary:hover {
-        background-color: #0056b3; /* Color de fondo del botón primario al pasar el cursor */
-        transform: translateY(-2px); /* Efecto de elevación */
-    }
-    
-    .btn-danger {
-        background-color: #dc3545; /* Color de fondo del botón de peligro */
-        border: none; /* Sin borde */
-    }
-    
-    .btn-danger:hover {
-        background-color: #c82333; /* Color de fondo del botón de peligro al pasar el cursor */
-        transform: translateY(-2px); /* Efecto de elevación */
-    }
-    
-    .btn a {
-        color: #fff; /* Color del texto del enlace */
-        text-decoration: none; /* Sin subrayado */
-    }
     /*Estilos de la ventana modal*/
     .modal-titulo {
         font-size: 2rem;
@@ -518,13 +486,13 @@
     {% comment %} En este apartado se itera las subcategorias y se van mostrando los platos segun la sub categoria perteneciente {% endcomment %}
     {% for subcategoria in subcategorias%}
         <h1 class="m-4 text-danger text-center plato titulo_sub" data-category="{{subcategoria.nombre}}">{{subcategoria.nombre}}</h1>
-            <div class="d-flex justify-content-between row">
+            <div class="d-flex justify-content-around row">
                 {% for plato in carta %}
                     {% if plato.subCategoria.nombre == subcategoria.nombre %}
                         {% if plato.controlStock and plato.stock < 10%}
-                        <div class="plato col-5 col-md-3 col-lg-4 mx-lg-auto light-red-bg" data-category="{{subcategoria.nombre}}" data-toggle="modal" data-target="#platoModal" data-nombre="{{plato.nombre}}" data-descripcion="{{plato.descripcion}}" data-precio="{{plato.precio}}" data-imagen="{{plato.imagen.url}}" class="plato" data-id="{{plato.id}}" data-url-modificar="{% url 'cartaModif' plato.id %}" data-url-eliminar="{% url 'cartaBorrar' plato.id %}" data-controlstock="{{plato.controlStock}}" data-stock="{{plato.stock}}">
+                        <div class="plato platos col-5 col-md-5 col-lg-5  " style="--background-url: url('{{ plato.imagen.url }}');"  data-category="{{subcategoria.nombre}}" data-toggle="modal" data-target="#platoModal" data-nombre="{{plato.nombre}}" data-descripcion="{{plato.descripcion}}" data-precio="{{plato.precio}}" data-imagen="{{plato.imagen.url}}" class="plato" data-id="{{plato.id}}" data-url-modificar="{% url 'cartaModif' plato.id %}" data-url-eliminar="{% url 'cartaBorrar' plato.id %}" data-controlstock="{{plato.controlStock}}" data-stock="{{plato.stock}}">
                             <div>
-                                <h1 class="titulo_plato">{{plato.nombre}}</h1>
+                                <h3 class="titulo_plato">{{plato.nombre}}</h3>
                                 {% if plato.descripcion%}
                                     <p class="descripcion_sub">{{plato.descripcion}}</p>
                                 {% else %}
@@ -534,19 +502,19 @@
                                     <p class="descripcion_sub">Stock: {{plato.stock}}</p>
                                 {% endif %}
                                 <p>${{plato.precio}}</p>
-                                <img src="{{plato.imagen.url}}" alt="" class="img-fluid align-self-end">
+                                
                             </div>
                             {% if perms.miAplicacion.change_carta %}
-                                <div class="d-flex justify-content-center gap-2">
+                                <div class="d-flex justify-md-content-center justify-content-start gap-2">
                                     <a href="{% url 'cartaModif' plato.id %}" class="btn btn-primary btn-sm text-white text-decoration-none mb-2">Modificar</a>
                                     <a href="{% url 'cartaBorrar' plato.id %}" class="btn btn-danger btn-sm text-white text-decoration-none mb-2">Eliminar</a>
                                 </div>
                             {% endif %}
                         </div>
                         {% else %}
-                            <div class="plato col-5 col-md-3 col-lg-4 mx-lg-auto" data-category="{{subcategoria.nombre}}" data-toggle="modal" data-target="#platoModal" data-nombre="{{plato.nombre}}" data-descripcion="{{plato.descripcion}}" data-precio="{{plato.precio}}" data-imagen="{{plato.imagen.url}}" class="plato" data-id="{{plato.id}}" data-url-modificar="{% url 'cartaModif' plato.id %}" data-url-eliminar="{% url 'cartaBorrar' plato.id %}" data-controlstock="{{plato.controlStock}}" data-stock="{{plato.stock}}">
+                            <div class="plato platos col-5 col-md-5 col-lg-5  " style="--background-url: url('{{ plato.imagen.url }}');" data-category="{{subcategoria.nombre}}" data-toggle="modal" data-target="#platoModal" data-nombre="{{plato.nombre}}" data-descripcion="{{plato.descripcion}}" data-precio="{{plato.precio}}" data-imagen="{{plato.imagen.url}}" class="plato" data-id="{{plato.id}}" data-url-modificar="{% url 'cartaModif' plato.id %}" data-url-eliminar="{% url 'cartaBorrar' plato.id %}" data-controlstock="{{plato.controlStock}}" data-stock="{{plato.stock}}">
                                 <div>
-                                    <h1 class="titulo_plato">{{plato.nombre}}</h1>
+                                    <h3 class="titulo_plato">{{plato.nombre}}</h3>
                                     {% if plato.descripcion%}
                                         <p class="descripcion_sub">{{plato.descripcion}}</p>
                                     {% else %}
@@ -556,12 +524,12 @@
                                         <p class="descripcion_sub">Stock: {{plato.stock}}</p>
                                     {% endif %}
                                     <p>${{plato.precio}}</p>
-                                    <img src="{{plato.imagen.url}}" alt="" class="img-fluid align-self-end">
+                                    
                                 </div>
                                 {% if perms.miAplicacion.change_carta %}
-                                    <div class="d-flex justify-content-center gap-2">
-                                        <a href="{% url 'cartaModif' plato.id %}" class="btn btn-primary btn-sm text-white text-decoration-none mb-2">Modificar</a>
-                                        <a href="{% url 'cartaBorrar' plato.id %}" class="btn btn-danger btn-sm text-white text-decoration-none mb-2">Eliminar</a>
+                                    <div class="d-flex justify-md-content-center justify-content-start gap-2">
+                                        <a href="{% url 'cartaModif' plato.id %}" class="btn btn-primary p-md-2 btn-sm text-white text-decoration-none mb-2">Modificar</a>
+                                        <a href="{% url 'cartaBorrar' plato.id %}" class="btn btn-danger p-md-2 btn-sm text-white text-decoration-none mb-2">Eliminar</a>
                                     </div>
                                 {% endif %}
                             </div>
