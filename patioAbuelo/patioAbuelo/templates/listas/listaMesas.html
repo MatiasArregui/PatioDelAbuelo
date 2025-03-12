@@ -138,54 +138,19 @@
     }
 
 
-
-
-    .modal {
-        display: none; /* Ocultar por defecto */
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgb(0,0,0);
-        background-color: rgba(0,0,0,0.4);
-    }
-    .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-        border-radius: 10px; /* Esquinas redondeadas */
-    }
-    .modal-header {
-        background-color: #f8f9fa; /* Color de fondo claro */
-        border-bottom: 1px solid #dee2e6; /* Borde inferior sutil */
-        display: flex;
-        justify-content: space-between; /* Asegura que los elementos se distribuyan adecuadamente */
-        align-items: center; /* Alinea los elementos verticalmente en el centro */
-        padding: 15px; /* Relleno */
-        border-top-left-radius: 10px; /* Esquinas redondeadas superiores */
-        border-top-right-radius: 10px; /* Esquinas redondeadas superiores */
-    }
-    .modal-title {
-        font-size: 1.75rem;
-        font-weight: bold;
-        color: #343a40; /* Color del título */
-        margin: 0; /* Sin margen */
-    }
+    /*Estilos de la ventana modal*/
     .modal-titulo {
         font-size: 2rem;
         font-weight: bold;
         margin-bottom: 1rem;
         text-align: center;
     }
+    
     .modal-descripcion, .modal-precio {
         font-size: 1.2rem;
         margin-bottom: 0.5rem;
     }
+    
     .modal-imagen {
         display: block;
         margin: 0 auto;
@@ -205,28 +170,31 @@
         border-radius: 5px;
         text-decoration: none;
         color: white;
-        transition: background-color 0.3s ease, transform 0.3s ease; /* Transición suave para el cambio de color y el efecto de elevación */
     }
     .btn-modificar {
         background-color: #007bff;
     }
-    .btn-modificar:hover {
-      background-color: #0056b3; /* Color de fondo del botón primario al pasar el cursor */
-      transform: translateY(-2px); /* Efecto de elevación */
-      color: #fff; 
-    }
     .btn-eliminar {
         background-color: #dc3545;
     }
-    .btn-eliminar:hover {
-      background-color: #c82333; /* Color de fondo del botón de peligro al pasar el cursor */
-      transform: translateY(-2px); /* Efecto de elevación */
-      color: #fff; 
+    .modal-header {
+        background-color: #f8f9fa; /* Color de fondo claro */
+        border-bottom: 1px solid #dee2e6; /* Borde inferior sutil */
+        display: flex;
+        justify-content: space-between; /* Asegura que los elementos se distribuyan adecuadamente */
+        align-items: center; /* Alinea los elementos verticalmente en el centro */
+        padding: 15px; /* Relleno */
+        border-top-left-radius: 10px; /* Esquinas redondeadas superiores */
+        border-top-right-radius: 10px; /* Esquinas redondeadas superiores */
     }
-    .btn a {
-      color: #fff; /* Color del texto del enlace */
-      text-decoration: none; /* Sin subrayado */
-  }
+    
+    .modal-title {
+        font-size: 1.75rem;
+        font-weight: bold;
+        color: #343a40; /* Color del título */
+        margin: 0; /* Sin margen */
+    }
+    
     .close {
         padding: 5px 10px;
         border: none;
@@ -237,16 +205,23 @@
         transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
         cursor: pointer;
     }
+    
     .close:hover {
         color: #ff0000; /* Color rojo al pasar el cursor */
         background-color: rgba(255, 0, 0, 0.1); /* Fondo ligeramente rojo al pasar el cursor */
         transform: scale(1.1); /* Efecto de elevación */
         opacity: 1;
     }
+    
     .close span {
         display: inline-block;
         font-weight: bold;
     }
+    .light-red-bg {
+        background-color: #ffcccc; /* Color rojo claro */
+      }
+      
+
 </style>
 {% endblock %}
 {% block content %}
@@ -254,11 +229,19 @@
     <h1 class="text-center mt-1 cont titulo">Lista Mesas</h1>
     <div class="d-flex justify-content-between row">
         {% for mesa in mesas %}
-            <div class="plato col-12 col-sm-5 col-lg-3 {% if mesa.estado == False %}bg-success{%else%}bg-danger{% endif %}" >
-                <img src="../../../media/logos_nav/mesa.png" width="40" height="40" class="bg-white rounded" alt="" onclick="openModal('{{ mesa.nombre }}', '{{ mesa.estado }}', '/mesas/mesaModif/{{ mesa.id }}', '/mesas/mesaBorrar/{{ mesa.id }}')">
+            <div class="plato col-12 col-sm-5 col-lg-3 {% if mesa.estado == False %}bg-success{% else %}bg-danger{% endif %}" 
+                data-id="{{ mesa.id }}"
+                data-nombre="{{ mesa.nombre }}"
+                data-estado="{{ mesa.estado }}"
+                data-url-modificar="{% url 'mesaModif' mesa.id %}"
+                data-url-eliminar="{% url 'mesaBorrar' mesa.id %}"
+                data-toggle="modal"
+                data-target="#platoModal">
                 
-                <div onclick="openModal('{{ mesa.nombre }}', '{{ mesa.estado }}', '/mesas/mesaModif/{{ mesa.id }}', '/mesas/mesaBorrar/{{ mesa.id }}')">
-                    <h1 class="titulo_plato">{{ mesa.nombre | title}}</h1>
+                <img src="../../../media/logos_nav/mesa.png" width="40" height="40" class="bg-white rounded" alt="">
+                
+                <div>
+                    <h1 class="titulo_plato">{{ mesa.nombre | title }}</h1>
                     <p class="descripcion_sub text-white">{% if mesa.estado == False %}Desocupado{% else %}Ocupado{% endif %}</p>
                 </div>
                 {% if perms.miAplicacion.change_mesa %}
@@ -271,50 +254,53 @@
         {% endfor %}
     </div>
     <!-- Modal -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h2 class="modal-title">Detalles de la Mesa</h2>
-            <span class="close" onclick="closeModal()">&times;</span>
-          </div>
-          <div class="modal-body">
-            <p class="modal-descripcion"><strong>Nombre:</strong> <span id="mesa-nombre"></span></p>
-            <p class="modal-descripcion"><strong>Estado:</strong> <span id="mesa-estado"></span></p>
-            <div class="botones-modal">
-              <a id="modificar-btn" href="#" class="btn btn-modificar">Modificar</a>
-              <a id="eliminar-btn" href="#" class="btn btn-eliminar">Eliminar</a>
+    <div class="modal fade" id="platoModal" tabindex="-1" role="dialog" aria-labelledby="platoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="platoModalLabel">Detalles de la Mesa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h1 class="modal-titulo"></h1>
+                    <p class="modal-descripcion"></p>
+                    <p class="modal-precio"></p>
+                    <p class="modal-stock"></p>
+                    <img src="" alt="" class="modal-imagen img-fluid">
+                </div>
+                <div class="modal-footer botones-modal">
+                    {% if perms.miAplicacion.change_mesa %}
+                        <a href="#" id="modal-modificar" class="btn btn-primary btn-sm text-white text-decoration-none">Modificar</a>
+                        <a href="#" id="modal-eliminar" class="btn btn-danger btn-sm text-white text-decoration-none">Eliminar</a>
+                    {% endif %}
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </div>
     {% if perms.miAplicacion.add_mesa %}
-    <a href="{% url 'mesaNueva' %}" class="customButton">+</a>
+        <a href="{% url 'mesaNueva' %}" class="customButton">+</a>
     {% endif %}
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-    function openModal(nombre, estado, modificarUrl, eliminarUrl) {
-      document.getElementById('mesa-nombre').textContent = nombre;
-  
-      // Verifica el estado de la mesa y muestra "Ocupada" o "Desocupada" según sea necesario
-      if (estado === 'True') {
-          document.getElementById('mesa-estado').textContent = "Ocupada";
-      } else {
-          document.getElementById('mesa-estado').textContent = "Desocupada";
-      }
-      document.getElementById('modificar-btn').href = modificarUrl;
-      document.getElementById('eliminar-btn').href = eliminarUrl;
-      document.getElementById('myModal').style.display = "block";
-  }
-  
-    function closeModal() {
-        document.getElementById('myModal').style.display = "none";
-    }
-  
-    // Cerrar el modal cuando se hace clic fuera de él
-    window.onclick = function(event) {
-        if (event.target == document.getElementById('myModal')) {
-            document.getElementById('myModal').style.display = "none";
-        }
-    }
-  </script>
+    $('#platoModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Botón que activó el modal
+        var id = button.data('id'); // Extrae la información de los atributos data-*
+        var nombre = button.data('nombre');
+        var estado = button.data('estado');
+        var urlModificar = button.data('url-modificar');
+        var urlEliminar = button.data('url-eliminar');
+        
+        // Actualiza el contenido del modal
+        var modal = $(this);
+        modal.find('.modal-titulo').text(nombre.charAt(0).toUpperCase() + nombre.slice(1));
+        modal.find('.modal-descripcion').text('Estado: ' + (estado == 'True' ? 'Ocupada' : 'Desocupada'));
+        modal.find('#modal-modificar').attr('href', urlModificar);
+        modal.find('#modal-eliminar').attr('href', urlEliminar);
+    });
+</script>
+
 {% endblock %}

@@ -166,8 +166,8 @@
                 <td>{{f.vuelto}}</td>
                 <td>
                   <div class="d-flex gap-1">
-                    <button class="btn btn-sm btn-primary"><a href="/facturas/facturaModif/{{ f.id }}" class="text-white text-decoration-none">Cobrar</a></button>
                     {% if perms.miAplicacion.delete_factura and f.id not in facturaCierre %}
+                    <button class="btn btn-sm btn-primary"><a href="/facturas/facturaModif/{{ f.id }}" class="text-white text-decoration-none">Cobrar</a></button>
                     <button class="btn btn-sm btn-danger"><a href="/facturas/facturaBorrar/{{ f.id }}" class="text-white text-decoration-none">Anular</a></button>
                     {% endif %}
                   </div>
@@ -224,8 +224,8 @@
               <td>{{f.total}}</td>
               <td class="">
                 <div class="d-flex gap-1">
-                  <button class="btn btn-sm btn-primary"><a href="/facturas/facturaModif/{{ f.id }}" class="text-white text-decoration-none">Cobrar</a></button>
                   {% if perms.miAplicacion.delete_factura and f.id not in facturaCierre %}
+                  <button class="btn btn-sm btn-primary"><a href="/facturas/facturaModif/{{ f.id }}" class="text-white text-decoration-none">Cobrar</a></button>
                   <button class="btn btn-sm btn-danger"><a href="/facturas/facturaBorrar/{{ f.id }}" class="text-white text-decoration-none">Anular</a></button>
                   {% endif %}
                 </div>

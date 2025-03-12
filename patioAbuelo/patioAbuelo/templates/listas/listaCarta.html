@@ -434,7 +434,20 @@
                 {% for plato in carta %}
                     {% if plato.subCategoria.nombre == subcategoria.nombre %}
                         {% if plato.controlStock and plato.stock < 10%}
-                        <div class="plato platos col-5 col-md-5 col-lg-5  " style="--background-url: url('{{ plato.imagen.url }}');"  data-category="{{subcategoria.nombre}}" data-toggle="modal" data-target="#platoModal" data-nombre="{{plato.nombre}}" data-descripcion="{{plato.descripcion}}" data-precio="{{plato.precio}}" data-imagen="{{plato.imagen.url}}" class="plato" data-id="{{plato.id}}" data-url-modificar="{% url 'cartaModif' plato.id %}" data-url-eliminar="{% url 'cartaBorrar' plato.id %}" data-controlstock="{{plato.controlStock}}" data-stock="{{plato.stock}}">
+                        <div class="plato platos col-5 col-md-5 col-lg-5  " style="--background-url: url('{{ plato.imagen.url }}');"  
+                            data-category="{{subcategoria.nombre}}" 
+                            data-toggle="modal" 
+                            data-target="#platoModal" 
+                            data-nombre="{{plato.nombre}}" 
+                            data-descripcion="{{plato.descripcion}}" 
+                            data-precio="{{plato.precio}}" 
+                            data-imagen="{{plato.imagen.url}}" 
+                            class="plato" 
+                            data-id="{{plato.id}}" 
+                            data-url-modificar="{% url 'cartaModif' plato.id %}" 
+                            data-url-eliminar="{% url 'cartaBorrar' plato.id %}" 
+                            data-controlstock="{{plato.controlStock}}" 
+                            data-stock="{{plato.stock}}">
                             <div>
                                 <h3 class="titulo_plato"><b>{{plato.nombre}}</b></h3>
                                 {% if plato.descripcion%}

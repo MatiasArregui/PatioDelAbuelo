@@ -486,14 +486,32 @@ def ordenBorrar(request, pk):
 
 # FACTURAS VIEWS ---------------------------------------------------------------------------------------------->
 # Factura Orden ------->
+# class listaFacturas(ListView):
+#     model = Factura
+#     template_name = os.path.join("listas", "listafacturas.html")
+#     context_object_name = 'facturas'
+#     paginate_by = 12
+    
+#     def get_queryset(self):
+#         queryset = super().get_queryset()
+#         query = self.request.GET.get('q')
+#         if query:
+#             queryset = queryset.filter(fecha__icontains=query)
+#         return queryset
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['query'] = self.request.GET.get('q', '')  # Enviar el valor de la búsqueda al contexto
+#         context['facturaCierre'] = [x.id_factura.pk for x in FacturaCierre.objects.all()]
+#         return context
 class listaFacturas(ListView):
     model = Factura
     template_name = os.path.join("listas", "listafacturas.html")
     context_object_name = 'facturas'
     paginate_by = 12
-    
+
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().order_by('-fecha')  # Ordenar por fecha descendente
         query = self.request.GET.get('q')
         if query:
             queryset = queryset.filter(fecha__icontains=query)
