@@ -148,5 +148,12 @@
         <a href={% url "cierreNuevo" %} class="customButton">+</a>
     {% endif %}
 </div>
+<script>
+  
+  function clearSearch() {
+    document.querySelector('.search-input').value = '';
+    window.location.href = window.location.pathname;
+  }
+</script>
 
 {% endblock %}

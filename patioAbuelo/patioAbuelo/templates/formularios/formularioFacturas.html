@@ -45,6 +45,41 @@
         background-color: #c82333; /* Color de fondo del botón de peligro al pasar el cursor */
         transform: translateY(-2px); /* Efecto de elevación */
     }
+    /*Estilos para el mensaje de error que aparece al cobrar y no cubrir el monto */
+    .alert-errors {
+        list-style: none;
+        padding: 0;
+        margin: 20px 0;
+        background: #FFCCCC;
+        border-left: 5px solid #C1121F;
+        border-radius: 5px;
+        color: #C1121F;
+        font-size: 16px;
+        padding: 10px 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .alert-errors ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+    
+    .alert-errors li {
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+    }
+    .alert-errors li span{
+        text-align: left;
+        font-weight: bold;
+    }
+    .icon-error {
+        font-weight: bold;
+        color: #C1121F;
+        margin-right: 8px;
+    }
+    
 </style>
 {% endblock %}
 {% block content %}
@@ -52,8 +87,29 @@
     <div class="cont mb-1">
         <h3 class="display-4 titulo">Factura</h3>
     </div>
+    <!-- Inicio del formulario -->
     <form method="post" class="row">
         {% csrf_token %}
+
+        <!-- Este maneja el error delcarado en views, y le damos un estilo en style -->
+        {% if factura_form.non_field_errors %}
+        <div class="alert-errors m-1">
+            <ul>
+                {% for error in factura_form.non_field_errors %}
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" class="icon-error" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                    </svg>
+                    <span>{{ error }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+
+        <!-- Campo de cliente -->
         <div class="col mb-3">
             <label for="id_id_cliente">Cliente:</label>
             {{ factura_form.id_cliente }}
@@ -108,6 +164,7 @@
         </div>
     </form>
 </div>
+
 
 <script>
     // Obtener el contenedor de los select ordenes

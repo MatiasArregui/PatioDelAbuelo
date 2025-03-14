@@ -130,23 +130,23 @@
           <tbody>
               {% for f in facturas %}
               {% if f.anulado == True%}
-                <tr class="table-danger" onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">
-                  <td>{{f.id}}</td>
-                  <td>{{f.fecha}}</td>
-                  <td>{{f.id_cliente.nombre}}</td>
-                  <td>{{f.total}}</td>
-                  <td>{{f.total_pago}}</td>
-                  <td>{{f.vuelto}}</td>
+                <tr class="table-danger">
+                  <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.id}}</td>
+                  <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.fecha}}</td>
+                  <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.id_cliente.nombre}}</td>
+                  <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.total}}</td>
+                  <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.total_pago}}</td>
+                  <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.vuelto}}</td>
                 </tr>
               {%endif%}
               {% if f.cobrado == True and f.anulado == False%}
-              <tr class="table-success" onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">
-                <td>{{f.id}}</td>
-                <td>{{f.fecha}}</td>
-                <td>{{f.id_cliente.nombre}}</td>
-                <td>{{f.total}}</td>
-                <td>{{f.total_pago}}</td>
-                <td>{{f.vuelto}}</td>
+              <tr class="table-success">
+                <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.id}}</td>
+                <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.fecha}}</td>
+                <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.id_cliente.nombre}}</td>
+                <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.total}}</td>
+                <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.total_pago}}</td>
+                <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.vuelto}}</td>
                 {% if perms.miAplicacion.delete_factura and f.id not in facturaCierre %}
                 <td>
                   <div class="d-flex gap-1">
@@ -157,13 +157,13 @@
               </tr>
               {%endif%}
               {%if f.cobrado == False and f.anulado == False%}
-              <tr onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">
-                <td>{{f.id}}</td>
-                <td>{{f.fecha}}</td>
-                <td>{{f.id_cliente.nombre}}</td>
-                <td>{{f.total}}</td>
-                <td>{{f.total_pago}}</td>
-                <td>{{f.vuelto}}</td>
+              <tr>
+                <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.id}}</td>
+                <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.fecha}}</td>
+                <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.id_cliente.nombre}}</td>
+                <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.total}}</td>
+                <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.total_pago}}</td>
+                <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.vuelto}}</td>
                 <td>
                   <div class="d-flex gap-1">
                     {% if perms.miAplicacion.delete_factura and f.id not in facturaCierre %}
@@ -185,7 +185,6 @@
             <th scope="col">Fecha</th>
             <th scope="col">Cliente</th>
             <th scope="col">Total</th>
-  
             <th scope="col" class="">
               Accion
             </th>
@@ -194,19 +193,19 @@
         <tbody>
             {% for f in facturas %}
             {% if f.anulado == True%}
-              <tr class="table-danger" onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">
-                <td>{{f.id}}</td>
-                <td>{{f.fecha}}</td>
-                <td>{{f.id_cliente.nombre}}</td>
-                <td>{{f.total}}</td>
+              <tr class="table-danger">
+                <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.id}}</td>
+                <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.fecha}}</td>
+                <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.id_cliente.nombre}}</td>
+                <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.total}}</td>
               </tr>
             {%endif%}
             {% if f.cobrado == True and f.anulado == False%}
-            <tr class="table-success" onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">
-              <td>{{f.id}}</td>
-              <td>{{f.fecha}}</td>
-              <td>{{f.id_cliente.nombre}}</td>
-              <td>{{f.total}}</td>
+            <tr class="table-success">
+              <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.id}}</td>
+              <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.fecha}}</td>
+              <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.id_cliente.nombre}}</td>
+              <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.total}}</td>
               {% if perms.miAplicacion.delete_factura and f.id not in facturaCierre %}
               <td class="">
                 <div class="d-flex gap-1">
@@ -217,11 +216,11 @@
             </tr>
             {%endif%}
             {%if f.cobrado == False and f.anulado == False%}
-            <tr onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">
-              <td>{{f.id}}</td>
-              <td>{{f.fecha}}</td>
-              <td>{{f.id_cliente.nombre}}</td>
-              <td>{{f.total}}</td>
+            <tr>
+              <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.id}}</td>
+              <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.fecha}}</td>
+              <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.id_cliente.nombre}}</td>
+              <td onclick="window.location.href='{% url 'facturaDetalle' f.id%}'">{{f.total}}</td>
               <td class="">
                 <div class="d-flex gap-1">
                   {% if perms.miAplicacion.delete_factura and f.id not in facturaCierre %}

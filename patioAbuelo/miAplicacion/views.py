@@ -718,7 +718,7 @@ class listaCierres(ListView):
     paginate_by = 10
     
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().order_by('-fecha')
         query = self.request.GET.get('q')
         if query:
             queryset = queryset.filter(fecha__icontains=query)
