@@ -258,13 +258,16 @@
 
 {% endblock %}
 
-  <!-- Tu contenido aquí -->
-  {% block content %}
-    <div class="container mb-5">
+{% block content %}
+  <div class="container mb-5">
       <h1 class="text-center mt-1 cont titulo">Lista Ordenes</h1>
       <form method="GET" class="search-bar col-10 col-md-6 col-lg-4">
         <div class="input-group">
-          <input type="date" class="form-control search-input" name="q" value="{{ query }}" placeholder="Buscar por fecha">
+          <select name="filtro" class="form-control">
+            <option value="todas" {% if filtro == "todas" %}selected{% endif %}>Todas</option>
+            <option value="entregadas" {% if filtro == "entregadas" %}selected{% endif %}>Entregadas</option>
+            <option value="no_entregadas" {% if filtro == "no_entregadas" %}selected{% endif %}>En preparación</option>
+          </select>
           <button class="btn btn-primary search-btn" type="submit">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-search" viewBox="0 0 16 16">
               <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
@@ -275,8 +278,10 @@
           </button>
         </div>
       </form>
+      
       {% for o in ordenes %}
         {% if o.id not in facturaOrden %}
+        {% comment %} Aqui establecemos el div completo como boton de accion para que actue la ventana modal {% endcomment %}
           <div data-toggle="modal" data-target="#orderModal" data-id="{{ o.id }}" data-mesa="{{ o.id_mesa.nombre }}" data-fecha="{{ o.fecha }}" data-observacion="{{ o.observacion }}" data-total="{{ o.total }}" data-platos="[{% for carta in cartaOrden %}{% if carta.id_orden.pk == o.id %}'{{ carta.id_carta.nombre }} {{ carta.cantidad }}',{% endif %}{% endfor %}]" data-url-modificar="{% url 'ordenModificar' o.id %}" data-url-eliminar="{% url 'ordenBorrar' o.id %}" class="contenedor-orden">
             <h1>{{o.id_mesa.nombre | title}}</h1>
             <p><strong>Mozo: {{o.id_mozo.nombre | title}}</strong></p>
@@ -303,53 +308,55 @@
         {% endif %}
       {% endfor %}
 
-     <!-- Modal -->
-<!-- Modal -->
-<div id="orderModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header" id="printable-area-header">
-        <h5 class="modal-title" id="orderModalLabel">Detalles de la Orden</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" id="printable-area-body">
-        <p class="modal-descripcion"><strong>Mesa:</strong> <span id="orden-mesa"></span></p>
-        <p class="modal-descripcion"><strong>Fecha:</strong> <span id="orden-fecha"></span></p>
-        <p class="modal-descripcion"><strong>Observación:</strong> <span id="orden-observacion"></span></p>
-        <h6><strong>Platos</strong></h6>
-        <div id="orden-platos"></div>
-        <p class="modal-descripcion"><strong>Total:</strong> <span id="orden-total"></span></p>
-      </div>
-      <div class="modal-footer botones-modal">
-        {% if perms.miAplicacion.add_orden %}
-          <a id="orden-modificar-btn" href="#" class="btn btn-modificar m-1">Modificar</a>
-          <a id="orden-eliminar-btn" href="#" class="btn btn-eliminar m-1">Eliminar</a>
-        {% endif %}
-        <a class="btn btn-imprimir m-1" href="#" onclick="printOrderDetails()">Imprimir</a>
+
+    {% comment %} Ventana modal que se activa al tocar el contenedor (div) de la orden {% endcomment %}
+    <div id="orderModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header" id="printable-area-header">
+            <h5 class="modal-title" id="orderModalLabel">Detalles de la Orden</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="printable-area-body">
+            <p class="modal-descripcion"><strong>Mesa:</strong> <span id="orden-mesa"></span></p>
+            <p class="modal-descripcion"><strong>Fecha:</strong> <span id="orden-fecha"></span></p>
+            <p class="modal-descripcion"><strong>Observación:</strong> <span id="orden-observacion"></span></p>
+            <h6><strong>Platos</strong></h6>
+            <div id="orden-platos"></div>
+            <p class="modal-descripcion"><strong>Total:</strong> <span id="orden-total"></span></p>
+          </div>
+          <div class="modal-footer botones-modal">
+            {% if perms.miAplicacion.add_orden %}
+              <a id="orden-modificar-btn" href="#" class="btn btn-modificar m-1">Modificar</a>
+              <a id="orden-eliminar-btn" href="#" class="btn btn-eliminar m-1">Eliminar</a>
+            {% endif %}
+            <a class="btn btn-imprimir m-1" href="#" onclick="printOrderDetails()">Imprimir</a>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
 
-
+      {% comment %} Boton que permite agregar nueva orden {% endcomment %}
       {% if perms.miAplicacion.add_orden %}
         <a href={% url "ordenNueva" %} class="customButton">+</a>
       {% endif %}
-    </div>
+  </div>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
+    //Esta funcion limpia la busqueda. Busca por "name" el filtro y le da el nuevo valor "todas"
     function clearSearch() {
-      document.querySelector('.search-input').value = '';
-      window.location.href = window.location.pathname;
+      document.querySelector('[name="filtro"]').value = 'todas';  
+      window.location.href = window.location.pathname;  
     }
     
+    
     $('#orderModal').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget); // Botón que activó el modal
+      var button = $(event.relatedTarget); 
       var mesa = button.data('mesa');
       var fecha = button.data('fecha');
       var observacion = button.data('observacion');
@@ -358,7 +365,7 @@
       var urlModificar = button.data('url-modificar');
       var urlEliminar = button.data('url-eliminar');
     
-      // Actualiza el contenido del modal
+      // Estos le dan un valor a los campos del modal, que se obtienen en la parte de arriba
       var modal = $(this);
       modal.find('#orden-mesa').text(mesa);
       modal.find('#orden-fecha').text(fecha);
@@ -383,7 +390,7 @@
       modal.find('#orden-modificar-btn').attr('href', urlModificar);
       modal.find('#orden-eliminar-btn').attr('href', urlEliminar);
     });
-    
+    // Esta funcion establece que parte del DOM se imprimira
     function printOrderDetails() {
       const printableHeader = document.getElementById('printable-area-header').outerHTML;
       const printableBody = document.getElementById('printable-area-body').outerHTML;

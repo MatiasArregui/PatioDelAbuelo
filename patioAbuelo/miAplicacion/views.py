@@ -277,16 +277,17 @@ class listaOrdenes(ListView):
     
     def get_queryset(self):
         queryset = super().get_queryset()
-        query = self.request.GET.get('q')
-        if query:
-            queryset = queryset.filter(fecha__icontains=query)
+        filtro = self.request.GET.get('filtro', 'todas')  
+
+        if filtro == 'entregadas':
+            queryset = queryset.filter(entregado=True)  
+        elif filtro == 'no_entregadas':
+            queryset = queryset.filter(entregado=False)  
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['query'] = self.request.GET.get('q', '')  # Enviar el valor de la búsqueda al contexto
-        # Aca obtenemos todas las carta orden para luego filtrar en el template los platos relacionados 
-        # a cada orden
+        context['filtro'] = self.request.GET.get('filtro', 'todas')
         context['cartaOrden'] = [{"id":x.pk, "id_carta":x.id_carta, "id_orden":x.id_orden, "cantidad":x.cantidad} for x in CartaOrden.objects.all()]
         print([{"id":x.pk, "id_carta":x.id_carta, "id_orden":x.id_orden, "cantidad":x.cantidad} for x in CartaOrden.objects.all()])
         context["facturaOrden"] = [x.id_orden.pk for x in FacturaOrden.objects.all()]
@@ -403,8 +404,6 @@ def ordenModificar(request, pk):
                 if plato and cantidad and plato.controlStock == True and delete == True:
                     plato.stock += cantidad  
                     plato.save() 
-
-
                             
             formset.instance = orden
             formset.save()
