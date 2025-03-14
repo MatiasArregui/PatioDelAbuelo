@@ -93,7 +93,7 @@
                     {% if user.is_authenticated %}
                     <li class="nav-item">
                         <p class="nav-link logout-btn">
-                            <span class="user-info">{{ request.user }}</span>
+                            <span class="user-info">{{ request.user | title}}</span>
                             <a class="logout-info" href="{% url 'logout' %}">Logout</a>
                         </p>
                     </li>

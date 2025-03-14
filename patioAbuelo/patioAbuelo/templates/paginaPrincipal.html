@@ -59,6 +59,7 @@
 {% endblock %}
 {% block content %}
 <div class="container-fluid align-content-center mt-4">
+    {% if platoDia %}
     <div class="row d-flex justify-content-center gap-2">
         <div class="col-5 mi-div-menu">
             <p>Carta</p>
@@ -67,7 +68,6 @@
             <p>{{carta.subCategoria.nombre}}</p>
             <a class="btn btn-outline-primary mb-3" href="{% url "listaCarta" %}">Ver Carta</a>
         </div>
-        {% if platoDia %}
         <div class="col-5 mi-div-plato-dia">
             <p>Plato del día</p>
             <h4>{{platoDia.id_carta.nombre}}</h4>
@@ -75,8 +75,18 @@
             <p>{{platoDia.id_carta.subCategoria.nombre}}</p>
             <a class="btn btn-outline-primary mb-3" href="{% url "cartaDetalle" platoDia.id_carta.id %}">Ir al plato</a>
         </div>
-        {% endif %}
     </div>
+    {% else %}
+    <div class="row d-flex justify-content-center gap-2">
+        <div class="col-10 mi-div-menu">
+            <p>Carta</p>
+            <h4>{{carta.nombre}}</h4>
+            <p>${{carta.precio}}</p>
+            <p>{{carta.subCategoria.nombre}}</p>
+            <a class="btn btn-outline-primary mb-3" href="{% url "listaCarta" %}">Ver Carta</a>
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
 
