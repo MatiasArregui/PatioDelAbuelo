@@ -901,4 +901,13 @@ def facturaDetalle(request, pk):
     print(datos_ordenes)
     context= {"factura":factura, "datos_ordenes": datos_ordenes}
     return render(request, os.path.join("detalles", "facturaDetalle.html"), context=context)
+
+# Pagina principal ----------------------------------------------------------------------------------->
+def landingPage(request):
+    try: 
+        platoDia = PlatoDia.objects.get()
+        context = {"platoDia":platoDia}
+    except:
+        context = {"platoDia":{}}
+    return render(request, template_name="landingPage.html", context=context)
     

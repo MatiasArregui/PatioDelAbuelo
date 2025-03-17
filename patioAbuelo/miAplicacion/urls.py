@@ -15,6 +15,9 @@ urlpatterns = [
     # Página de inicio ------------------------------------------------------------------------>
     path("inicio/", login_required(views.principal), name="paginaPrincipal"),
     
+    # Página de QR------------------------------------------------------------------------>
+    path("home/", views.landingPage, name="landingPage"),
+    
     # Órdenes --------------------------------------------------------------------------------->
     path("ordenes/", login_required(permission_required('miAplicacion.view_orden')(views.listaOrdenes.as_view())), name="listaOrdenes"),
     path("ordenes/ordenNueva/", login_required(permission_required('miAplicacion.add_orden')(views.ordenNuevo)), name="ordenNueva"),

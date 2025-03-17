@@ -1,0 +1,285 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Patio del Abuelo</title>
+  <style>
+    /* Estilos generales */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #C1121F;
+      color: #FFFFFA;
+      padding: 15px 20px;
+      text-align: center;
+      border-top: 5px solid white;
+      border-left: 5px solid white;
+      border-right: 5px solid white;
+    }
+
+    .logo {
+      max-width: 150px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-around;
+      background-color: #C1121F;
+      padding: 10px 0;
+      border: 5px solid white;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 10px;
+    }
+
+    nav a:hover {
+      color: #ff9900;
+    }
+
+    section {
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    #home {
+      position: relative;
+      text-align: center;
+      height: 60vh; /* Ajusta la altura de la sección */
+      color: #fff; /* Color del texto */
+      border-radius: 10px; /* Esquinas redondeadas */
+      overflow: hidden; /* Oculta cualquier contenido fuera del contenedor */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    }
+    
+    #home::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-image: url('../../media/estilos_h1/fondo.jpg'); /* Imagen de fondo */
+      background-size: cover; /* Asegura que cubra toda la sección */
+      background-position: center; /* Centra la imagen */
+      background-repeat: no-repeat;
+      opacity: 0.8; /* Nivel de transparencia */
+      z-index: 1; /* Coloca la imagen detrás del contenido */
+      filter: brightness(0.7); /* Oscurece ligeramente la imagen */
+    }
+    
+    #home h1, #home p {
+      position: relative; /* Asegura que el texto quede por encima del fondo */
+      z-index: 2; /* Coloca el contenido por encima del pseudo-elemento */
+      margin: 0; /* Elimina márgenes extra */
+    }
+    
+    .mi-div-plato-dia {
+      position: relative;
+      text-align: center;
+      height: 60vh; /* Ajusta la altura según tus necesidades */
+      width: 70%; /* El ancho es del 70% de la página */
+      margin: 20px auto; /* Agrega márgenes verticales (arriba y abajo) y centra horizontalmente */
+      color: #fff; /* Color del texto */
+      border-radius: 10px; /* Esquinas redondeadas */
+      overflow: hidden; /* Oculta cualquier contenido que se desborde */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    }
+    
+    .mi-div-plato-dia::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-image: url('{{platoDia.id_carta.imagen.url}}');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.6; /* Ajusta este valor para cambiar la opacidad */
+      z-index: 1; /* Coloca la imagen detrás del contenido */
+      filter: brightness(0.7); /* Oscurece ligeramente la imagen */
+    }
+    
+    .mi-div-plato-dia > * {
+      position: relative;
+      z-index: 2;
+    }
+    
+    
+
+
+    #carta {
+      background-color: #f8f8f8;
+    }
+
+    #contacto {
+      background-color: #C1121F;
+      color: #f8f8f8;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border:5px solid white;
+    }
+
+    h1, h2 {
+      margin-bottom: 20px;
+    }
+
+    .menu-item {
+      margin: 10px 0;
+    }
+
+    .responsive-img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .contact-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .contact-info a {
+      color: #f8f8f8;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .contact-info a:hover {
+      color: #ff9900;
+    }
+
+    .map-circle {
+      border-radius: 50%;
+      overflow: hidden;
+      width: 300px;
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px; /* El mapa ahora estará debajo de los textos */
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Estilos responsive */
+    @media (max-width: 768px) {
+
+      nav a {
+        margin: 5px 0;
+      }
+
+      #home {
+        padding: 20px;
+        text-align: center;
+      }
+
+      .contact-info {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .map-circle {
+        width: 250px;
+        height: 250px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #home h1 {
+        font-size: 24px;
+      }
+
+      #home p {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="{% static 'imagenes/patioAbuelo.png'%}" alt="Logo de El Patio del Abuelo" class="logo">
+  </header>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#carta">Carta</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+
+  <section id="home">
+    <h1>Bienvenidos a El Patio del Abuelo</h1>
+    <p>Un lugar donde los sabores y la tradición se encuentran.</p>
+  </section>
+  {%if platoDia%}
+    <section class="mi-div-plato-dia">
+      <h2>Plato del día</h2>
+      <h4>{{platoDia.id_carta.nombre}}</h4>
+      <p>${{platoDia.id_carta.precio}}</p>
+      <p>{{platoDia.id_carta.descripcion}}</p>
+    </section>
+  {% endif %}
+
+  <section id="carta">
+    <h2>Nuestra Carta</h2>
+    <div class="menu-item">
+      <a href="{% static 'imagenes/cartarestauranteespanol.jpg'%}" target="_blank">
+        <img src="{% static 'imagenes/cartarestauranteespanol.jpg'%}" class="responsive-img" alt="Imagen de la carta del restaurante">
+      </a>
+    </div>
+  </section>
+
+  <section id="contacto">
+    <h2>Contacto</h2>
+    <div class="contact-container">
+      <div class="contact-info">
+        <a href="tel:+5493544472342">📞 +54 9 3544472342</a>
+        <a href="https://www.instagram.com/patiodelabuelo/" target="_blank">📸 Instagram</a>
+        <a href="https://maps.app.goo.gl/15uTJoHDc6tRH6jo7" target="_blank">📍 Dirección</a>
+      </div>
+      <div class="map-circle">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3394.329948132999!2d-65.02040422499712!3d-31.706880810353514!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x942d2696c5962deb%3A0x107ef335b573cc7!2sEl%20Patio%20del%20Abuelo!5e0!3m2!1ses!2sar!4v1731892665265!5m2!1ses!2sar" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
