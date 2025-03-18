@@ -4,9 +4,8 @@ from .models import Orden, Carta, Factura, Cliente, Mesa, Mozo, SubCategoria, Ca
 from .forms import MozoForm, ClienteForm, CartaForm, OrdenForm, CartaOrdenFormSet, FacturaForm, FacturaOrdenFormSet, FacturaPagoFormSet, CierreForm,  FacturaCierreFormSet, LoginForm, PlatoDiaForm, MesaForm
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.views import LoginView
-from django.core.paginator import Paginator
 from django.db.models import ProtectedError
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView
 import random
 import os
 # from datetime import datetime, timedelta
@@ -37,29 +36,6 @@ class LoginIngreso(LoginView):
 
 # PLATO VIEWS ------------------------------------------------------------------------------>
 # Listado plato --------------------------->
-
-# class listaCarta(ListView):
-#     model = Carta
-#     template_name = "./listas/listaCarta.html"
-#     context_object_name = 'carta'
-#     paginate_by = 7
-    
-
-#     def get_queryset(self):
-#         queryset = super().get_queryset()
-#         query = self.request.GET.get('q')
-#         if query:
-#             queryset = queryset.filter(nombre__icontains=query)
-#         return queryset
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         subCategorias = SubCategoria.objects.all()
-#         # Aquí agregamos otro contexto adicional
-#         context['subcategorias'] = subCategorias
-#         context['query'] = self.request.GET.get('q', '')  # Enviar el valor de la búsqueda al contexto
-#         print(context)
-#         return context
 class listaCarta(ListView):
     model = Carta
     template_name = os.path.join("listas", "listaCarta.html")
@@ -78,17 +54,17 @@ class listaCarta(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         subCategorias = SubCategoria.objects.all()
-        # Aquí agregamos otro contexto adicional
+        # Aquí agrego otro contexto, para filtar en el template
         context['subcategorias'] = subCategorias
-        context['query'] = self.request.GET.get('q', '')  # Enviar el valor de la búsqueda al contexto
+        context['query'] = self.request.GET.get('q', '')  
         print(context)
         return context
         
 
-
 # Modificar plato ------------->
 def cartaModificar(request, pk):
     carta = Carta.objects.get(id=pk)
+    # Filtramos las categorias existentes y de esta forma mandamos estas estructuras de datos al js
     categorias = [{"value":x.pk, "text":x.nombre} for x in Categoria.objects.all()]
     opcion1 = [{"value":x.pk, "text":x.nombre, "id_categoria":x.id_categoria.pk} for x in SubCategoria.objects.filter(id_categoria=1)]
     opcion2 = [{"value":x.pk, "text":x.nombre, "id_categoria":x.id_categoria.pk}for x in SubCategoria.objects.filter(id_categoria=2)]
@@ -105,6 +81,7 @@ def cartaModificar(request, pk):
 
 # Nuevo plato ------------------>
 def cartaNuevo(request):
+    # Filtramos las categorias existentes y de esta forma mandamos estas estructuras de datos al js
     categorias = [{"value":x.pk, "text":x.nombre} for x in Categoria.objects.all()]
     opcion1 = [{"value":x.pk, "text":x.nombre, "id_categoria":x.id_categoria.pk} for x in SubCategoria.objects.filter(id_categoria=1)]
     opcion2 = [{"value":x.pk, "text":x.nombre, "id_categoria":x.id_categoria.pk}for x in SubCategoria.objects.filter(id_categoria=2)]
@@ -139,8 +116,6 @@ class listaMesas(ListView):
     template_name = os.path.join("listas", "listaMesas.html")
     context_object_name = 'mesas'
 
-
-
 # Modificar Mesa --------->
 def mesaModificar(request, pk):
     mesa = Mesa.objects.get(id=pk)
@@ -152,6 +127,7 @@ def mesaModificar(request, pk):
     else:
         form = MesaForm(instance=mesa)
     return render(request, os.path.join("formularios", "formularioMesas.html"),  {'form': form, 'mesa': mesa})
+
 # Nueva Mesa --------->
 def mesaNueva(request):
     if request.method == 'POST':
@@ -179,7 +155,7 @@ def mesaBorrar(request, pk):
 # Listado Cliente -------
 class listaClientes(ListView):
     model = Cliente
-    template_name = os.path.join("listas", "listaclientes.html")
+    template_name = os.path.join("listas", "listaClientes.html")
     context_object_name = 'clientes'
     paginate_by = 12
     
@@ -205,7 +181,7 @@ def ClienteModif(request, pk):
     else:
         form = ClienteForm(instance=cliente)
     return render(request, os.path.join("formularios", "formularioClientes.html"), {'form': form, 'cliente': cliente})
-#
+
 # Nuevo Cliente ------------------>
 def ClienteNuevo(request):
     if request.method == 'POST':
@@ -232,7 +208,7 @@ def ClienteBorrar(request, pk):
 #Listado Mozos ------------------------------------->
 class listaMozos(ListView):
     model = Mozo
-    template_name = os.path.join("listas", "listamozos.html")
+    template_name = os.path.join("listas", "listaMozos.html")
     context_object_name = 'mozos'
     
 
@@ -288,75 +264,11 @@ class listaOrdenes(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filtro'] = self.request.GET.get('filtro', 'todas')
+        # Agregamos contextos que seran utilizados en el template
         context['cartaOrden'] = [{"id":x.pk, "id_carta":x.id_carta, "id_orden":x.id_orden, "cantidad":x.cantidad} for x in CartaOrden.objects.all()]
-        print([{"id":x.pk, "id_carta":x.id_carta, "id_orden":x.id_orden, "cantidad":x.cantidad} for x in CartaOrden.objects.all()])
         context["facturaOrden"] = [x.id_orden.pk for x in FacturaOrden.objects.all()]
-        print([x.pk for x in FacturaOrden.objects.all()])
         return context
 
-# # Modificar Orden --------->
-# def ordenModificar(request, pk):
-#     orden = Orden.objects.get(id=pk)
-#     platos = Carta.objects.all()
-#     mesas = [{"value":x.pk, "text":x.nombre} for x in Mesa.objects.filter(id=orden.id_mesa.pk)]
-#     mesas_2 = [{"value":x.pk, "text":x.nombre} for x in Mesa.objects.filter(estado=False)]
-#     mesas.extend(mesas_2)
-#     mesa_anterior = orden.id_mesa
-#     cantidad_anterior = [{"plato":x.id_carta, "cantidad":x.cantidad} for x in CartaOrden.objects.filter(id_orden=pk)]
-#     if request.method == 'POST':
-#         orden_form = OrdenForm(request.POST, instance=orden)
-#         formset = CartaOrdenFormSet(request.POST, instance=orden)
-#         if orden_form.is_valid() and formset.is_valid():
-#             for form in formset:
-#                 plato = form.cleaned_data.get('id_carta')
-#                 cantidad = form.cleaned_data.get('cantidad')
-#                 if plato and cantidad and plato.controlStock == True:
-#                     print(plato)
-#                     print(cantidad_anterior)
-#                     print(plato.controlStock)
-#                     print()
-#                     for x in range(0, len(cantidad_anterior)):
-#                         print(x)
-#                         print("uno", str(cantidad_anterior[x]["plato"]) == str(plato))
-#                         print("dos", int(cantidad_anterior[x]["cantidad"]) == int(cantidad))
-#                         if str(cantidad_anterior[x]["plato"]) == str(plato):
-#                             if cantidad_anterior[x]["cantidad"] < cantidad:
-#                                 resta= cantidad - cantidad_anterior[x]["cantidad"]
-#                                 # Disminuir el stock del plato
-#                                 plato.stock -= resta  
-#                                 plato.save()  # Guarda los cambios en la base de datos
-#                             if cantidad_anterior[x]["cantidad"] > cantidad:
-#                                 suma = cantidad_anterior[x]["cantidad"] - cantidad
-#                                 plato.stock += suma
-#                                 plato.save()  # Guarda los cambios en la base de datos
-
-#                         # if str(cantidad_anterior[x]["plato"]) == str(plato) and cantidad_anterior[x]["cantidad"] != cantidad:
-
-
-                            
-#             formset.instance = orden
-#             formset.save()
-
-#             if mesa_anterior != orden.id_mesa:
-#                 # Cambiar estado de la mesa original a "libre"
-#                 mesa_anterior.estado = False
-#                 mesa_anterior.save()
-                
-#                 # Cambiar estado de la nueva mesa a "ocupado"
-#                 mesa = orden.id_mesa
-#                 mesa.estado = True
-#                 mesa.save()
-#             return HttpResponseRedirect(reverse('listaOrdenes'))
-#     else:
-#         orden_form = OrdenForm(instance=orden)
-#         formset = CartaOrdenFormSet(instance=orden)
-
-#     return render(request, "./formularios/formularioOrdenes.html", {
-#         'orden_form': orden_form,
-#         'formset': formset,
-#         "platos":platos,
-#         "mesas":mesas,
-#     })
 # Modificar Orden --------->
 def ordenModificar(request, pk):
     orden = Orden.objects.get(id=pk)
@@ -367,40 +279,35 @@ def ordenModificar(request, pk):
     mesa_anterior = orden.id_mesa
     cantidad_anterior = [{"plato":x.id_carta, "cantidad":x.cantidad} for x in CartaOrden.objects.filter(id_orden=pk)]
     lista_cant_anterior = [str(diccionario["plato"]) for diccionario in cantidad_anterior ]
-    print(lista_cant_anterior)
     if request.method == 'POST':
         orden_form = OrdenForm(request.POST, instance=orden)
         formset = CartaOrdenFormSet(request.POST, instance=orden)
         if orden_form.is_valid() and formset.is_valid():
             orden = orden_form.save()
             for form in formset:
+                # Aca obtenemos el dato de cada uno de los inputs en formato diccionario
                 plato = form.cleaned_data.get('id_carta')
                 cantidad = form.cleaned_data.get('cantidad')
                 delete = form.cleaned_data.get('DELETE')
+                # En este if siguiente se resta el stock
                 if plato and cantidad and plato.controlStock == True and delete != True:
-                    print(plato)
-                    print(cantidad_anterior)
-                    print(plato.controlStock)
-                    print()
                     for x in range(0, len(cantidad_anterior)):
-                        print(x)
-                        print("uno", str(cantidad_anterior[x]["plato"]) == str(plato))
-                        print("dos", int(cantidad_anterior[x]["cantidad"]) == int(cantidad))
                         if str(cantidad_anterior[x]["plato"]) == str(plato):
                             if cantidad_anterior[x]["cantidad"] < cantidad:
                                 resta= cantidad - cantidad_anterior[x]["cantidad"]
                                 # Disminuir el stock del plato
                                 plato.stock -= resta  
-                                plato.save()  # Guarda los cambios en la base de datos
+                                # Guardamos los cambios
+                                plato.save()  
                             if cantidad_anterior[x]["cantidad"] > cantidad:
                                 suma = cantidad_anterior[x]["cantidad"] - cantidad
                                 plato.stock += suma
-                                plato.save()  # Guarda los cambios en la base de datos
-
+                                plato.save()  
+                    # Se resta stock si el plato se agrego en esta modificacion
                     if str(plato) not in lista_cant_anterior:
                         plato.stock -= cantidad  
                         plato.save() 
-                        # if str(cantidad_anterior[x]["plato"]) == str(plato) and cantidad_anterior[x]["cantidad"] != cantidad:
+                # Este if restablece el stock si se ha seleccionado el eliminar en el formulario
                 if plato and cantidad and plato.controlStock == True and delete == True:
                     plato.stock += cantidad  
                     plato.save() 
@@ -409,11 +316,11 @@ def ordenModificar(request, pk):
             formset.save()
 
             if mesa_anterior != orden.id_mesa:
-                # Cambiar estado de la mesa original a "libre"
+                # Cambiar estado de la mesa original a "desocupado"
                 mesa_anterior.estado = False
                 mesa_anterior.save()
                 
-                # Cambiar estado de la nueva mesa a "ocupado"
+                # Cambiar estado de la mesa a "ocupado"
                 mesa = orden.id_mesa
                 mesa.estado = True
                 mesa.save()
@@ -441,18 +348,18 @@ def ordenNuevo(request):
             orden = orden_form.save()
             formset.instance = orden
             formset.save()
-            for form in formset:# Imprime las claves disponibles
+            for form in formset:
                 plato = form.cleaned_data.get('id_carta')
                 cantidad = form.cleaned_data.get('cantidad')
                 if plato and cantidad and plato.controlStock == True:
                     # Disminuir el stock del plato
                     plato.stock -= cantidad  
-                    plato.save()  # Guarda los cambios en la base de datos
+                    plato.save() 
                     print(f"plato:{plato.controlStock}")
                     print(f"cantidad:{cantidad}")
 
             if orden.fecha == orden.fechaModificacion:
-                # Actualizar estado de la mesa a "ocupado"
+                # Actualizamos el estado de la mesa a "ocupado"
                 mesa = orden.id_mesa
                 mesa.estado = True
                 mesa.save()
@@ -484,33 +391,16 @@ def ordenBorrar(request, pk):
     return render(request, os.path.join("confirmacionBorrado", "ordenConfBorrar.html"), {'orden': orden})
 
 # FACTURAS VIEWS ---------------------------------------------------------------------------------------------->
-# Factura Orden ------->
-# class listaFacturas(ListView):
-#     model = Factura
-#     template_name = os.path.join("listas", "listafacturas.html")
-#     context_object_name = 'facturas'
-#     paginate_by = 12
-    
-#     def get_queryset(self):
-#         queryset = super().get_queryset()
-#         query = self.request.GET.get('q')
-#         if query:
-#             queryset = queryset.filter(fecha__icontains=query)
-#         return queryset
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['query'] = self.request.GET.get('q', '')  # Enviar el valor de la búsqueda al contexto
-#         context['facturaCierre'] = [x.id_factura.pk for x in FacturaCierre.objects.all()]
-#         return context
+# Factura lista ------->
 class listaFacturas(ListView):
     model = Factura
-    template_name = os.path.join("listas", "listafacturas.html")
+    template_name = os.path.join("listas", "listaFacturas.html")
     context_object_name = 'facturas'
     paginate_by = 12
 
     def get_queryset(self):
-        queryset = super().get_queryset().order_by('-fecha')  # Ordenar por fecha descendente
+         # Ordenar por fecha descendente
+        queryset = super().get_queryset().order_by('-fecha') 
         query = self.request.GET.get('q')
         if query:
             queryset = queryset.filter(fecha__icontains=query)
@@ -524,63 +414,6 @@ class listaFacturas(ListView):
 
 
 # Modificar Factura --------->
-# def facturaModificar(request, pk):
-#     id_orden_factura = [x.id_orden.pk for x in FacturaOrden.objects.all()]
-#     factura_orden = [x.id_orden.pk for x in FacturaOrden.objects.filter(id_factura=pk)]
-#     ordenes_select = [{"value":"", "text":"--------" , "total":0}] 
-#     ordenes_select.extend([{"value":x.pk, "text":x.id_mesa.nombre + " " + "$"+str(x.total), "total":int(x.total)} for x in Orden.objects.filter(entregado=True) if x.pk in id_orden_factura and x.pk in factura_orden])
-#     ordenes_select.extend([{"value":x.pk, "text":x.id_mesa.nombre + " " + "$"+str(x.total), "total":int(x.total)} for x in Orden.objects.filter(entregado=True) if x.pk not in id_orden_factura])
-#     ordenes = [x for x in Orden.objects.filter(entregado=True)]
-#     factura = Factura.objects.get(id=pk)
-#     if request.method == 'POST':
-#         factura_form = FacturaForm(request.POST, instance=factura)
-#         formset_orden = FacturaOrdenFormSet(request.POST, instance=factura)
-#         formset_pago = FacturaPagoFormSet(request.POST, instance=factura)
-#         if factura_form.is_valid() and formset_orden.is_valid() and formset_pago.is_valid():
-#             factura = factura_form.save()
-#             formset_orden.instance = factura
-#             formset_orden.save()
-#             formset_pago.instance = factura
-#             formset_pago.save()
-#             #Obtener el valor de los campos
-#             #Total de la suma de las ordenes que componen la factura
-#             total_factura = factura.total
-#             #Total de la suma de la seleccion de los tipos de pago
-#             total_pago = factura.total_pago
-#             #Total del vuelto que genero la suma de la seleccion de tipos de pago
-#             total_vuelto = factura.vuelto
-#             print(total_factura)
-#             print(total_pago)
-#             print(total_vuelto)
-#             #Comparamos y en caso de dar con el total de la factura se pone el estado de la factura como "cobrado"
-#             if total_factura == total_pago - total_vuelto:
-#                 factura.cobrado = True
-#                 factura.save()
-#             for form in formset_orden:# Imprime las claves disponibles
-#                 orden = form.cleaned_data.get('id_orden')
-#                 if orden:
-#                     orden_id = Orden.objects.get(id=orden.pk)
-#                     mesa = orden_id.id_mesa
-#                     mesa.estado = False
-#                     mesa.save()
-#                     # Disminuir el stock del plato
-#                     # plato.stock -= cantidad  
-#                     # plato.save()  # Guarda los cambios en la base de datos
-#                     print(f"orden:{orden.pk}")
-#             return HttpResponseRedirect(reverse('listaFacturas'))
-#     else:
-#         factura_form = FacturaForm(instance=factura)
-#         formset_orden = FacturaOrdenFormSet(instance=factura)
-#         formset_pago = FacturaPagoFormSet(instance=factura)
-
-#     return render(request, "./formularios/formularioFacturas.html", {
-#         'factura_form': factura_form,
-#         'formset_orden': formset_orden,
-#         'formset_pago': formset_pago,
-#         "ordenes_select":ordenes_select,
-#         "ordenes":ordenes,
-#     })
-
 def facturaModificar(request, pk):
     id_orden_factura = [x.id_orden.pk for x in FacturaOrden.objects.all()]
     factura_orden = [x.id_orden.pk for x in FacturaOrden.objects.filter(id_factura=pk)]
@@ -667,22 +500,18 @@ def facturaNuevo(request):
             total_pago = factura.total_pago
             #Total del vuelto que genero la suma de la seleccion de tipos de pago
             total_vuelto = factura.vuelto
-            print(total_factura)
-            print(total_pago)
-            print(total_vuelto)
             #Comparamos y en caso de dar con el total de la factura se pone el estado de la factura como "cobrado"
             if total_factura == total_pago - total_vuelto:
                 factura.cobrado = True
                 factura.save()
             
-            for form in formset_orden:# Imprime las claves disponibles
+            for form in formset_orden:
                 orden = form.cleaned_data.get('id_orden')
                 if orden:
                     orden_id = Orden.objects.get(id=orden.pk)
                     mesa = orden_id.id_mesa
                     mesa.estado = False
                     mesa.save()
-                    print(f"orden:{orden.pk}")
                     
             return HttpResponseRedirect(reverse('listaFacturas'))
     else:
@@ -718,6 +547,7 @@ class listaCierres(ListView):
     paginate_by = 10
     
     def get_queryset(self):
+        # los ordeno por la fecha mas reciente
         queryset = super().get_queryset().order_by('-fecha')
         query = self.request.GET.get('q')
         if query:
@@ -726,24 +556,9 @@ class listaCierres(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['query'] = self.request.GET.get('q', '')  # Enviar el valor de la búsqueda al contexto
+        context['query'] = self.request.GET.get('q', '') 
         return context
 
-#Cierre modificar ---------------------------------->
-# def cierreModif(request, pk):
-#     cierre = Cierre.objects.get(id=pk)
-#     if request.method == 'POST':
-#         form = CierreForm(request.POST, instance=cierre)
-#         formset = FacturaCierreFormSet(request.POST, instance=cierre)
-#         if form.is_valid() and formset.is_valid():
-#             cierre = form.save()
-#             formset.instance = cierre
-#             formset.save()
-#             return HttpResponseRedirect(reverse('listaCierres'))
-#     else:
-#         form = CierreForm(instance=cierre)
-#         formset = FacturaCierreFormSet(instance=cierre)
-#     return render(request, './formularios/formularioCierre.html', {'form': form, 'formset': formset})
 
 # Nuevo Cierre ------------------>
 def cierreNuevo(request):
@@ -757,9 +572,6 @@ def cierreNuevo(request):
         
         if form.is_valid():
             cierre = form.save()
-            # formset.instance = cierre
-            # formset.save()
-            print(facturas)
             total , vuelto = 0, 0
             # Itero por cada uno de los diccionarios para usarlos de "instancia"
             for factura in facturas:
@@ -785,22 +597,13 @@ def cierreNuevo(request):
         
     })
 
-#Cierre borrar ----------------------------------------------->
-# def cierreBorrar(request, pk):
-#     cierre = Cierre.objects.get(id=pk)
-#     if request.method == 'POST':
-#         cierre.delete()
-#         return HttpResponseRedirect(reverse('listaCierres'))
-#     return render(request, './confirmacionBorrado/cierreConfBorrar.html', {'cierre': cierre})
-
 # PLATO DIA VIEWS ----------------------------------------------------------------------------------------->
 #Listado Plato día ------------------------------------->
 class listaPlatoDia(ListView):
     model = PlatoDia
-    template_name = os.path.join("listas", "listaplatodia.html")
+    template_name = os.path.join("listas", "listaPlatoDia.html")
     context_object_name = 'platodia'
     
-
 #Plato dia modificar ---------------------------------->
 def PlatoDiaModif(request, pk):
     platoDia = PlatoDia.objects.get(id=pk)
@@ -836,34 +639,15 @@ def cartaDetalle(request, pk):
     carta = Carta.objects.get(id=pk)
     context = {"carta": carta}
     return render(request, os.path.join("detalles", "cartaDetalle.html"), context=context)
-#Detalle Mozo ----------------->
-def mozoDetalle(request, pk):
-    mozo = Mozo.objects.get(id=pk)
-    context = {"mozo": mozo}
-    return render(request, os.path.join("detalles", "mozoDetalle.html"), context=context)
-#Detalle Cliente ----------------->
-def clienteDetalle(request, pk):
-    cliente = Cliente.objects.get(id=pk)
-    context = {"cliente": cliente}
-    return render(request, os.path.join("detalles", "clienteDetalle.html"), context=context)
-#Detalle Mesa ----------------->
-def mesaDetalle(request, pk):
-    mesa = Mesa.objects.get(id=pk)
-    context = {"mesa": mesa}
-    return render(request, os.path.join("detalles", "mesaDetalle.html"), context=context)
+
 #Detalle Cierre ----------------->
 def cierreDetalle(request, pk):
-    # cierre = Cierre.objects.get(id=1)
-    # facturaCierreId = [x.id_factura.pk for x in FacturaCierre.objects.filter(id_cierre=cierre.id)]
-    # facturas = [x for x in Factura.objects.all() if x.pk in facturaCierreId]
     cierre = Cierre.objects.get(id=pk)
-    print(cierre.pk)
     facturaCierreId = [x.id_factura.pk for x in FacturaCierre.objects.filter(id_cierre=cierre.pk)]
-    print(facturaCierreId)
     facturas = [x for x in Factura.objects.all() if x.pk in facturaCierreId]
-    print(facturas)
     context = {"cierre": cierre, "facturas":facturas}
     return render(request, os.path.join("detalles", "cierreDetalle.html"), context=context)
+
 #Detalle Orden ----------------->
 def ordenDetalle(request, pk):
     orden = Orden.objects.get(id=pk)
@@ -871,38 +655,21 @@ def ordenDetalle(request, pk):
     carta = [x for x in Carta.objects.all() if x.pk in facturaOrdenId]
     context = {"orden": orden, "carta":carta}
     return render(request, os.path.join("detalles", "ordenDetalle.html"), context=context)
-#Detalle Orden ----------------->
-# def facturaDetalle(request, pk):
-#     factura = Factura.objects.get(id=pk)
-#     print(pk)
-#     platos = [{"id":x.pk, "nombre":x.nombre, "precio":x.precio} for x in Carta.objects.all()]
-#     ordenFacturaId = [x.id_orden.pk for x in FacturaOrden.objects.filter(id_factura=factura.pk)]
-#     print(ordenFacturaId)
-#     cartaOrdenId =[{"id_carta":x.id_carta.pk, "id_orden":x.id_orden.pk} for x in CartaOrden.objects.all() if x.id_orden.pk in ordenFacturaId]
-#     print(cartaOrdenId)
-#     ordenes = [x for x in Orden.objects.all() if x.pk in ordenFacturaId]
-#     print(ordenes)
-    
-    
-#     context = {"ordenes": ordenes, "platos": platos, "factura": factura, "cartaOrden":cartaOrdenId}
-#     return render(request, os.path.join("detalles", "facturaDetalle.html"), context=context)
+
+#Detalle Factura ----------------->
 def facturaDetalle(request, pk):
     factura = Factura.objects.get(id=pk)
-    print(factura)
     facturaOrdenes = [x.id_orden.pk for x in FacturaOrden.objects.filter(id_factura=pk)]
-    print(facturaOrdenes)
     ordenes = [x for x in Orden.objects.all() if x.pk in facturaOrdenes]
-    print(ordenes)
     datos_ordenes = []
     for orden in ordenes:
         platosId = [x.id_carta.pk for x in CartaOrden.objects.filter(id_orden=orden.pk)]
         platos = [{"nombre": x.id_carta.nombre, "precio":x.id_carta.precio, "cantidad":x.cantidad} for x in CartaOrden.objects.filter(id_orden=orden.pk)]
         datos_ordenes.append({"orden":orden, "platos":platos})
-    print(datos_ordenes)
     context= {"factura":factura, "datos_ordenes": datos_ordenes}
     return render(request, os.path.join("detalles", "facturaDetalle.html"), context=context)
 
-# Pagina principal ----------------------------------------------------------------------------------->
+# Landing Page ----------------------------------------------------------------------------------->
 def landingPage(request):
     try: 
         platoDia = PlatoDia.objects.get()

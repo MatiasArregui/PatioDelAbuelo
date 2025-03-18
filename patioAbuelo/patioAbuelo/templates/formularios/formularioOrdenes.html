@@ -46,7 +46,7 @@
 
 {% block content %}
 <div class="container mb-5">
-    <!-- Contenedor del título -->
+
     <div class="cont mb-3">
         <h3 class="display-4 titulo">Orden</h3>
     </div>
@@ -62,7 +62,7 @@
             {{ orden_form.id_mesa }}
         </div>
         <div class="col mb-3">
-            <label for="id_entregado">En mesa:</label>
+            <label for="id_entregado">Entregado</label>
             {{ orden_form.entregado }}
         </div>
         <div class="col-12 mb-3">
@@ -70,7 +70,7 @@
             {{ orden_form.observacion }}
         </div>
         {{ formset.management_form }}
-        <!-- Subformularios -->
+
         <div class="row" id="select_container">
             {% for form in formset %}
                 <div class="col-6 col-md-4 mb-4">
@@ -90,7 +90,7 @@
             {{ orden_form.total }}
         </div>
 
-        <!-- Botones de acción -->
+
         <div class="col-12 mb-3">
             <button type="submit" class="btn btn-primary mb-3">Guardar</button>
             <a href="{% url 'listaOrdenes' %}" class="btn btn-danger mb-3">Cancelar</a>
@@ -98,7 +98,7 @@
     </form>
 </div>
 
-<!-- Script para funcionalidades dinámicas -->
+
 <script>
     const input_total = document.getElementById("id_total");
     const contenedor_select = document.getElementById('select_container');

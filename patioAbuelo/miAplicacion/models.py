@@ -67,6 +67,12 @@ class TipoPago(models.Model):
         return self.pago
 
 # MODELO FACTURA ----------------------------------------------->
+def seleccionar_cliente_alternativo():
+    # Buscamos el mozo comun o base que remplazara a los demas
+    cliente_alternativo = Cliente.objects.filter(nombre__exact="Consumidor final").first()
+    if cliente_alternativo:
+        return cliente_alternativo
+    
 class Factura(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
     total = models.DecimalField(max_digits=15, decimal_places=2)
@@ -74,9 +80,7 @@ class Factura(models.Model):
     vuelto = models.DecimalField(max_digits=15, decimal_places=2, default=0)
     anulado = models.BooleanField(default=False)
     cobrado = models.BooleanField(default=False)
-    #Este set default elije al cliente cuyo id sea 3 (consumidor final) para llenar el espacio
-    # del cliente eliminado
-    id_cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT)
+    id_cliente = models.ForeignKey(Cliente, on_delete=models.SET(seleccionar_cliente_alternativo))
     id_orden = models.ManyToManyField("Orden", through="FacturaOrden")
     id_tipoPago = models.ManyToManyField(TipoPago, through="FacturaPago")
     
@@ -84,6 +88,20 @@ class Factura(models.Model):
         return str(self.pk) + " " + self.id_cliente.nombre + " " + str(self.fecha)
 
 # MODELO DE ORDEN ----------------------------------------->
+# Función para seleccionar otro mozo
+def seleccionar_mozo_alternativo():
+    # Buscamos el mozo comun o base que remplazara a los demas
+    mozo_alternativo = Mozo.objects.filter(nombre__exact="Mozo").first()
+    if mozo_alternativo:
+        return mozo_alternativo
+    
+def seleccionar_mesa_alternativa():
+    # Buscamos el mozo comun o base que remplazara a los demas
+    mesa_alternativa = Mesa.objects.filter(nombre__exact="Mesa predeterminada").first()
+    if mesa_alternativa:
+        return mesa_alternativa
+    
+
 class Orden(models.Model):
     total = models.DecimalField(max_digits=15, decimal_places=2)
     observacion = models.TextField(null=True, blank=True)
@@ -91,13 +109,17 @@ class Orden(models.Model):
     fechaModificacion = models.DateTimeField(auto_now=True)
     entregado = models.BooleanField(default=False)
     facturado = models.BooleanField(default=False)
-    id_mesa = models.ForeignKey(Mesa, on_delete=models.PROTECT)
+    id_mesa = models.ForeignKey(Mesa, on_delete=models.SET(seleccionar_mesa_alternativa))
     id_carta = models.ManyToManyField(Carta, through="CartaOrden")
-    id_mozo = models.ForeignKey(Mozo, on_delete=models.PROTECT)
+    id_mozo = models.ForeignKey(
+        'Mozo',
+        on_delete=models.SET(seleccionar_mozo_alternativo)  # Cambiado a SET con función personalizada
+    )
     
     def __str__(self) -> str:
         return str(self.pk) + " " + self.id_mesa.nombre + " " + str(self.total) 
     
+     
 # MODELO DE MOZO ----------------------------------------->
 class Cierre(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)

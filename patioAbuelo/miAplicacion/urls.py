@@ -67,7 +67,6 @@ urlpatterns = [
     # Detalles -------------------------------------------------------------------------------->
     path("carta/<int:pk>", login_required(permission_required('miAplicacion.view_carta')(views.cartaDetalle)), name="cartaDetalle"),
     path("facturas/<int:pk>", login_required(permission_required('miAplicacion.view_factura')(views.facturaDetalle)), name="facturaDetalle"),
-    path("ordenes/<int:pk>", login_required(permission_required('miAplicacion.view_orden')(views.ordenDetalle)), name="ordenDetalle"),
     path("cierre/<int:pk>", login_required(permission_required('miAplicacion.view_cierre')(views.cierreDetalle)), name="cierreDetalle"),
 ]
 

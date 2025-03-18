@@ -73,15 +73,7 @@ class CartaForm(forms.ModelForm):
             "subCategoria": "Subcategoría",
             "imagen":"Imagen del Producto",
         }
-    #     #Hacer filtrado por js
-    # def __init__(self, *args, **kwargs):
-    #     super(CartaForm, self).__init__(*args, **kwargs)
-    #     # Acceder al valor de un campo anterior
-    #     if 'categoria' in self.data:
-    #         categoria_id = int(self.data.get('categoria'))
-    #         # print(categoria_id)
-    #         # Filtrar el queryset del campo 'precio' basado en el valor de 'categoria'
-    #         self.fields['subCategoria'].queryset = SubCategoria.objects.filter(id_categoria=categoria_id)
+
 
 class CartaOrdenForm(forms.ModelForm):
     class Meta:
@@ -113,7 +105,7 @@ class OrdenForm(forms.ModelForm):
             "id_mozo": "Mozo",
             "observacion": "Observación",
             "total": "Total",
-            "entregado": "En mesa",
+            "entregado": "Entregado",
         }
 
 CartaOrdenFormSet = inlineformset_factory(Orden, CartaOrden, form=CartaOrdenForm, extra=6)

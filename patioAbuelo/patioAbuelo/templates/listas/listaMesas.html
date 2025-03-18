@@ -2,19 +2,19 @@
 {% extends "base.html" %}
 {% block estilos %}
 <style>
-    tbody tr {
-        cursor: pointer; /* Cambia el cursor a un puntero para indicar que es seleccionable */
-    }
-    /* Contenedor con tamaño fijo */
+tbody tr {
+    cursor: pointer; /* Cambia el cursor a un puntero para indicar que es seleccionable */
+}
+/* Contenedor con tamaño fijo */
 .cont {
-    position: relative; /* Ancho fijo del contenedor */
-    height: 120px; /* Alto fijo del contenedor */
-    border-radius: 10px; /* Bordes redondeados */
-    overflow: hidden; /* Evita que el contenido desborde */
+    position: relative;
+    height: 120px;
+    border-radius: 10px; 
+    overflow: hidden;
     color: white;
-    display: flex; /* Flexbox para centrar contenido */
-    align-items: center; /* Centra contenido verticalmente */
-    justify-content: center; /* Centra contenido horizontalmente */
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
 }
 
 /* Imagen de fondo con desenfoque */
@@ -25,201 +25,201 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url("../../../media/estilos_h1/mesas.jpg"); /* Reemplaza con la ruta de tu imagen */
+    background-image: url("../../../media/estilos_h1/mesas.jpg"); 
     background-size: cover;
     background-position: center;
-    filter: blur(4px); /* Desenfoque */
-    z-index: -1; /* Envía la imagen al fondo */
-    opacity: 0.8; /* Transparencia de la imagen */
+    filter: blur(4px); 
+    z-index: -1;
+    opacity: 0.8; 
 }
 
 /* Estilo para el título */
 .titulo {
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Efecto de sombra */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); 
 }
-    /* Estilo a los contenedores de los elementos de carta*/
-    .plato {
-        background: #f8f9fa; /* Color de fondo claro */
-        margin: 20px 2px;
-        border-radius: 10px; /* Esquinas redondeadas */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-        overflow: hidden; /* Evita que el contenido se desborde */
-        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transiciones suaves */
-        padding: 15px;
-        display: flex;
-        flex-direction: column; /* Ordena el contenido de manera vertical */
-        align-items: center;
-    }
+/* Estilo a los contenedores de los elementos de carta*/
+.plato {
+    background: #f8f9fa; 
+    margin: 20px 2px;
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    overflow: hidden; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 15px;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+}
+
+.plato:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+}
+
+.plato h1 {
+    font-size: 1.8rem; 
+    color: #343a40; 
+    margin-bottom: 0.5rem; 
+    text-align: center;
+}
     
-    .plato:hover {
-        transform: translateY(-5px); /* Efecto de elevación al pasar el cursor */
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada al pasar el cursor */
-    }
+.plato p {
+    font-size: 1.2rem; 
+    color: #6c757d; 
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.plato svg {
+    width: 40px;
+    height: 40px;
+    fill: #6e8efb; 
+    margin-bottom: 10px; 
+}
     
-    .plato h1 {
-        font-size: 1.8rem; /* Tamaño de fuente del título */
-        color: #343a40; /* Color del texto */
-        margin-bottom: 0.5rem; /* Margen inferior del título */
-        text-align: center;
-    }
+.plato .btn {
+    display: inline-block;
+    font-size: 0.875rem; 
+    padding: 0.5rem 1rem; 
+    border-radius: 5px; 
+}
+
+.plato .btn-primary {
+    background-color: #007bff; 
+    border: none; 
+}
+
+.plato .btn-danger {
+    background-color: #dc3545; 
+    border: none; 
+}
+
+.plato .btn a {
+    color: #fff; 
+    text-decoration: none;
+}
+
+.plato .btn-group {
+    display: flex;
+    gap: 10px;
+}
+/*Estilos de los botones del contenedor*/
+.btn {
+    display: inline-block;
+    font-size: 0.875rem; 
+    padding: 0.5rem 1rem; 
+    border-radius: 5px; 
+    transition: background-color 0.3s ease, transform 0.3s ease; 
+}
     
-    .plato p {
-        font-size: 1.2rem; /* Tamaño de fuente del párrafo */
-        color: #6c757d; /* Color del texto */
-        margin-bottom: 0.5rem; /* Margen inferior del párrafo */
-        text-align: center;
-    }
-    
-    .plato svg {
-        width: 40px;
-        height: 40px;
-        fill: #6e8efb; /* Color del SVG */
-        margin-bottom: 10px; /* Espacio inferior del SVG */
-    }
-    
-    .plato .btn {
-        display: inline-block;
-        font-size: 0.875rem; /* Tamaño de fuente del botón */
-        padding: 0.5rem 1rem; /* Relleno del botón */
-        border-radius: 5px; /* Esquinas redondeadas del botón */
-    }
-    
-    .plato .btn-primary {
-        background-color: #007bff; /* Color de fondo del botón primario */
-        border: none; /* Sin borde */
-    }
-    
-    .plato .btn-danger {
-        background-color: #dc3545; /* Color de fondo del botón de peligro */
-        border: none; /* Sin borde */
-    }
-    
-    .plato .btn a {
-        color: #fff; /* Color del texto del enlace */
-        text-decoration: none; /* Sin subrayado */
-    }
-    
-    .plato .btn-group {
-        display: flex;
-        gap: 10px; /* Espacio entre los botones */
-    }
-    /*Estilos de los botones del contenedor*/
-    .btn {
-        display: inline-block;
-        font-size: 0.875rem; /* Tamaño de fuente del botón */
-        padding: 0.5rem 1rem; /* Relleno del botón */
-        border-radius: 5px; /* Esquinas redondeadas */
-        transition: background-color 0.3s ease, transform 0.3s ease; /* Transición suave para el cambio de color y el efecto de elevación */
-    }
-    
-    .btn-primary {
-        background-color: #007bff; /* Color de fondo del botón primario */
-        border: none; /* Sin borde */
-    }
-    
-    .btn-primary:hover {
-        background-color: #0056b3; /* Color de fondo del botón primario al pasar el cursor */
-        transform: translateY(-2px); /* Efecto de elevación */
-    }
-    
-    .btn-danger {
-        background-color: #dc3545; /* Color de fondo del botón de peligro */
-        border: none; /* Sin borde */
-    }
-    
-    .btn-danger:hover {
-        background-color: #c82333; /* Color de fondo del botón de peligro al pasar el cursor */
-        transform: translateY(-2px); /* Efecto de elevación */
-    }
-    
-    .btn a {
-        color: #fff; /* Color del texto del enlace */
-        text-decoration: none; /* Sin subrayado */
-    }
+.btn-primary {
+    background-color: #007bff; 
+    border: none; 
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; 
+    transform: translateY(-2px); 
+}
+
+.btn-danger {
+    background-color: #dc3545; 
+    border: none; 
+}
+
+.btn-danger:hover {
+    background-color: #c82333; 
+    transform: translateY(-2px); 
+}
+
+.btn a {
+    color: #fff; 
+    text-decoration: none; 
+}
 
 
-    /*Estilos de la ventana modal*/
-    .modal-titulo {
-        font-size: 2rem;
-        font-weight: bold;
-        margin-bottom: 1rem;
-        text-align: center;
-    }
+/*Estilos de la ventana modal*/
+.modal-titulo {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.modal-descripcion, .modal-precio {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.modal-imagen {
+    display: block;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
     
-    .modal-descripcion, .modal-precio {
-        font-size: 1.2rem;
-        margin-bottom: 0.5rem;
-    }
+.botones-modal {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+.botones-modal a {
+    width: 45%;
+    text-align: center;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+}
+.btn-modificar {
+    background-color: #007bff;
+}
+.btn-eliminar {
+    background-color: #dc3545;
+}
+.modal-header {
+    background-color: #f8f9fa; 
+    border-bottom: 1px solid #dee2e6; 
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 15px; 
+    border-top-left-radius: 10px; 
+    border-top-right-radius: 10px; 
+}
+
+.modal-title {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #343a40; 
+    margin: 0; 
+}
     
-    .modal-imagen {
-        display: block;
-        margin: 0 auto;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    
-    .botones-modal {
-        display: flex;
-        justify-content: space-around;
-        margin-top: 20px;
-    }
-    .botones-modal a {
-        width: 45%;
-        text-align: center;
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        text-decoration: none;
-        color: white;
-    }
-    .btn-modificar {
-        background-color: #007bff;
-    }
-    .btn-eliminar {
-        background-color: #dc3545;
-    }
-    .modal-header {
-        background-color: #f8f9fa; /* Color de fondo claro */
-        border-bottom: 1px solid #dee2e6; /* Borde inferior sutil */
-        display: flex;
-        justify-content: space-between; /* Asegura que los elementos se distribuyan adecuadamente */
-        align-items: center; /* Alinea los elementos verticalmente en el centro */
-        padding: 15px; /* Relleno */
-        border-top-left-radius: 10px; /* Esquinas redondeadas superiores */
-        border-top-right-radius: 10px; /* Esquinas redondeadas superiores */
-    }
-    
-    .modal-title {
-        font-size: 1.75rem;
-        font-weight: bold;
-        color: #343a40; /* Color del título */
-        margin: 0; /* Sin margen */
-    }
-    
-    .close {
-        padding: 5px 10px;
-        border: none;
-        background: transparent;
-        font-size: 1.5rem;
-        color: #343a40;
-        opacity: 0.8;
-        transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
-        cursor: pointer;
-    }
-    
-    .close:hover {
-        color: #ff0000; /* Color rojo al pasar el cursor */
-        background-color: rgba(255, 0, 0, 0.1); /* Fondo ligeramente rojo al pasar el cursor */
-        transform: scale(1.1); /* Efecto de elevación */
-        opacity: 1;
-    }
-    
-    .close span {
-        display: inline-block;
-        font-weight: bold;
-    }
-    .light-red-bg {
-        background-color: #ffcccc; /* Color rojo claro */
-      }
+.close {
+    padding: 5px 10px;
+    border: none;
+    background: transparent;
+    font-size: 1.5rem;
+    color: #343a40;
+    opacity: 0.8;
+    transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #ff0000; 
+    background-color: rgba(255, 0, 0, 0.1); 
+    transform: scale(1.1); 
+    opacity: 1;
+}
+
+.close span {
+    display: inline-block;
+    font-weight: bold;
+}
+.light-red-bg {
+    background-color: #ffcccc; 
+}
       
 
 </style>
@@ -229,28 +229,30 @@
     <h1 class="text-center mt-1 cont titulo">Lista Mesas</h1>
     <div class="d-flex justify-content-between row">
         {% for mesa in mesas %}
-            <div class="plato col-12 col-sm-5 col-lg-3 {% if mesa.estado == False %}bg-success{% else %}bg-danger{% endif %}" 
-                data-id="{{ mesa.id }}"
-                data-nombre="{{ mesa.nombre }}"
-                data-estado="{{ mesa.estado }}"
-                data-url-modificar="{% url 'mesaModif' mesa.id %}"
-                data-url-eliminar="{% url 'mesaBorrar' mesa.id %}"
-                data-toggle="modal"
-                data-target="#platoModal">
-                
-                <img src="../../../media/logos_nav/mesa.png" width="40" height="40" class="bg-white rounded" alt="">
-                
-                <div>
-                    <h1 class="titulo_plato">{{ mesa.nombre | title }}</h1>
-                    <p class="descripcion_sub text-white">{% if mesa.estado == False %}Desocupado{% else %}Ocupado{% endif %}</p>
-                </div>
-                {% if perms.miAplicacion.change_mesa %}
-                    <div class="btn-group">
-                        <a href="{% url 'mesaModif' mesa.id %}" class="btn btn-primary btn-sm text-white text-decoration-none">Modificar</a>
-                        <a href="{% url 'mesaBorrar' mesa.id %}" class="btn btn-danger btn-sm text-white text-decoration-none {% if mesa.estado == True %}border{% endif %}">Eliminar</a>
+            {% if mesa.nombre != "Mesa predeterminada" %}
+                <div class="plato col-12 col-sm-5 col-lg-3 {% if mesa.estado == False %}bg-success{% else %}bg-danger{% endif %}" 
+                    data-id="{{ mesa.id }}"
+                    data-nombre="{{ mesa.nombre }}"
+                    data-estado="{{ mesa.estado }}"
+                    data-url-modificar="{% url 'mesaModif' mesa.id %}"
+                    data-url-eliminar="{% url 'mesaBorrar' mesa.id %}"
+                    data-toggle="modal"
+                    data-target="#platoModal">
+
+                    <img src="../../../media/logos_nav/mesa.png" width="40" height="40" class="bg-white rounded" alt="">
+
+                    <div>
+                        <h1 class="titulo_plato">{{ mesa.nombre | title }}</h1>
+                        <p class="descripcion_sub text-white">{% if mesa.estado == False %}Desocupado{% else %}Ocupado{% endif %}</p>
                     </div>
-                {% endif %}
-            </div>
+                    {% if perms.miAplicacion.change_mesa %}
+                        <div class="btn-group">
+                            <a href="{% url 'mesaModif' mesa.id %}" class="btn btn-primary btn-sm text-white text-decoration-none">Modificar</a>
+                            <a href="{% url 'mesaBorrar' mesa.id %}" class="btn btn-danger btn-sm text-white text-decoration-none {% if mesa.estado == True %}border{% endif %}">Eliminar</a>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
         {% endfor %}
     </div>
     <!-- Modal -->
@@ -287,8 +289,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
     $('#platoModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget); // Botón que activó el modal
-        var id = button.data('id'); // Extrae la información de los atributos data-*
+        var button = $(event.relatedTarget); 
+        var id = button.data('id'); 
         var nombre = button.data('nombre');
         var estado = button.data('estado');
         var urlModificar = button.data('url-modificar');

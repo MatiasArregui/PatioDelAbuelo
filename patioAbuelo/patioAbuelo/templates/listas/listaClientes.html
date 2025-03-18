@@ -1,185 +1,181 @@
 {% extends "base.html" %}
 {% block estilos %}
 <style>
-    tbody tr {
-        cursor: pointer; /* Cambia el cursor a un puntero para indicar que es seleccionable */
-    }
-    .cont {
-      position: relative; /* Ancho fijo del contenedor */
-    height: 120px; /* Alto fijo del contenedor */
-    border-radius: 10px; /* Bordes redondeados */
-    overflow: hidden; /* Evita que el contenido desborde */
-    color: white;
-    display: flex; /* Flexbox para centrar contenido */
-    align-items: center; /* Centra contenido verticalmente */
-    justify-content: center; /* Centra contenido horizontalmente */
-    }
+  tbody tr {
+      cursor: pointer; 
+  }
+  .cont {
+    position: relative; 
+  height: 120px; 
+  border-radius: 10px; 
+  overflow: hidden; 
+  color: white;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  }
+  
+  .cont::before {
+    content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../../../media/estilos_h1/clientes.jpg"); 
+  background-size: cover;
+  background-position: center;
+  filter: blur(4px); 
+  z-index: -1; 
+  opacity: 0.8; 
     
-    .cont::before {
-      content: "";
-    position: absolute;
-    top: 0;
+    
+  }
+  .titulo{
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  }
+
+  .modal {
+    display: none; 
+    position: fixed;
+    z-index: 99;
     left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
-    background-image: url("../../../media/estilos_h1/clientes.jpg"); /* Reemplaza con la ruta de tu imagen */
-    background-size: cover;
-    background-position: center;
-    filter: blur(4px); /* Desenfoque */
-    z-index: -1; /* Envía la imagen al fondo */
-    opacity: 0.8; /* Transparencia de la imagen */
-      
-      
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+  }
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    border-radius: 10px; 
+  }
+  .modal-header {
+    background-color: #f8f9fa; 
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px; 
+    border-top-left-radius: 10px; 
+    border-top-right-radius: 10px; 
+  }
+  .modal-title {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #343a40; 
+    margin: 0;
+  }
+  .modal-titulo {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  .modal-descripcion, .modal-precio {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  .modal-imagen {
+    display: block;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .botones-modal {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  .botones-modal a {
+    width: 45%;
+    text-align: center;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.3s ease; 
+  }
+  .btn-modificar {
+    background-color: #007bff;
+  }
+  .btn-modificar:hover {
+    background-color: #0056b3; 
+    transform: translateY(-2px); 
+    color: #fff; 
+  }
+  .btn-eliminar {
+    background-color: #dc3545;
+  }
+  .btn-eliminar:hover {
+    background-color: #c82333; 
+    transform: translateY(-2px); 
+    color: #fff; 
+  }
+  .btn a {
+    color: #fff;
+    text-decoration: none; 
+  }
+  .close {
+    padding: 5px 10px;
+    border: none;
+    background: transparent;
+    font-size: 1.5rem;
+    color: #343a40;
+    opacity: 0.8;
+    transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+  }
+  .close:hover {
+    color: #ff0000; 
+    background-color: rgba(255, 0, 0, 0.1); 
+    transform: scale(1.1); 
+    opacity: 1;
+  }
+  .close span {
+    display: inline-block;
+    font-weight: bold;
+  }
+  /* barra de busqueda*/
+  .search-bar {
+      margin: 20px;
     }
-    .titulo{
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-    }
+  
+  .search-input {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-right: none;
+    padding: 10px 15px;
+  }
+  .search-btn {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-color: #007bff;
+    border: none;
+    padding: 10px 15px;
+  }
+  .search-btn:hover {
+    background-color: #0056b3;
+  }
 
-    .modal {
-      display: none; /* Ocultar por defecto */
-      position: fixed;
-      z-index: 99;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgb(0,0,0);
-      background-color: rgba(0,0,0,0.4);
-    }
-    .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-      border-radius: 10px; /* Esquinas redondeadas */
-    }
-    .modal-header {
-      background-color: #f8f9fa; /* Color de fondo claro */
-      border-bottom: 1px solid #dee2e6; /* Borde inferior sutil */
-      display: flex;
-      justify-content: space-between; /* Asegura que los elementos se distribuyan adecuadamente */
-      align-items: center; /* Alinea los elementos verticalmente en el centro */
-      padding: 15px; /* Relleno */
-      border-top-left-radius: 10px; /* Esquinas redondeadas superiores */
-      border-top-right-radius: 10px; /* Esquinas redondeadas superiores */
-    }
-    .modal-title {
-      font-size: 1.75rem;
-      font-weight: bold;
-      color: #343a40; /* Color del título */
-      margin: 0; /* Sin margen */
-    }
-    .modal-titulo {
-      font-size: 2rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-    .modal-descripcion, .modal-precio {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-    }
-    .modal-imagen {
-      display: block;
-      margin: 0 auto;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    .botones-modal {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 20px;
-    }
-    .botones-modal a {
-      width: 45%;
-      text-align: center;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      text-decoration: none;
-      color: white;
-      transition: background-color 0.3s ease, transform 0.3s ease; /* Transición suave para el cambio de color y el efecto de elevación */
-    }
-    .btn-modificar {
-      background-color: #007bff;
-    }
-    .btn-modificar:hover {
-      background-color: #0056b3; /* Color de fondo del botón primario al pasar el cursor */
-      transform: translateY(-2px); /* Efecto de elevación */
-      color: #fff; 
-    }
-    .btn-eliminar {
-      background-color: #dc3545;
-    }
-    .btn-eliminar:hover {
-      background-color: #c82333; /* Color de fondo del botón de peligro al pasar el cursor */
-      transform: translateY(-2px); /* Efecto de elevación */
-      color: #fff; 
-    }
-    .btn a {
-      color: #fff; /* Color del texto del enlace */
-      text-decoration: none; /* Sin subrayado */
-    }
-    .close {
-      padding: 5px 10px;
-      border: none;
-      background: transparent;
-      font-size: 1.5rem;
-      color: #343a40;
-      opacity: 0.8;
-      transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
-      cursor: pointer;
-    }
-    .close:hover {
-      color: #ff0000; /* Color rojo al pasar el cursor */
-      background-color: rgba(255, 0, 0, 0.1); /* Fondo ligeramente rojo al pasar el cursor */
-      transform: scale(1.1); /* Efecto de elevación */
-      opacity: 1;
-    }
-    .close span {
-      display: inline-block;
-      font-weight: bold;
-    }
-    /* barra de busqueda*/
-    .search-bar {
-        margin: 20px;
-      }
-    
-    .search-input {
-      border-top-left-radius: 20px;
-      border-bottom-left-radius: 20px;
-      border-right: none;
-      padding: 10px 15px;
-    }
-
-    .search-btn {
-      border-top-right-radius: 20px;
-      border-bottom-right-radius: 20px;
-      background-color: #007bff;
-      border: none;
-      padding: 10px 15px;
-    }
-
-    .search-btn:hover {
-      background-color: #0056b3;
-    }
-
-    .search-btn svg {
-      vertical-align: middle;
-    }
-
-    .input-group .form-control:focus {
-      box-shadow: none;
-      border-color: #007bff;
-    }
-
-    .input-group {
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      border-radius: 20px;
-    }
-    .btn-limpiar {
-      border-top-right-radius: 20px;
+  .search-btn svg {
+    vertical-align: middle;
+  }
+  .input-group .form-control:focus {
+    box-shadow: none;
+    border-color: #007bff;
+  }
+  .input-group {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+  }
+  .btn-limpiar {
+    border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     background-color: #ff3b2e;
     border: none;
@@ -187,12 +183,12 @@
     color: white;
   }
   .btn-limpiar:hover {
-      background-color: #ff6f61;
-      color:white;
+    background-color: #ff6f61;
+    color:white;
       
   }
   .btn-limpiar:focus {
-      box-shadow: 0 0 0 0.2rem rgba(255, 111, 97, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(255, 111, 97, 0.5);
   }
       
 </style>
@@ -220,7 +216,6 @@
     <table class="table table-light shadow-sm  mt-2">
         <thead class="bg-light">
           <tr>
-            <th scope="col">ID</th>
             <th scope="col">Nombre</th>
             <th scope="col" class="d-none d-md-table-cell">Teléfono</th>
             <th scope="col">Dirección</th>
@@ -231,22 +226,23 @@
         </thead>
         <tbody>
           {% for c in clientes %}
-          <tr>
-            <td onclick="openModal('{{ c.nombre }}', '{{ c.telefono }}', '{{ c.direccion }}', '/clientes/clienteModif/{{ c.id }}', '/clientes/clienteBorrar/{{ c.id }}')">{{ c.id }}</td>
-            <td onclick="openModal('{{ c.nombre }}', '{{ c.telefono }}', '{{ c.direccion }}', '/clientes/clienteModif/{{ c.id }}', '/clientes/clienteBorrar/{{ c.id }}')">{{ c.nombre }}</td>
-            <td onclick="openModal('{{ c.nombre }}', '{{ c.telefono }}', '{{ c.direccion }}', '/clientes/clienteModif/{{ c.id }}', '/clientes/clienteBorrar/{{ c.id }}')" class="d-none d-md-table-cell">{{ c.telefono|default_if_none:"-----" }}</td>
-            <td onclick="openModal('{{ c.nombre }}', '{{ c.telefono }}', '{{ c.direccion }}', '/clientes/clienteModif/{{ c.id }}', '/clientes/clienteBorrar/{{ c.id }}')">{{ c.direccion|default_if_none:"-----" | truncatechars:6}}</td>
-            {% if perms.miAplicacion.change_cliente %}
-                <td class="d-flex justify-content-end gap-1">
-                  <button class="btn btn-sm btn-primary">
-                    <a href="/clientes/clienteModif/{{ c.id }}" class="text-white text-decoration-none">Modificar</a>
-                  </button>
-                  <button class="btn btn-sm btn-danger">
-                    <a href="/clientes/clienteBorrar/{{ c.id }}" class="text-white text-decoration-none">Eliminar</a>
-                  </button>
-                </td>
+            {% if c.nombre != "Consumidor final"%}
+              <tr>
+                <td onclick="openModal('{{ c.nombre }}', '{{ c.telefono }}', '{{ c.direccion }}', '/clientes/clienteModif/{{ c.id }}', '/clientes/clienteBorrar/{{ c.id }}')">{{ c.nombre }}</td>
+                <td onclick="openModal('{{ c.nombre }}', '{{ c.telefono }}', '{{ c.direccion }}', '/clientes/clienteModif/{{ c.id }}', '/clientes/clienteBorrar/{{ c.id }}')" class="d-none d-md-table-cell">{{ c.telefono|default_if_none:"-----" }}</td>
+                <td onclick="openModal('{{ c.nombre }}', '{{ c.telefono }}', '{{ c.direccion }}', '/clientes/clienteModif/{{ c.id }}', '/clientes/clienteBorrar/{{ c.id }}')">{{ c.direccion|default_if_none:"-----" | truncatechars:6}}</td>
+                {% if perms.miAplicacion.change_cliente %}
+                    <td class="d-flex justify-content-end gap-1">
+                      <button class="btn btn-sm btn-primary">
+                        <a href="/clientes/clienteModif/{{ c.id }}" class="text-white text-decoration-none">Modificar</a>
+                      </button>
+                      <button class="btn btn-sm btn-danger">
+                        <a href="/clientes/clienteBorrar/{{ c.id }}" class="text-white text-decoration-none">Eliminar</a>
+                      </button>
+                    </td>
+                {% endif %}
+              </tr>
             {% endif %}
-          </tr>
           {% endfor %}
         </tbody>
     </table>

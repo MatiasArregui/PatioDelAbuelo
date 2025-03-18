@@ -225,10 +225,14 @@
     background-color: #C1121F;
     color:beige;
     text-decoration: none;
+    transition: 0.3s; 
 }
 
   .customButton:hover{
     color: white;
+    background-color: #9b0b15;
+    transform: scale(1.05); 
+    opacity: 0.9; 
     cursor: pointer;
 }
 
