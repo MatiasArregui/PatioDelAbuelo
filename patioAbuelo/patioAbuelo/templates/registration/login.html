@@ -9,7 +9,156 @@
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
-    <link rel="stylesheet" href="{% static 'loginEstilo.css' %}">
+    <style>
+        /* Estilo para el fondo de la página */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Trebuchet MS', Arial, sans-serif;
+            background: linear-gradient(to bottom, #C1121F, #EEB9A8); /* Degradado vertical */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Contenedor del formulario */
+        #formulario {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.85); /* Fondo semitransparente */
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidad */
+            text-align: center;
+            backdrop-filter: blur(10px); /* Desenfoque para un efecto moderno */
+        }
+        
+        /* Título del formulario */
+        #formulario h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #C1121F;
+            border-bottom: 2px solid #EEB9A8;
+            padding-bottom: 10px;
+        }
+        
+        /* Estilo para cada campo del formulario */
+        #formulario form .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 1px solid #adadad;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.7); /* Fondo semitransparente */
+            margin-bottom: 20px;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        /* Efecto de foco en los inputs */
+        #formulario form .form-control:focus {
+            border-color: #C1121F;
+            box-shadow: 0 0 8px rgba(193, 18, 31, 0.4); /* Resplandor elegante */
+        }
+        
+        /* Estilo de las etiquetas */
+        #formulario form label {
+            display: block;
+            text-align: left;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #444;
+            font-size: 14px;
+        }
+        
+        /* Botón de ingresar */
+        .boton {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(to right, #C1121F, #D04A4D); /* Degradado horizontal */
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.4s, transform 0.3s;
+        }
+        
+        /* Hover para el botón */
+        .boton:hover {
+            background: linear-gradient(to right, #D04A4D, #C1121F);
+            transform: scale(1.05); /* Efecto de zoom suave */
+        }
+        
+        
+        /* Estilos para el mensaje de error */
+        .errorlist {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+            background: #FFCCCC;
+            border-left: 5px solid #C1121F;
+            border-radius: 5px;
+            color: #C1121F;
+            font-size: 16px;
+            padding: 10px 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .errorlist li {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .errorlist.nonfield {
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        /* Diseño responsive */
+        @media (max-width: 768px) {
+            #formulario {
+                width: 90%;
+                padding: 15px;
+            }
+        
+            #formulario h2 {
+                font-size: 20px;
+            }
+        
+            .boton {
+                font-size: 14px;
+                padding: 12px;
+            }
+        }
+        
+        
+        /* Resto de tu CSS existente */
+        
+        /* Diseño responsive para móviles */
+        @media (max-width: 480px) {
+            #formulario {
+                backdrop-filter: none; /* Elimina el desenfoque */
+                background: rgba(255, 255, 255, 0.95); /* Aumenta opacidad */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra más ligera */
+            }
+            #formulario h2 {
+                font-size: 18px;
+            }
+            #formulario form .form-control {
+                font-size: 14px;
+                padding: 10px;
+            }
+            .boton {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+        
+    </style>
 </head>
 <body>
     <div id="formulario" class="container">
@@ -22,4 +171,3 @@
     </div>
 <body>
 <html>
-
