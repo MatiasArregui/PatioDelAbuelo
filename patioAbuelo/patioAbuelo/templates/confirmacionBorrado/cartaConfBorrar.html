@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block estilos %}
+<style>
+    .card {
+        background-color: #f8f9fa; /* Color de fondo de la tarjeta */
+        border: 1px solid #dee2e6; /* Borde sutil */
+        border-radius: 10px; /* Esquinas redondeadas */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    }
+    
+    .display-4 {
+        font-size: 2.5rem; /* Tamaño de fuente del título */
+        font-weight: bold;
+        color: #343a40; /* Color del título */
+    }
+    
+    .btn-danger {
+        background-color: #dc3545; /* Color de fondo del botón de peligro */
+        border: none; /* Sin borde */
+        transition: background-color 0.3s ease, transform 0.3s ease; /* Transición suave */
+    }
+    
+    .btn-danger:hover {
+        background-color: #c82333; /* Color de fondo al pasar el cursor */
+        transform: scale(1.05); /* Efecto de elevación */
+    }
+    
+    .btn-secondary {
+        background-color: #6c757d; /* Color de fondo del botón secundario */
+        border: none; /* Sin borde */
+        transition: background-color 0.3s ease, transform 0.3s ease; /* Transición suave */
+    }
+    
+    .btn-secondary:hover {
+        background-color: #5a6268; /* Color de fondo al pasar el cursor */
+        transform: scale(1.05); /* Efecto de elevación */
+    }
+    
+    .alert {
+        border-radius: 10px; /* Esquinas redondeadas para la alerta */
+        padding: 10px 15px;
+    }
+    
+    .btn-dark {
+        background-color: #343a40; /* Color de fondo del botón oscuro */
+        border: none; /* Sin borde */
+        transition: background-color 0.3s ease, transform 0.3s ease; /* Transición suave */
+    }
+    
+    .btn-dark:hover {
+        background-color: #23272b; /* Color de fondo al pasar el cursor */
+        transform: scale(1.05); /* Efecto de elevación */
+    }
+    
+    a.text-decoration-none:hover {
+        text-decoration: underline; /* Subraya el texto al pasar el cursor */
+    }
+    
+</style>
+{% endblock %}
+{% block content %}
+    <div class="container mt-5">
+        <div class="card shadow-sm p-4 mb-4 bg-white rounded">
+            <h3 class="display-4 mb-3 text-center">Borrar Carta</h3>
+            <p class="text-center">¿Está seguro de borrar <b>{{ carta.nombre }}</b>?</p>
+            <form method="post" class="text-center">
+                {% csrf_token %}
+                <button class="btn btn-danger mr-2" type="submit">Aceptar</button>
+                <a class="btn btn-secondary ml-2" href="{% url 'listaCarta' %}">Cancelar</a>
+            </form>
+            {% if messages %}
+            <div class="alert alert-info mt-3">
+                <ul class="list-unstyled">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="text-center">
+                <a href="{% url "listaCarta" %}" class="btn btn-sm btn-dark mt-3 w-50">Volver</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

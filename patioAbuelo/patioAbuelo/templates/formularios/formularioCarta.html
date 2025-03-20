@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% block estilos %}
+<style>
+    /* Imagen que va en el fondo del div que contiene el titulo */ 
+    .cont {
+        position: relative;
+        padding: 20px;
+        border-radius: 10px;
+        overflow: hidden; 
+        color: white;
+        /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);*/
+    }
+    
+    .cont::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("../../../media/estilos_h1/fondo_carta.jpg"); 
+        background-size: cover;
+        background-position: center;
+        filter: blur(4px); 
+        z-index: -1;
+    }
+    .titulo{
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    }
+    .btn-primary {
+        background-color: #007bff; 
+        border: none; 
+    }
+    
+    .btn-primary:hover {
+        background-color: #0056b3; 
+        transform: translateY(-2px); 
+    }
+    .btn-danger {
+        background-color: #dc3545; 
+        border: none;
+    }
+    
+    .btn-danger:hover {
+        background-color: #c82333; 
+        transform: translateY(-2px); 
+    }
+</style>
+{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="cont mb-1">
+        <h3 class="display-4 titulo">Carta</h3>
+    </div>
+    <form method="post" enctype="multipart/form-data" id="formulario">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary mb-3" type="submit">Guardar</button>
+        <a class="btn btn-danger mb-3" href="{% url 'listaCarta' %}">Cancelar</a>
+    </form>
+</div>
+
+<script>
+    // ACTUALIZAR LOS VALORES DEL PRIMER SELECT AL HACER CLICK EN EL INPUT DE PRECIO
+    //Obtenemos el elemento input de precio donde vamos a agregar el evento click
+    const input = document.getElementById('id_precio');
+    // Obtenemos el objeto DOM del primer select
+    const select1 = document.getElementById('id_categoria');
+    // Obtenemos el objeto DOM del segundo select
+    const select2 = document.getElementById('id_subCategoria');
+
+    // EVENTO CLICK EN EL INPUT PRECIO 
+    input.addEventListener('change', function() {
+        select2.removeAttribute("disabled");
+    });
+    if (select2.value !== ""){
+        select2.removeAttribute("disabled");
+    };
+    // ACTUALIZAR LOS VALORES DEL SEGUNDO SELECT AL HACER CLICK EN EL PRIMER SELECT (CATEGORIAS)
+    function updateSelect2() {
+        
+        // Convertimos el objeto obtenido en un valor que usaremos para los condicionales porteriores
+        const selectedValue = select1.value;
+        
+        // Limpiar segundo select (select2)
+        select2.innerHTML = '';
+        let options = [];
+        // Inicializamos las subcategorias de manera separada
+        let opcionUno = {{opcion1|safe}};
+        let opcionDos = {{opcion2|safe}};
+        let opcionTres = {{opcion3|safe}};
+
+        // Filtramos la categoria seleccionada y determinamos los componentes del select segun esta 
+        if (selectedValue == opcionUno[0]["id_categoria"]) {
+            options = {{ opcion1|safe }};
+        };
+        if (selectedValue == opcionDos[0]["id_categoria"]) {
+            options = {{ opcion2|safe }};
+        };
+        if (selectedValue == opcionTres[0]["id_categoria"]) {
+            options = {{ opcion3|safe }};
+        };
+
+        // Agregar las nuevas opciones segun la categoria seleccionada
+        options.forEach(option => {
+            // Crea la opcion que compondra el select
+            const newOption = document.createElement('option');
+            // Proporciona el valor al option
+            newOption.value = option["value"];
+            // Proporciona el texto al option
+            newOption.text = option["text"];
+            // Agrega el option al select
+            select2.appendChild(newOption);
+        });
+    }
+</script>
+{% endblock %}

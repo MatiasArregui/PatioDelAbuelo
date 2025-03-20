@@ -1,0 +1,241 @@
+
+{% extends "base.html" %}
+{% block estilos %}
+<style>
+tbody tr {
+  cursor: pointer; 
+}
+/* Contenedor con tamaño fijo */
+.cont {
+  position: relative; 
+  height: 120px; 
+  border-radius: 10px; 
+  overflow: hidden; 
+  color: white;
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+}
+
+/* Imagen de fondo con desenfoque */
+.cont::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../../../media/estilos_h1/mozo.jpg"); 
+  background-size: cover;
+  background-position: center;
+  filter: blur(4px); 
+  z-index: -1; 
+  opacity: 0.8; 
+}
+  
+  /* Estilo para el título */
+.titulo {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+
+}
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  border-radius: 10px;
+}
+.modal-header {
+  background-color: #f8f9fa; 
+  border-bottom: 1px solid #dee2e6; 
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 15px; 
+  border-top-left-radius: 10px; 
+  border-top-right-radius: 10px; 
+}
+.modal-title {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #343a40; 
+  margin: 0; 
+}
+.modal-titulo {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.modal-descripcion, .modal-precio {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+.modal-imagen {
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+  
+.botones-modal {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+.botones-modal a {
+  width: 45%;
+  text-align: center;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  color: white;
+  transition: background-color 0.3s ease, transform 0.3s ease; 
+}
+.btn-modificar {
+  background-color: #007bff;
+}
+.btn-modificar:hover {
+  background-color: #0056b3; 
+  transform: translateY(-2px); 
+  color: #fff; 
+}
+.btn-eliminar {
+  background-color: #dc3545;
+}
+.btn-eliminar:hover {
+  background-color: #c82333; 
+  transform: translateY(-2px); 
+  color: #fff; 
+}
+.btn a {
+  color: #fff; 
+  text-decoration: none; 
+}
+.close {
+  padding: 5px 10px;
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  color: #343a40;
+  opacity: 0.8;
+  transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+.close:hover {
+  color: #ff0000; 
+  background-color: rgba(255, 0, 0, 0.1); 
+  transform: scale(1.1); 
+  opacity: 1;
+}
+.close span {
+  display: inline-block;
+  font-weight: bold;
+}
+</style>
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <h1 class="text-center mt-1 cont titulo">Lista Mozos</h1>
+      <table class="table table-light shadow-sm table-responsive">
+            <thead class="bg-light">
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Telefono</th>
+                <th scope="col" class="d-flex justify-content-end">
+                Accion
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for m in mozos %}
+                {% if m.nombre != "Mozo"%}
+                  <tr>
+                    <td onclick="openModal('{{ m.nombre }}', '{{ m.telefono }}', '/mozos/mozoModif/{{ m.id }}', '/mozos/mozoBorrar/{{ m.id }}')">{{m.nombre}}</td>
+                    {% if m.telefono %}
+                      <td onclick="openModal('{{ m.nombre }}', '{{ m.telefono }}', '/mozos/mozoModif/{{ m.id }}', '/mozos/mozoBorrar/{{ m.id }}')">{{m.telefono}}</td>
+                    {% else %}
+                      <td onclick="openModal('{{ m.nombre }}', '{{ m.telefono }}', '/mozos/mozoModif/{{ m.id }}', '/mozos/mozoBorrar/{{ m.id }}')">-----</td>
+                    {% endif %}
+                    <td class="d-flex justify-content-end gap-1">
+                      <button class="btn btn-sm btn-primary"><a href="/mozos/mozoModif/{{ m.id }}" class="text-white text-decoration-none">Modificar</a></button>
+                      <button class="btn btn-sm btn-danger"><a href="/mozos/mozoBorrar/{{ m.id }}" class="text-white text-decoration-none">Eliminar</a></button>
+                    </td>
+                  </tr>
+                {% endif %}
+              {% endfor %}
+            </tbody>
+      </table>
+      {% if perms.miAplicacion.add_mozo %}
+      <a href={% url "mozoNuevo" %} class="customButton">+</a>
+      {% endif %}
+
+      <!-- Modal -->
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title">Detalles del Mozo</h2>
+            <span class="close" onclick="closeModal()">&times;</span>
+          </div>
+          <div class="modal-body">
+            <p class="modal-descripcion"><strong>Nombre:</strong> <span id="mozo-nombre"></span></p>
+            <p class="modal-descripcion"><strong>Teléfono:</strong> <span id="mozo-telefono"></span></p>
+            <div class="botones-modal">
+              <a id="modificar-btn" href="#" class="btn btn-modificar">Modificar</a>
+              <a id="eliminar-btn" href="#" class="btn btn-eliminar">Eliminar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </div>
+
+<script>
+  function openModal(nombre, telefono, modificarUrl, eliminarUrl) {
+    document.getElementById('mozo-nombre').textContent = nombre;
+
+    // Verifica si el teléfono es None o una cadena vacía, y muestra "--------" en su lugar
+    if (telefono && telefono !== 'None') {
+        document.getElementById('mozo-telefono').textContent = telefono;
+    } else {
+        document.getElementById('mozo-telefono').textContent = "--------";
+    }
+    document.getElementById('modificar-btn').href = modificarUrl;
+    document.getElementById('eliminar-btn').href = eliminarUrl;
+    document.getElementById('myModal').style.display = "block";
+}
+
+
+
+  function closeModal() {
+      document.getElementById('myModal').style.display = "none";
+  }
+
+  // Cerrar el modal cuando se hace clic fuera de él
+  window.onclick = function(event) {
+      if (event.target == document.getElementById('myModal')) {
+          document.getElementById('myModal').style.display = "none";
+      }
+  }
+</script>
+
+{% endblock %}
+
+
+
+
+
+

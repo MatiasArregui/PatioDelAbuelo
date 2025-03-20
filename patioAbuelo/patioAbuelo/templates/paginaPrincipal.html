@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block estilos %}
+<style>
+    .mi-div-menu, .mi-div-plato-dia {
+        position: relative;
+        text-align: center;
+        height: 60vh;
+        color: #fff; 
+        border-radius: 10px; 
+        overflow: hidden; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    }
+    .mi-div-menu::before, .mi-div-plato-dia::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.6; 
+        z-index: 1; 
+        filter: brightness(0.7); 
+    }
+    .mi-div-menu::before {
+        background-image: url('{{carta.imagen.url}}');
+    }
+    .mi-div-plato-dia::before {
+        background-image: url('{{platoDia.id_carta.imagen.url}}');
+    }
+    .mi-div-menu > *, .mi-div-plato-dia > * {
+        position: relative;
+        z-index: 2;
+    }
+    .btn-outline-primary {
+        color: #fff;
+        border-color: #fff;
+        transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 12px; 
+        padding: 10px 20px; 
+        font-weight: bold; 
+    }
+    
+    .btn-outline-primary:hover {
+        color: #fff;
+        background-color: #ff4757; 
+        border-color: #ff4757; 
+        transform: scale(1.05); 
+        box-shadow: 0 8px 16px rgba(0, 123, 255, 0.3);
+    }
+    
+</style>
+{% endblock %}
+{% block content %}
+<div class="container-fluid align-content-center mt-4">
+    {% if platoDia %}
+    <div class="row d-flex justify-content-center gap-2">
+        <div class="col-5 mi-div-menu">
+            <p>Carta</p>
+            <h4>{{carta.nombre}}</h4>
+            <p>${{carta.precio}}</p>
+            <p>{{carta.subCategoria.nombre}}</p>
+            <a class="btn btn-outline-primary mb-3" href="{% url "listaCarta" %}">Ver Carta</a>
+        </div>
+        <div class="col-5 mi-div-plato-dia">
+            <p>Plato del día</p>
+            <h4>{{platoDia.id_carta.nombre}}</h4>
+            <p>${{platoDia.id_carta.precio}}</p>
+            <p>{{platoDia.id_carta.subCategoria.nombre}}</p>
+            <a class="btn btn-outline-primary mb-3" href="{% url "cartaDetalle" platoDia.id_carta.id %}">Ir al plato</a>
+        </div>
+    </div>
+    {% else %}
+    <div class="row d-flex justify-content-center gap-2">
+        <div class="col-10 mi-div-menu">
+            <p>Carta</p>
+            <h4>{{carta.nombre}}</h4>
+            <p>${{carta.precio}}</p>
+            <p>{{carta.subCategoria.nombre}}</p>
+            <a class="btn btn-outline-primary mb-3" href="{% url "listaCarta" %}">Ver Carta</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+
+
+
+

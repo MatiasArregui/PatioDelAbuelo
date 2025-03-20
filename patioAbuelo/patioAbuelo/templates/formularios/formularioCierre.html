@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block estilos %}
+<style>
+    /* Imagen que va en el fondo del div que contiene el titulo */ 
+    .cont {
+        position: relative;
+        padding: 20px; /* Ajusta según sea necesario */
+        border-radius: 10px; /* Ajusta según sea necesario */
+        overflow: hidden; /* Asegura que el contenido no se desborde */
+        color: white;
+        /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);*/
+    }
+    
+    .cont::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("../../../media/estilos_h1/cierres.jpg"); /* Reemplaza con la ruta de tu imagen */
+        background-size: cover;
+        background-position: center;
+        filter: blur(4px); /* Ajusta el valor del desenfoque según sea necesario */
+        z-index: -1;
+    }
+    .titulo{
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    }
+    .btn-primary {
+        background-color: #007bff; /* Color de fondo del botón primario */
+        border: none; /* Sin borde */
+    }
+    
+    .btn-primary:hover {
+        background-color: #0056b3; /* Color de fondo del botón primario al pasar el cursor */
+        transform: translateY(-2px); /* Efecto de elevación */
+    }
+    .btn-danger {
+        background-color: #dc3545; /* Color de fondo del botón de peligro */
+        border: none; /* Sin borde */
+    }
+    
+    .btn-danger:hover {
+        background-color: #c82333; /* Color de fondo del botón de peligro al pasar el cursor */
+        transform: translateY(-2px); /* Efecto de elevación */
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="cont mb-1">
+        <h3 class="display-4 titulo">Cierre</h3>
+    </div>
+        <table class="table table-light shadow-sm table-responsive">
+            <thead class="bg-light">
+              <tr>
+                <th scope="col">N°</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Total Ordenes</th>
+                <th scope="col">Total Pagado</th>
+                <th scope="col">Vuelto</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for f in facturas %}
+                <tr>
+                  <td>{{f.id}}</td>
+                  <td>{{f.fecha}}</td>
+                  <td>{{f.id_cliente.nombre}}</td>
+                  <td>{{f.total}}</td>
+                  <td>{{f.total_pago}}</td>
+                  <td>{{f.vuelto}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div id="select_container" class="row">
+                {% for form in formset %}
+                    <div class="col-4">{{ form.as_p }}</div>
+                {% endfor %}
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary mb-3">Guardar</button>
+                <a href={% url "listaCierres" %} class="btn btn-danger mb-3">Cancelar</a>
+            </div>
+        </form>
+</div>
+    <script>
+        const input_total_ordenes = document.getElementById("id_total_ordenes");
+        const input_total_facturas = document.getElementById("id_total_facturas");
+        const input_vuelto = document.getElementById("id_vuelto");
+        const facturas = {{facturas_js | safe}}
+
+        function sumaTotal() {
+            let total_ordenes = 0;
+            let total_facturas = 0;
+            let vuelto = 0;
+            for (let a = 0; a < facturas.length; a++) {
+                total_ordenes += facturas[a]["total"];
+                total_facturas += facturas[a]["total_pago"];
+                vuelto += facturas[a]["vuelto"];
+                
+            };
+            input_total_ordenes.value = total_ordenes;
+            input_total_facturas.value = total_facturas;
+            input_vuelto.value = vuelto;
+        };
+        sumaTotal();
+    </script>
+
+
+
+
+{% endblock %}
